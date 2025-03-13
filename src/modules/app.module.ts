@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-//controllers
 import { AppController } from '../controllers/app.controller';
-//services
 import { AppService } from '../services/app.service';
-//modules
 import { FarmModule } from './farm.module';
-//entities
+import { AuthModule } from './auth.module';
 import { Farm } from '../entities/farm.entity';
+import { User } from '../entities/user.entity';
 
 @Module({
   imports: [
@@ -28,11 +26,12 @@ import { Farm } from '../entities/farm.entity';
           database: config.get<string>('DB_NAME'),
           autoLoadEntities: config.get<boolean>('AUTO_LOAD_ENTITIES'),
           synchronize: config.get<boolean>('SYNCHRONIZE'),
-          entities: [Farm],
+          entities: [Farm, User],
         };
       },
     }),
     FarmModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

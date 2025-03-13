@@ -12,6 +12,7 @@ export class FarmCreateService {
 
   async create(data: Partial<Farm>): Promise<Farm> {
     const farm = this.farmRepo.create(data);
-    return this.farmRepo.save(farm);
+    const savedFarm = await this.farmRepo.save(farm);
+    return savedFarm;
   }
 }
