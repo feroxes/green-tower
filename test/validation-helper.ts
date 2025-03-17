@@ -14,14 +14,14 @@ export const ValidationHelper = {
     },
   },
   farm: {
-    validateFarm: (farm: Farm, mockAuthRegisterDto = mockDto.authRegisterDto) => {
+    validateFarm: (farm: Partial<Farm>, mockAuthRegisterDto = mockDto.authRegisterDto) => {
       expect(farm).toBeDefined();
       expect(farm).not.toBeNull();
       expect(farm.name).toBe(mockAuthRegisterDto.farmName);
     },
   },
   user: {
-    validateUser: (user: User, farm: Farm, mockAuthRegisterDto = mockDto.authRegisterDto) => {
+    validateUser: (user: User, farm: Partial<Farm>, mockAuthRegisterDto = mockDto.authRegisterDto) => {
       expect(user).toBeDefined();
       expect(user).not.toBeNull();
       expect(user.firstName).toBe(mockAuthRegisterDto.firstName);
