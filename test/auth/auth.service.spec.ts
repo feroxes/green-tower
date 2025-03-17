@@ -6,11 +6,7 @@ import { AuthSignupService } from '../../src/services/auth/auth-signup.service';
 import { User, UserRole } from '../../src/entities/user.entity';
 import { Farm } from '../../src/entities/farm.entity';
 import { RegisterDto } from '../../src/api/dtos/auth.dto';
-import {
-  createTestModule,
-  clearDatabase,
-  closeDatabaseConnection,
-} from '../test.config';
+import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';
 
 describe('AuthSignupService', () => {
   let service: AuthSignupService;
@@ -45,12 +41,8 @@ describe('AuthSignupService', () => {
     };
 
     it('should successfully register a new user and create a farm', async () => {
-      const farmRepository = module.get<Repository<Farm>>(
-        getRepositoryToken(Farm),
-      );
-      const userRepository = module.get<Repository<User>>(
-        getRepositoryToken(User),
-      );
+      const farmRepository = module.get<Repository<Farm>>(getRepositoryToken(Farm));
+      const userRepository = module.get<Repository<User>>(getRepositoryToken(User));
 
       const result = await service.register(mockRegisterDto);
 
@@ -80,9 +72,7 @@ describe('AuthSignupService', () => {
 
     it('should throw ConflictException if user already exists', async () => {
       await service.register(mockRegisterDto);
-      await expect(service.register(mockRegisterDto)).rejects.toThrow(
-        'User with this email already exists',
-      );
+      await expect(service.register(mockRegisterDto)).rejects.toThrow('User with this email already exists');
     });
   });
 });

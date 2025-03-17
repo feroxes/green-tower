@@ -33,7 +33,8 @@ export default tseslint.config(
       "@typescript-eslint/ban-ts-comment": [
         "error",
         { "ts-ignore": "allow-with-description" }
-      ]
+      ],
+      'max-len': ['error', { code: 120 }]
     },
   },
 );

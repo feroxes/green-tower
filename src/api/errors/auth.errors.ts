@@ -18,11 +18,7 @@ class LoginError extends BaseError {
     super('auth/login/');
   }
 
-  readonly InvalidCredentials = this.createError(
-    UnauthorizedException,
-    'invalidCredentials',
-    'Invalid credentials',
-  );
+  readonly InvalidCredentials = this.createError(UnauthorizedException, 'invalidCredentials', 'Invalid credentials');
 }
 
 export const registerError = new RegisterError();

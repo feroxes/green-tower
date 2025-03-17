@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
-import { User } from '../src/entities/user.entity';
-import { Farm } from '../src/entities/farm.entity';
+import { DataSource } from 'typeorm';
 import { AppModule } from '../src/api/modules/app.module';
 
 export interface TestModuleOptions {
@@ -11,9 +8,7 @@ export interface TestModuleOptions {
   controllers?: any[];
 }
 
-export async function createTestModule(
-  options: TestModuleOptions = {},
-): Promise<TestingModule> {
+export async function createTestModule(options: TestModuleOptions = {}): Promise<TestingModule> {
   return Test.createTestingModule({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     imports: [AppModule, ...(options.imports || [])],
@@ -36,9 +31,7 @@ export async function clearDatabase(module: TestingModule): Promise<void> {
   await dataSource.query('SET session_replication_role = DEFAULT;');
 }
 
-export async function closeDatabaseConnection(
-  module: TestingModule,
-): Promise<void> {
+export async function closeDatabaseConnection(module: TestingModule): Promise<void> {
   const dataSource = module.get<DataSource>(DataSource);
   await dataSource.destroy();
 }

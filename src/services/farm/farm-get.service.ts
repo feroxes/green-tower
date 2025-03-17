@@ -13,10 +13,7 @@ export class FarmGetService {
     private farmRepo: Repository<Farm>,
   ) {}
 
-  async get(
-    farmGetDto: FarmGetDto,
-    user: Partial<User>,
-  ): Promise<Partial<Farm>> {
+  async get(farmGetDto: FarmGetDto, user: Partial<User>): Promise<Partial<Farm>> {
     const farm = await this.farmRepo.findOne({
       where: { id: farmGetDto.id },
       relations: ['owner'],

@@ -25,10 +25,7 @@ export class AuthLoginService {
       throw loginError.InvalidCredentials();
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      loginDto.password,
-      user.password,
-    );
+    const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
 
     if (!isPasswordValid) {
       throw loginError.InvalidCredentials();

@@ -5,11 +5,7 @@ class GetError extends BaseError {
   constructor() {
     super('farm/get/');
   }
-  readonly FarmNotFound = this.createError(
-    NotFoundException,
-    'farmNotFound',
-    'Farm not found',
-  );
+  readonly FarmNotFound = this.createError(NotFoundException, 'farmNotFound', 'Farm not found');
   readonly Forbidden = this.createError(
     ForbiddenException,
     'forbidden',
