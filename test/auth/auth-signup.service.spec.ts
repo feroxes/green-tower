@@ -1,7 +1,7 @@
 import { TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AuthSignupService } from '../../src/services/auth/auth-signup.service';
+import { AuthService } from '../../src/services/auth/auth.service';
 import { User } from '../../src/entities/user.entity';
 import { Farm } from '../../src/entities/farm.entity';
 import { ValidationHelper } from '../validation-helper';
@@ -12,14 +12,14 @@ import { createTestModule, clearDatabase, closeDatabaseConnection } from '../tes
 const CMD = 'auth/signup';
 
 describe('AuthSignupService', () => {
-  let service: AuthSignupService;
+  let service: AuthService;
   let module: TestingModule;
   let farmRepository: Repository<Farm>;
   let userRepository: Repository<User>;
 
   beforeAll(async () => {
     module = await createTestModule();
-    service = module.get<AuthSignupService>(AuthSignupService);
+    service = module.get<AuthService>(AuthService);
     farmRepository = module.get<Repository<Farm>>(getRepositoryToken(Farm));
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });

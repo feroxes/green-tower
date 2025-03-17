@@ -2,7 +2,7 @@ import { mockDto } from './mock/mock.dtos';
 import { Farm } from '../src/entities/farm.entity';
 import { User, UserRole } from '../src/entities/user.entity';
 
-type ResponseType = {
+export type ResponseType = {
   accessToken: string;
 };
 
