@@ -24,7 +24,13 @@ import { FarmCreateService } from 'src/services/farm/farm-create.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthSignupService, AuthLoginService, FarmCreateService, JwtStrategy],
+  providers: [
+    AuthService,
+    AuthSignupService,
+    AuthLoginService,
+    FarmCreateService,
+    JwtStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}
