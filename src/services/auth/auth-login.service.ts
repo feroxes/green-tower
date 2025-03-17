@@ -44,7 +44,7 @@ export class AuthLoginService {
       sub: user.id,
       email: user.email,
       role: user.role,
-      farmId: user.farmId,
+      farm: user.farm,
     };
 
     return this.jwtService.sign(payload);

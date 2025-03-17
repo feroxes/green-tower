@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User, UserRole } from '../../entities/user.entity';
+import { Farm } from '../../entities/farm.entity';
 import { RegisterDto, AuthResponseDto } from '../../dtos/auth.dto';
 import { FarmCreateService } from '../farm/farm-create.service';
 
@@ -12,6 +13,8 @@ export class AuthSignupService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Farm)
+    private farmRepository: Repository<Farm>,
     private farmCreateService: FarmCreateService,
     private jwtService: JwtService,
   ) {}
@@ -35,10 +38,14 @@ export class AuthSignupService {
       ...registerDto,
       password: hashedPassword,
       role: UserRole.ADMIN,
-      farmId: farm.id,
+      farm: farm,
     });
 
     await this.userRepository.save(user);
+
+    farm.owner = user;
+
+    await this.farmRepository.save(farm);
 
     const token = this.generateToken(user);
 
@@ -50,7 +57,7 @@ export class AuthSignupService {
       sub: user.id,
       email: user.email,
       role: user.role,
-      farmId: user.farmId,
+      farmId: user.farm,
     };
 
     return this.jwtService.sign(payload);

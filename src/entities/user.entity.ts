@@ -38,11 +38,8 @@ export class User {
   })
   role: UserRole;
 
-  @Column({ name: 'farm_id' })
-  farmId: string;
-
-  @ManyToOne(() => Farm)
-  @JoinColumn({ name: 'farm_id' })
+  @ManyToOne(() => Farm, (farm) => farm.users)
+  @JoinColumn({ name: 'farmId' })
   farm: Farm;
 
   @CreateDateColumn({ name: 'created_at' })
