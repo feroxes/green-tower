@@ -6,7 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { User, UserRole } from '../../entities/user.entity';
 import { Farm } from '../../entities/farm.entity';
 import { RegisterDto, AuthResponseDto } from '../../dtos/auth.dto';
-import { FarmCreateService } from '../farm/farm-create.service';
 
 @Injectable()
 export class AuthSignupService {
@@ -15,7 +14,6 @@ export class AuthSignupService {
     private userRepository: Repository<User>,
     @InjectRepository(Farm)
     private farmRepository: Repository<Farm>,
-    private farmCreateService: FarmCreateService,
     private jwtService: JwtService,
   ) {}
 
@@ -28,9 +26,11 @@ export class AuthSignupService {
       throw new ConflictException('User with this email already exists');
     }
 
-    const farm = await this.farmCreateService.create({
+    let farm = this.farmRepository.create({
       name: registerDto.farmName,
     });
+
+    farm = await this.farmRepository.save(farm);
 
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
 

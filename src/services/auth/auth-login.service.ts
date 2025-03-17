@@ -17,6 +17,7 @@ export class AuthLoginService {
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     const user = await this.userRepository.findOne({
       where: { email: loginDto.email },
+      relations: ['farm'],
     });
 
     if (!user) {
@@ -44,7 +45,7 @@ export class AuthLoginService {
       sub: user.id,
       email: user.email,
       role: user.role,
-      farm: user.farm,
+      farmId: user.farm.id,
     };
 
     return this.jwtService.sign(payload);

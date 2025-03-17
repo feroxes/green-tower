@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { FarmCreateService } from './farm-create.service';
-import { Farm } from '../../entities/farm.entity';
+import { FarmGetService } from './farm-get.service';
+import { User } from '../../entities/user.entity';
+import { FarmGetDto } from '../../dtos/farm.dto';
 
 @Injectable()
 export class FarmService {
-  constructor(private farmCreateService: FarmCreateService) {}
+  constructor(private farmGetService: FarmGetService) {}
 
-  async create(data: Partial<Farm>) {
-    return await this.farmCreateService.create(data);
+  async get(farmGetDto: FarmGetDto, user: Partial<User>) {
+    return this.farmGetService.get(farmGetDto, user);
   }
 }

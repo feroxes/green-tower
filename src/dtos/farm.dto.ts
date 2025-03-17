@@ -1,8 +1,6 @@
-import { IsString, MaxLength } from 'class-validator';
-import { FarmConstants } from '../utils/constants';
+import { IsUUID } from 'class-validator';
 
-export class FarmCreateDto {
-  @IsString()
-  @MaxLength(FarmConstants.NAME_MAX_LENGTH)
-  name: string;
+export class FarmGetDto {
+  @IsUUID()
+  id: string;
 }

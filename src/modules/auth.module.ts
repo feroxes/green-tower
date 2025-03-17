@@ -10,7 +10,6 @@ import { User } from '../entities/user.entity';
 import { Farm } from '../entities/farm.entity';
 import { AuthSignupService } from '../services/auth/auth-signup.service';
 import { AuthLoginService } from '../services/auth/auth-login.service';
-import { FarmCreateService } from 'src/services/farm/farm-create.service';
 
 @Module({
   imports: [
@@ -25,13 +24,7 @@ import { FarmCreateService } from 'src/services/farm/farm-create.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    AuthSignupService,
-    AuthLoginService,
-    FarmCreateService,
-    JwtStrategy,
-  ],
+  providers: [AuthService, AuthSignupService, AuthLoginService, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
