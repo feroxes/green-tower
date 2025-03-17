@@ -1,11 +1,12 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { registerError } from '../../api/errors/auth.errors';
 import { User, UserRole } from '../../entities/user.entity';
 import { Farm } from '../../entities/farm.entity';
-import { RegisterDto, AuthResponseDto } from '../../dtos/auth.dto';
+import { RegisterDto, AuthResponseDto } from '../../api/dtos/auth.dto';
 
 @Injectable()
 export class AuthSignupService {
@@ -23,7 +24,7 @@ export class AuthSignupService {
     });
 
     if (existingUser) {
-      throw new ConflictException('User with this email already exists');
+      throw registerError.UserAlreadyExists();
     }
 
     let farm = this.farmRepository.create({

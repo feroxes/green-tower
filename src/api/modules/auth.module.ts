@@ -3,13 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from '../controllers/auth.controller';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 
-import { JwtStrategy } from '../strategies/jwt.strategy';
-import { User } from '../entities/user.entity';
-import { Farm } from '../entities/farm.entity';
-import { AuthSignupService } from '../services/auth/auth-signup.service';
-import { AuthLoginService } from '../services/auth/auth-login.service';
+import { JwtStrategy } from '../../strategies/jwt.strategy';
+import { User } from '../../entities/user.entity';
+import { Farm } from '../../entities/farm.entity';
+import { AuthSignupService } from '../../services/auth/auth-signup.service';
+import { AuthLoginService } from '../../services/auth/auth-login.service';
 
 @Module({
   imports: [

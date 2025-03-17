@@ -1,9 +1,9 @@
 import { Controller, Get, Body, Req, UseGuards } from '@nestjs/common';
-import { FarmService } from '../services/farm/farm.service';
+import { FarmService } from '../../services/farm/farm.service';
 import { FarmGetDto } from '../dtos/farm.dto';
 import { Request } from 'express';
-import { UserRole } from '../entities/user.entity';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { UserRole } from '../../entities/user.entity';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 @Controller('farm')
 @UseGuards(JwtAuthGuard)

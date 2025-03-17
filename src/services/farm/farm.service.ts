@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FarmGetService } from './farm-get.service';
 import { User } from '../../entities/user.entity';
-import { FarmGetDto } from '../../dtos/farm.dto';
+import { FarmGetDto } from '../../api/dtos/farm.dto';
 
 @Injectable()
 export class FarmService {

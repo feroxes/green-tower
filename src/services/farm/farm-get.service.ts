@@ -1,12 +1,9 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { getError } from '../../api/errors/farm.errors';
 import { Farm } from '../../entities/farm.entity';
 import { Repository } from 'typeorm';
-import { FarmGetDto } from '../../dtos/farm.dto';
+import { FarmGetDto } from '../../api/dtos/farm.dto';
 import { User, UserRole } from '../../entities/user.entity';
 
 @Injectable()
@@ -26,13 +23,11 @@ export class FarmGetService {
     });
 
     if (!farm) {
-      throw new NotFoundException(`Farm not found`);
+      throw getError.FarmNotFound();
     }
 
     if (user.role !== UserRole.ADMIN || user.id !== farm.owner.id) {
-      throw new ForbiddenException(
-        `You do not have permission to access this farm`,
-      );
+      throw getError.Forbidden();
     }
 
     return {

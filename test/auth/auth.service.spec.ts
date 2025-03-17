@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthSignupService } from '../../src/services/auth/auth-signup.service';
 import { User, UserRole } from '../../src/entities/user.entity';
 import { Farm } from '../../src/entities/farm.entity';
-import { RegisterDto } from '../../src/dtos/auth.dto';
+import { RegisterDto } from '../../src/api/dtos/auth.dto';
 import {
   createTestModule,
   clearDatabase,

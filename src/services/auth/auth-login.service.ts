@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { loginError } from '../../api/errors/auth.errors';
 import { User } from '../../entities/user.entity';
-import { LoginDto, AuthResponseDto } from '../../dtos/auth.dto';
+import { LoginDto, AuthResponseDto } from '../../api/dtos/auth.dto';
 
 @Injectable()
 export class AuthLoginService {
@@ -21,7 +22,7 @@ export class AuthLoginService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw loginError.InvalidCredentials();
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -30,7 +31,7 @@ export class AuthLoginService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw loginError.InvalidCredentials();
     }
 
     const token = this.generateToken(user);
