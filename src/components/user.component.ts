@@ -47,7 +47,7 @@ export class UserComponent {
       sub: user.id,
       email: user.email,
       role: user.role,
-      farmId: user.farm,
+      farmId: user.farm.id,
     };
 
     return this.jwtService.sign(payload);
