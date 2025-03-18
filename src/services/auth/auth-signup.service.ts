@@ -17,16 +17,15 @@ export class AuthSignupService {
   ) {}
 
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
+    let farm = this.farmRepository.create({
+      name: registerDto.farmName,
+    });
     const createUserDto = { ...registerDto, role: UserRole.OWNER };
     // @ts-ignore - no need here
     delete createUserDto.farmName;
-    const { user, accessToken } = await this.userComponent.create(createUserDto, 'auth/register');
+    const { user, accessToken } = await this.userComponent.create(createUserDto, farm, 'auth/register');
 
-    let farm = this.farmRepository.create({
-      name: registerDto.farmName,
-      owner: user,
-    });
-
+    farm.owner = user;
     farm = await this.farmRepository.save(farm);
 
     await this.userRepository.save({ ...user, farm });

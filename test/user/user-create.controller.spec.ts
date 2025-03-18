@@ -68,15 +68,15 @@ describe('FarmController', () => {
       expect(farm.users[1].id).toBe(user.id);
     });
 
-    it(`${CMD} - owner not found`, async () => {
+    it(`${CMD} - owner not found (wrong owner id)`, async () => {
       const expectedError = userCreateError.OwnerNotFound();
       const userCreateDto = mockDto.getUserCreateDto();
       mockRequest.user.id = crypto.randomUUID();
       await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
     });
 
-    it(`${CMD} - farm not found`, async () => {
-      const expectedError = userCreateError.FarmNotFound();
+    it(`${CMD} - owner not found (wrong farm id)`, async () => {
+      const expectedError = userCreateError.OwnerNotFound();
       const userCreateDto = mockDto.getUserCreateDto();
       mockRequest.user.farmId = crypto.randomUUID();
       await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);

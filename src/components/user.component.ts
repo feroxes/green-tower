@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateError } from '../api/errors/user-component.errors';
 import { User } from '../entities/user.entity';
 import { UserCreateDto } from '../api/dtos/user.dto';
+import { Farm } from '../entities/farm.entity';
 
 @Injectable()
 export class UserComponent {
@@ -15,7 +16,7 @@ export class UserComponent {
     private jwtService: JwtService,
   ) {}
 
-  async create(createDto: UserCreateDto, errorCode: string): Promise<{ user: User; accessToken: string }> {
+  async create(createDto: UserCreateDto, farm: Farm, errorCode: string): Promise<{ user: User; accessToken: string }> {
     const Errors = new CreateError(errorCode);
     const existingUser = await this.userRepository.findOne({
       where: { email: createDto.email },
@@ -27,12 +28,14 @@ export class UserComponent {
 
     const hashedPassword = await bcrypt.hash(createDto.password, 10);
 
-    const user = this.userRepository.create({
+    let user = this.userRepository.create({
       ...createDto,
       password: hashedPassword,
     });
 
-    await this.userRepository.save(user);
+    user.farm = farm;
+
+    user = await this.userRepository.save(user);
 
     const token = this.generateToken(user);
 

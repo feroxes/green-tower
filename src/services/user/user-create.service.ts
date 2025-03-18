@@ -20,26 +20,23 @@ export class UserCreateService {
   ) {}
 
   async create(userCreateDto: UserCreateCmdDto, ownerUser: OwnerTokenType): Promise<Partial<User>> {
-    const owner = await this.userRepository.findOne({ where: { id: ownerUser.id } });
+    const owner = await this.userRepository.findOne({ where: { id: ownerUser.id, farm: { id: ownerUser.farmId } } });
 
     if (!owner) {
       throw userCreateError.OwnerNotFound();
     }
 
-    const farm = await this.farmRepository.findOne({ where: { id: ownerUser.farmId }, relations: ['owner', 'users'] });
+    const farm = await this.farmRepository.findOne({ where: { id: ownerUser.farmId } });
 
     if (!farm) {
       throw userCreateError.FarmNotFound();
     }
 
-    if (owner.role !== UserRole.OWNER || farm.owner.id !== owner.id) {
+    if (owner.role !== UserRole.OWNER) {
       throw userCreateError.Forbidden();
     }
 
-    const { user } = await this.userComponent.create(userCreateDto, 'user/create');
-    user.farm = farm;
-
-    await this.userRepository.save(user);
+    const { user } = await this.userComponent.create(userCreateDto, farm, 'user/create');
 
     return {
       id: user.id,
