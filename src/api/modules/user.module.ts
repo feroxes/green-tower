@@ -2,15 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthController } from '../controllers/auth.controller';
-import { AuthService } from '../../services/auth/auth.service';
-
+import { UserController } from '../controllers/user.controller';
+import { UserService } from '../../services/user/user.service';
+import { UserCreateService } from '../../services/user/user-create.service';
+import { UserComponent } from '../../components/user.component';
 import { JwtStrategy } from '../../strategies/jwt.strategy';
 import { User } from '../../entities/user.entity';
 import { Farm } from '../../entities/farm.entity';
-import { AuthSignupService } from '../../services/auth/auth-signup.service';
-import { AuthLoginService } from '../../services/auth/auth-login.service';
-import { UserComponent } from '../../components/user.component';
 
 @Module({
   imports: [
@@ -24,8 +22,8 @@ import { UserComponent } from '../../components/user.component';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, AuthSignupService, AuthLoginService, JwtStrategy, UserComponent],
-  exports: [AuthService],
+  controllers: [UserController],
+  providers: [UserService, UserCreateService, JwtStrategy, UserComponent],
+  exports: [UserService],
 })
-export class AuthModule {}
+export class UserModule {}

@@ -47,7 +47,7 @@ describe('AuthController', () => {
 
       ValidationHelper.auth.validateResponse(response);
       ValidationHelper.farm.validateFarm(farm as Farm);
-      ValidationHelper.user.validateUser(user as User, farm as Farm);
+      ValidationHelper.user.validateUserRegistration(user as User, farm as Farm);
     });
 
     it(`${CMD} - user already exists error`, async () => {

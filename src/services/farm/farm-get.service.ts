@@ -13,23 +13,20 @@ export class FarmGetService {
     private farmRepo: Repository<Farm>,
   ) {}
 
-  async get(farmGetDto: FarmGetDto, user: Partial<User>): Promise<Partial<Farm>> {
+  async get(farmGetDto: FarmGetDto, user: Partial<User>): Promise<Farm> {
     const farm = await this.farmRepo.findOne({
       where: { id: farmGetDto.id },
-      relations: ['owner'],
+      relations: ['owner', 'users'],
     });
 
     if (!farm) {
       throw getError.FarmNotFound();
     }
 
-    if (user.role !== UserRole.ADMIN || user.id !== farm.owner.id) {
+    if (user.role !== UserRole.OWNER || user.id !== farm.owner.id) {
       throw getError.Forbidden();
     }
 
-    return {
-      id: farm.id,
-      name: farm.name,
-    };
+    return farm;
   }
 }

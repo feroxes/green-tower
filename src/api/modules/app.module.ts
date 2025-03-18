@@ -5,6 +5,7 @@ import { AppController } from '../controllers/app.controller';
 import { AppService } from '../../services/app.service';
 import { FarmModule } from './farm.module';
 import { AuthModule } from './auth.module';
+import { UserModule } from './user.module';
 import { Farm } from '../../entities/farm.entity';
 import { User } from '../../entities/user.entity';
 
@@ -32,6 +33,7 @@ import { User } from '../../entities/user.entity';
     }),
     FarmModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

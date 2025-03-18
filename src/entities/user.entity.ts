@@ -10,6 +10,7 @@ import {
 import { Farm } from './farm.entity';
 
 export enum UserRole {
+  OWNER = 'owner',
   ADMIN = 'admin',
   USER = 'user',
 }

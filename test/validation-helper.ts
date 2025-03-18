@@ -21,14 +21,22 @@ export const ValidationHelper = {
     },
   },
   user: {
-    validateUser: (user: User, farm: Partial<Farm>, mockAuthRegisterDto = mockDto.authRegisterDto) => {
+    validateUserRegistration: (user: User, farm: Partial<Farm>, mockAuthRegisterDto = mockDto.authRegisterDto) => {
       expect(user).toBeDefined();
       expect(user).not.toBeNull();
       expect(user.firstName).toBe(mockAuthRegisterDto.firstName);
       expect(user.lastName).toBe(mockAuthRegisterDto.lastName);
       expect(user.email).toBe(mockAuthRegisterDto.email);
-      expect(user.role).toBe(UserRole.ADMIN);
+      expect(user.role).toBe(UserRole.OWNER);
       expect(user.farm.id).toBe(farm.id);
+    },
+    validateUserCreation(user: Partial<User>, mockUserCreateDto = mockDto.getUserCreateDto()) {
+      expect(user).toBeDefined();
+      expect(user).not.toBeNull();
+      expect(user.firstName).toBe(mockUserCreateDto.firstName);
+      expect(user.lastName).toBe(mockUserCreateDto.lastName);
+      expect(user.email).toBe(mockUserCreateDto.email);
+      expect(user.role).toBe(mockUserCreateDto.role);
     },
   },
 };
