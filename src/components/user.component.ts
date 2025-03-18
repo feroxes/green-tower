@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { CreateError } from '../api/errors/user-component.errors';
+import { UserCreateComponentError } from '../api/errors/user-component.errors';
 import { User } from '../entities/user.entity';
 import { UserCreateDto } from '../api/dtos/user.dto';
 import { Farm } from '../entities/farm.entity';
@@ -17,7 +17,7 @@ export class UserComponent {
   ) {}
 
   async create(createDto: UserCreateDto, farm: Farm, errorCode: string): Promise<{ user: User; accessToken: string }> {
-    const Errors = new CreateError(errorCode);
+    const Errors = new UserCreateComponentError(errorCode);
     const existingUser = await this.userRepository.findOne({
       where: { email: createDto.email },
     });

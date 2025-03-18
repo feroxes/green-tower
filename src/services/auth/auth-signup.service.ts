@@ -23,7 +23,7 @@ export class AuthSignupService {
     const createUserDto = { ...registerDto, role: UserRole.OWNER };
     // @ts-ignore - no need here
     delete createUserDto.farmName;
-    const { user, accessToken } = await this.userComponent.create(createUserDto, farm, 'auth/register');
+    const { user, accessToken } = await this.userComponent.create(createUserDto, farm, 'auth/register/');
 
     farm.owner = user;
     farm = await this.farmRepository.save(farm);

@@ -1,7 +1,7 @@
 import { ConflictException } from '@nestjs/common';
 import { BaseError } from './base.error';
 
-export class CreateError extends BaseError {
+export class UserCreateComponentError extends BaseError {
   constructor(code: string) {
     super(code);
   }

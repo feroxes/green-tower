@@ -6,6 +6,7 @@ import { User, UserRole } from '../../src/entities/user.entity';
 import { ValidationHelper } from '../validation-helper';
 import { mockDto } from '../mock/mock.dtos';
 import { userCreateError } from '../../src/api/errors/user.errors';
+import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';
 import { AuthController } from '../../src/api/controllers/auth.controller';
 import { FarmController } from '../../src/api/controllers/farm.controller';
@@ -17,7 +18,7 @@ interface RequestUser {
   farmId: string;
 }
 
-const CMD = 'user/create';
+const CMD = 'user/create/';
 
 describe('FarmController', () => {
   let controller: UserController;
@@ -26,7 +27,6 @@ describe('FarmController', () => {
   let userRepository: Repository<User>;
   let module: TestingModule;
   let mockRequest: Request & { user: RequestUser };
-  let user: User;
 
   beforeAll(async () => {
     module = await createTestModule();
@@ -54,7 +54,6 @@ describe('FarmController', () => {
         farmId: foundUser!.farm.id,
       },
     } as unknown as Request & { user: RequestUser };
-    user = foundUser!;
   });
 
   describe(CMD, () => {
@@ -66,6 +65,16 @@ describe('FarmController', () => {
       const farm = await farmController.get({ id: mockRequest.user.farmId }, mockRequest);
       expect(farm.users.length).toBe(2);
       expect(farm.users[1].id).toBe(user.id);
+    });
+
+    it(`${CMD} - user already exists`, async () => {
+      const userCreateComponentError = new UserCreateComponentError(CMD);
+      const expectedError = userCreateComponentError.UserAlreadyExists();
+      const userCreateDto = mockDto.getUserCreateDto();
+
+      await controller.create(userCreateDto, mockRequest);
+
+      await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
     });
 
     it(`${CMD} - owner not found (wrong owner id)`, async () => {

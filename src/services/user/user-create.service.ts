@@ -36,7 +36,7 @@ export class UserCreateService {
       throw userCreateError.Forbidden();
     }
 
-    const { user } = await this.userComponent.create(userCreateDto, farm, 'user/create');
+    const { user } = await this.userComponent.create(userCreateDto, farm, 'user/create/');
 
     return {
       id: user.id,
