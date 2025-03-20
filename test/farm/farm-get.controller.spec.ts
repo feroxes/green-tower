@@ -1,3 +1,4 @@
+import { ForbiddenException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -57,12 +58,6 @@ describe('FarmController', () => {
     it(`${CMD} - farm not found`, async () => {
       const expectedError = getError.FarmNotFound();
       await expect(controller.get({ id: crypto.randomUUID() }, mockRequest)).rejects.toThrow(expectedError.message);
-    });
-
-    it(`${CMD} - forbidden (call by USER)`, async () => {
-      const expectedError = getError.Forbidden();
-      mockRequest.user.role = UserRole.USER;
-      await expect(controller.get({ id: user.farm.id }, mockRequest)).rejects.toThrow(expectedError.message);
     });
 
     it(`${CMD} - forbidden (getting foreign farm)`, async () => {

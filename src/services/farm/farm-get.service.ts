@@ -23,7 +23,7 @@ export class FarmGetService {
       throw getError.FarmNotFound();
     }
 
-    if (user.role !== UserRole.OWNER || user.id !== farm.owner.id) {
+    if (user.id !== farm.owner.id) {
       throw getError.Forbidden();
     }
 
