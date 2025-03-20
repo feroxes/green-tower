@@ -1,16 +1,29 @@
 import { mockDto } from '../mock/mock.dtos';
 import { Farm } from '../../src/entities/farm.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
+import { LoginOrRegistrationResponseBodyType } from './types/auth.types';
 
-export type ResponseType = {
-  accessToken: string;
-};
+export interface ErrorResponse {
+  errorCode: string;
+  message: string;
+}
+
+export function validateError(error: ErrorResponse, expectedError: ErrorResponse) {
+  expect(error.errorCode).toEqual(expectedError.errorCode);
+  expect(error.message).toEqual(expectedError.message);
+}
+
+export function validateOwnerGuard(error: { statusCode: number; error: string; message: string }): void {
+  expect(error.statusCode).toEqual(403);
+  expect(error.error).toEqual('Forbidden');
+  expect(error.message).toEqual('Forbidden resource');
+}
 
 export const ValidationHelper = {
   auth: {
-    validateResponse: (response: ResponseType) => {
-      expect(response).toHaveProperty('accessToken');
-      expect(response.accessToken).toBeDefined();
+    validateDto: (body: LoginOrRegistrationResponseBodyType) => {
+      expect(body).toHaveProperty('accessToken');
+      expect(body.accessToken).toBeDefined();
     },
   },
   farm: {

@@ -3,37 +3,31 @@ import { Request } from 'express';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestingModule } from '@nestjs/testing';
 import { User, UserRole } from '../../src/entities/user.entity';
-import { ValidationHelper } from '../helpers/validation-helper';
 import { mockDto } from '../mock/mock.dtos';
 import { userCreateError } from '../../src/api/errors/user.errors';
 import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
-import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';
-import { AuthController } from '../../src/api/controllers/auth.controller';
-import { FarmController } from '../../src/api/controllers/farm.controller';
-import { UserController } from '../../src/api/controllers/user.controller';
+import { INestApplication } from '@nestjs/common';
+import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
+import { Calls } from '../helpers/calls';
+import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
+import { UseCases } from '../helpers/constants';
+import { Farm } from '../../src/entities/farm.entity';
 
-interface RequestUser {
-  id: string;
-  role: UserRole;
-  farmId: string;
-}
-
-const CMD = 'user/create/';
-
-describe('FarmController', () => {
-  let controller: UserController;
-  let farmController: FarmController;
-  let authController: AuthController;
+describe('UserCreate', () => {
+  let app: INestApplication;
   let userRepository: Repository<User>;
+  let farmRepository: Repository<Farm>;
   let module: TestingModule;
-  let mockRequest: Request & { user: RequestUser };
+  let accessToken: string;
+  let owner: User;
 
   beforeAll(async () => {
-    module = await createTestModule();
-    controller = module.get<UserController>(UserController);
-    farmController = module.get<FarmController>(FarmController);
-    authController = module.get<AuthController>(AuthController);
+    const testConfig = await init();
+    app = testConfig.app;
+    module = testConfig.module;
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
+    farmRepository = module.get<Repository<Farm>>(getRepositoryToken(Farm));
   });
 
   afterAll(async () => {
@@ -42,61 +36,60 @@ describe('FarmController', () => {
 
   beforeEach(async () => {
     await clearDatabase(module);
-    await authController.register(mockDto.authRegisterDto);
-    const foundUser = await userRepository.findOne({
+    const res = (await Calls.Auth.signUp(app)) as LoginOrRegistrationResponseType;
+    owner = (await userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },
       relations: ['farm'],
-    });
-    mockRequest = {
-      user: {
-        id: foundUser!.id,
-        role: foundUser!.role,
-        farmId: foundUser!.farm.id,
-      },
-    } as unknown as Request & { user: RequestUser };
+    })) as User;
+    accessToken = res.body.accessToken;
   });
 
-  describe(CMD, () => {
-    it(`${CMD} - HDS`, async () => {
-      const userCreateDto = mockDto.getUserCreateDto();
-      const user = await controller.create(userCreateDto, mockRequest);
-      ValidationHelper.user.validateUserCreation(user);
+  describe(UseCases.user.create, () => {
+    it(`${UseCases.user.create} - HDS`, async () => {
+      const res = await Calls.User.create(app, accessToken);
+      ValidationHelper.user.validateUserCreation(res.body);
 
-      const farm = await farmController.get({ id: mockRequest.user.farmId }, mockRequest);
-      expect(farm.users.length).toBe(2);
-      expect(farm.users[1].id).toBe(user.id);
+      const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
+      expect(farm!.users.length).toBe(2);
+      expect(farm!.users[1].id).toBe(res.body.id);
     });
 
-    it(`${CMD} - user already exists`, async () => {
-      const userCreateComponentError = new UserCreateComponentError(CMD);
+    it(`${UseCases.user.create} - user already exists`, async () => {
+      const userCreateComponentError = new UserCreateComponentError('user/create/');
       const expectedError = userCreateComponentError.UserAlreadyExists();
-      const userCreateDto = mockDto.getUserCreateDto();
 
-      await controller.create(userCreateDto, mockRequest);
-
-      await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
+      await Calls.User.create(app, accessToken);
+      const res = await Calls.User.create(app, accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
-    it(`${CMD} - owner not found (wrong owner id)`, async () => {
-      const expectedError = userCreateError.OwnerNotFound();
-      const userCreateDto = mockDto.getUserCreateDto();
-      mockRequest.user.id = crypto.randomUUID();
-      await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
-    });
+    // TODO: when user/delete cmd will be ready
 
-    it(`${CMD} - owner not found (wrong farm id)`, async () => {
-      const expectedError = userCreateError.OwnerNotFound();
-      const userCreateDto = mockDto.getUserCreateDto();
-      mockRequest.user.farmId = crypto.randomUUID();
-      await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
-    });
+    // it(`${UseCases.user.create} - owner not found (wrong owner id)`, async () => {
+    //   const expectedError = userCreateError.OwnerNotFound();
+    //   const userCreateDto = mockDto.getUserCreateDto();
+    //   mockRequest.user.id = crypto.randomUUID();
+    //   await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
+    // });
+    //
+    // TODO: when user/delete cmd will be ready
+    // it(`${UseCases.user.create} - owner not found (wrong farm id)`, async () => {
+    //   const expectedError = userCreateError.OwnerNotFound();
+    //   const userCreateDto = mockDto.getUserCreateDto();
+    //   mockRequest.user.farmId = crypto.randomUUID();
+    //   await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
+    // });
 
-    it(`${CMD} - forbidden (call by ADMIN)`, async () => {
+    it(`${UseCases.user.create} - forbidden (call by ADMIN)`, async () => {
       const expectedError = userCreateError.Forbidden();
-      const userCreateDto = mockDto.getUserCreateDto();
-      const user = (await controller.create(userCreateDto, mockRequest)) as User;
-      mockRequest.user.id = user.id;
-      await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
+      const createUserDto = mockDto.getUserCreateDto(UserRole.USER);
+      const { email, password } = createUserDto;
+
+      await Calls.User.create(app, accessToken, createUserDto);
+      const userLoginRes = (await Calls.Auth.login(app, { email, password })) as LoginOrRegistrationResponseType;
+
+      const res = await Calls.User.create(app, userLoginRes.body.accessToken, createUserDto);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
 });

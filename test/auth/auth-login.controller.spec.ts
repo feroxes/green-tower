@@ -1,19 +1,20 @@
+import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
-import { ValidationHelper } from '../helpers/validation-helper';
 import { mockDto } from '../mock/mock.dtos';
 import { loginError } from '../../src/api/errors/auth.errors';
-import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';
-import { AuthController } from '../../src/api/controllers/auth.controller';
+import { ValidationHelper, validateError, ErrorResponse } from '../helpers/validation-helper';
+import { init, clearDatabase, closeDatabaseConnection } from '../test.config';
+import { UseCases } from '../helpers/constants';
+import { Calls } from '../helpers/calls';
 
-const CMD = 'auth/login';
-
-describe('AuthLoginController', () => {
-  let controller: AuthController;
+describe('AuthLogin', () => {
+  let app: INestApplication;
   let module: TestingModule;
 
   beforeAll(async () => {
-    module = await createTestModule();
-    controller = module.get<AuthController>(AuthController);
+    const testConfig = await init();
+    app = testConfig.app;
+    module = testConfig.module;
   });
 
   afterAll(async () => {
@@ -22,27 +23,25 @@ describe('AuthLoginController', () => {
 
   beforeEach(async () => {
     await clearDatabase(module);
-    await controller.register(mockDto.authRegisterDto);
+    await Calls.Auth.signUp(app);
   });
 
-  describe(CMD, () => {
-    it(`${CMD} - HDS`, async () => {
-      const response = await controller.login(mockDto.authLoginDto);
-      ValidationHelper.auth.validateResponse(response);
+  describe(UseCases.auth.login, () => {
+    it(`${UseCases.auth.login} - HDS`, async () => {
+      const res = await Calls.Auth.login(app);
+      ValidationHelper.auth.validateDto(res.body);
     });
 
-    it(`${CMD} - wrong email`, async () => {
+    it(`${UseCases.auth.login} - wrong email`, async () => {
       const expectedError = loginError.InvalidCredentials();
-      await expect(controller.login({ ...mockDto.authLoginDto, email: 'wrongEmail@gmail.com' })).rejects.toThrow(
-        expectedError.message,
-      );
+      const res = await Calls.Auth.login(app, { ...mockDto.authLoginDto, email: 'wrongEmail@gmail.com' });
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
-    it(`${CMD} - wrong password`, async () => {
+    it(`${UseCases.auth.login} - wrong password`, async () => {
       const expectedError = loginError.InvalidCredentials();
-      await expect(controller.login({ ...mockDto.authLoginDto, password: 'wrongPassword' })).rejects.toThrow(
-        expectedError.message,
-      );
+      const res = await Calls.Auth.login(app, { ...mockDto.authLoginDto, password: 'wrongPassword' });
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
 });

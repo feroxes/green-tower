@@ -4,7 +4,7 @@ import { getError } from '../../api/errors/farm.errors';
 import { Farm } from '../../entities/farm.entity';
 import { Repository } from 'typeorm';
 import { FarmGetDto } from '../../api/dtos/farm.dto';
-import { User, UserRole } from '../../entities/user.entity';
+import { User } from '../../entities/user.entity';
 
 @Injectable()
 export class FarmGetService {

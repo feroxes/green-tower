@@ -1,7 +1,7 @@
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import { BaseError } from './base.error';
 
-class GetError extends BaseError {
+export class FarmGetError extends BaseError {
   constructor() {
     super('farm/get/');
   }
@@ -13,4 +13,4 @@ class GetError extends BaseError {
   );
 }
 
-export const getError = new GetError();
+export const getError = new FarmGetError();

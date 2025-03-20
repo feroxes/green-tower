@@ -1,36 +1,28 @@
-import { ForbiddenException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Request } from 'express';
+import { INestApplication } from '@nestjs/common';
+import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
+import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
+import { Calls } from '../helpers/calls';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestingModule } from '@nestjs/testing';
 import { User, UserRole } from '../../src/entities/user.entity';
-import { ValidationHelper } from '../helpers/validation-helper';
 import { getError } from '../../src/api/errors/farm.errors';
-import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';
-import { registerAndFetchUser } from '../helpers/setup-user';
-import { AuthController } from '../../src/api/controllers/auth.controller';
-import { FarmController } from '../../src/api/controllers/farm.controller';
 import { mockDto } from '../mock/mock.dtos';
+import { Farm } from '../../src/entities/farm.entity';
+import { UseCases } from '../helpers/constants';
+import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 
-interface RequestUser {
-  id: string;
-  role: UserRole;
-}
-
-const CMD = 'farm/get';
-
-describe('FarmController', () => {
-  let controller: FarmController;
-  let authController: AuthController;
+describe('FarmGet', () => {
+  let app: INestApplication;
   let userRepository: Repository<User>;
   let module: TestingModule;
-  let mockRequest: Request & { user: RequestUser };
+  let accessToken: string;
   let user: User;
 
   beforeAll(async () => {
-    module = await createTestModule();
-    controller = module.get<FarmController>(FarmController);
-    authController = module.get<AuthController>(AuthController);
+    const testConfig = await init();
+    app = testConfig.app;
+    module = testConfig.module;
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
@@ -40,36 +32,47 @@ describe('FarmController', () => {
 
   beforeEach(async () => {
     await clearDatabase(module);
-    user = await registerAndFetchUser(module);
-    mockRequest = {
-      user: {
-        id: user!.id,
-        role: user!.role,
-      },
-    } as unknown as Request & { user: RequestUser };
+    const res = (await Calls.Auth.signUp(app)) as LoginOrRegistrationResponseType;
+    accessToken = res.body.accessToken;
+    user = (await userRepository.findOne({
+      where: { email: mockDto.authRegisterDto.email },
+      relations: ['farm'],
+    })) as User;
   });
 
-  describe(CMD, () => {
-    it(`${CMD} - HDS`, async () => {
-      const farm = await controller.get({ id: user.farm.id }, mockRequest);
-      ValidationHelper.farm.validateFarm(farm);
+  describe(UseCases.farm.get, () => {
+    it(`${UseCases.farm.get} - HDS`, async () => {
+      const res = await Calls.Farm.get(app, { id: user.farm.id }, accessToken);
+      ValidationHelper.farm.validateFarm(res.body as Farm);
     });
 
-    it(`${CMD} - farm not found`, async () => {
+    it(`${UseCases.farm.get} - farm not found`, async () => {
       const expectedError = getError.FarmNotFound();
-      await expect(controller.get({ id: crypto.randomUUID() }, mockRequest)).rejects.toThrow(expectedError.message);
+      const res = await Calls.Farm.get(app, { id: crypto.randomUUID() }, accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
-    it(`${CMD} - forbidden (getting foreign farm)`, async () => {
+    it(`${UseCases.farm.get} - forbidden (call by USER)`, async () => {
+      const userCreateDto = mockDto.getUserCreateDto(UserRole.USER);
+      const { email, password } = userCreateDto;
+
+      await Calls.User.create(app, accessToken, userCreateDto);
+
+      const userLogin = (await Calls.Auth.login(app, { email, password })) as LoginOrRegistrationResponseType;
+      const res = await Calls.Farm.get(app, { id: user.farm.id }, userLogin.body.accessToken);
+      validateOwnerGuard(res.body);
+    });
+
+    it(`${UseCases.farm.get} - forbidden (getting foreign farm)`, async () => {
       const expectedError = getError.Forbidden();
       const email = 'test@test.com';
-      await authController.register({ ...mockDto.authRegisterDto, email });
-      const _user = await userRepository.findOne({
-        where: { email },
-        relations: ['farm'],
-      });
-      mockRequest.user.id = _user!.id;
-      await expect(controller.get({ id: user!.farm.id }, mockRequest)).rejects.toThrow(expectedError.message);
+      const newUserRegistration = (await Calls.Auth.signUp(app, {
+        ...mockDto.authRegisterDto,
+        email,
+      })) as LoginOrRegistrationResponseType;
+
+      const res = await Calls.Farm.get(app, { id: user.farm.id }, newUserRegistration.body.accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
 });
