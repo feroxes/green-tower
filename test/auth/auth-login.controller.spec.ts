@@ -1,5 +1,5 @@
 import { TestingModule } from '@nestjs/testing';
-import { ValidationHelper } from '../validation-helper';
+import { ValidationHelper } from '../helpers/validation-helper';
 import { mockDto } from '../mock/mock.dtos';
 import { loginError } from '../../src/api/errors/auth.errors';
 import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';

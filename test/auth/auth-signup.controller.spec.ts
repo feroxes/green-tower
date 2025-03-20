@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../../src/entities/user.entity';
 import { Farm } from '../../src/entities/farm.entity';
-import { ValidationHelper } from '../validation-helper';
+import { ValidationHelper } from '../helpers/validation-helper';
 import { mockDto } from '../mock/mock.dtos';
 import { registerError } from '../../src/api/errors/auth.errors';
 import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';

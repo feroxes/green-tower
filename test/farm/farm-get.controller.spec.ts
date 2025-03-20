@@ -3,12 +3,13 @@ import { Request } from 'express';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestingModule } from '@nestjs/testing';
 import { User, UserRole } from '../../src/entities/user.entity';
-import { ValidationHelper } from '../validation-helper';
+import { ValidationHelper } from '../helpers/validation-helper';
 import { getError } from '../../src/api/errors/farm.errors';
-import { mockDto } from '../mock/mock.dtos';
 import { createTestModule, clearDatabase, closeDatabaseConnection } from '../test.config';
+import { registerAndFetchUser } from '../helpers/setup-user';
 import { AuthController } from '../../src/api/controllers/auth.controller';
 import { FarmController } from '../../src/api/controllers/farm.controller';
+import { mockDto } from '../mock/mock.dtos';
 
 interface RequestUser {
   id: string;
@@ -38,18 +39,13 @@ describe('FarmController', () => {
 
   beforeEach(async () => {
     await clearDatabase(module);
-    await authController.register(mockDto.authRegisterDto);
-    const foundUser = await userRepository.findOne({
-      where: { email: mockDto.authRegisterDto.email },
-      relations: ['farm'],
-    });
+    user = await registerAndFetchUser(module);
     mockRequest = {
       user: {
-        id: foundUser!.id,
-        role: foundUser!.role,
+        id: user!.id,
+        role: user!.role,
       },
     } as unknown as Request & { user: RequestUser };
-    user = foundUser!;
   });
 
   describe(CMD, () => {
@@ -63,10 +59,22 @@ describe('FarmController', () => {
       await expect(controller.get({ id: crypto.randomUUID() }, mockRequest)).rejects.toThrow(expectedError.message);
     });
 
-    it(`${CMD} - forbidden`, async () => {
+    it(`${CMD} - forbidden (call by USER)`, async () => {
       const expectedError = getError.Forbidden();
       mockRequest.user.role = UserRole.USER;
       await expect(controller.get({ id: user.farm.id }, mockRequest)).rejects.toThrow(expectedError.message);
+    });
+
+    it(`${CMD} - forbidden (getting foreign farm)`, async () => {
+      const expectedError = getError.Forbidden();
+      const email = 'test@test.com';
+      await authController.register({ ...mockDto.authRegisterDto, email });
+      const _user = await userRepository.findOne({
+        where: { email },
+        relations: ['farm'],
+      });
+      mockRequest.user.id = _user!.id;
+      await expect(controller.get({ id: user!.farm.id }, mockRequest)).rejects.toThrow(expectedError.message);
     });
   });
 });

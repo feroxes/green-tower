@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestingModule } from '@nestjs/testing';
 import { User, UserRole } from '../../src/entities/user.entity';
-import { ValidationHelper } from '../validation-helper';
+import { ValidationHelper } from '../helpers/validation-helper';
 import { mockDto } from '../mock/mock.dtos';
 import { userCreateError } from '../../src/api/errors/user.errors';
 import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
