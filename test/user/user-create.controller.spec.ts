@@ -1,5 +1,6 @@
 import { Repository } from 'typeorm';
-import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestingModule } from '@nestjs/testing';
 import { User, UserRole } from '../../src/entities/user.entity';
@@ -65,20 +66,44 @@ describe('UserCreate', () => {
 
     // TODO: when user/delete cmd will be ready
 
-    // it(`${UseCases.user.create} - owner not found (wrong owner id)`, async () => {
-    //   const expectedError = userCreateError.OwnerNotFound();
-    //   const userCreateDto = mockDto.getUserCreateDto();
-    //   mockRequest.user.id = crypto.randomUUID();
-    //   await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
-    // });
-    //
-    // TODO: when user/delete cmd will be ready
-    // it(`${UseCases.user.create} - owner not found (wrong farm id)`, async () => {
-    //   const expectedError = userCreateError.OwnerNotFound();
-    //   const userCreateDto = mockDto.getUserCreateDto();
-    //   mockRequest.user.farmId = crypto.randomUUID();
-    //   await expect(controller.create(userCreateDto, mockRequest)).rejects.toThrow(expectedError.message);
-    // });
+    it(`${UseCases.user.create} - owner not found (wrong owner id)`, async () => {
+      const expectedError = userCreateError.OwnerNotFound();
+      const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
+      const payload = {
+        sub: crypto.randomUUID(),
+        email: owner.email,
+        role: UserRole.OWNER,
+        farmId: farm!.id,
+      };
+      const configService = module.get(ConfigService);
+      const secret: string = configService.get('JWT_SECRET')!;
+      const jwtService = new JwtService({
+        secret,
+        signOptions: { expiresIn: '60s' },
+      });
+      const _accessToken = jwtService.sign(payload);
+      const res = await Calls.User.create(app, _accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
+
+    it(`${UseCases.user.create} - owner not found (wrong farm id)`, async () => {
+      const expectedError = userCreateError.OwnerNotFound();
+      const payload = {
+        sub: owner.id,
+        email: owner.email,
+        role: UserRole.OWNER,
+        farmId: crypto.randomUUID(),
+      };
+      const configService = module.get(ConfigService);
+      const secret: string = configService.get('JWT_SECRET')!;
+      const jwtService = new JwtService({
+        secret,
+        signOptions: { expiresIn: '60s' },
+      });
+      const _accessToken = jwtService.sign(payload);
+      const res = await Calls.User.create(app, _accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
 
     it(`${UseCases.user.create} - forbidden (call by ADMIN)`, async () => {
       const expectedError = userCreateError.Forbidden();

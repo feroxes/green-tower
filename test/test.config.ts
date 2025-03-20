@@ -1,3 +1,4 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { DataSource } from 'typeorm';
@@ -18,8 +19,15 @@ export async function init(): Promise<{ module: TestingModule; app: INestApplica
 
 export async function createTestModule(options: TestModuleOptions = {}): Promise<TestingModule> {
   return Test.createTestingModule({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    imports: [AppModule, ...(options.imports || [])],
+    imports: [
+      AppModule,
+      await ConfigModule.forRoot({
+        isGlobal: true,
+        envFilePath: '.env/.env.test',
+      }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      ...(options.imports || []),
+    ],
     providers: options.providers || [],
     controllers: options.controllers || [],
   }).compile();
