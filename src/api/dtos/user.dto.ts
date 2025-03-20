@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsString, MinLength, MaxLength, IsNotEmpty, IsUUID } from 'class-validator';
 import { UserRole } from '../../entities/user.entity';
 
 export class UserCreateDto {
@@ -57,4 +57,10 @@ export class UserCreateCmdDto {
   @IsString()
   @IsNotEmpty()
   role: UserRole.ADMIN | UserRole.USER;
+}
+
+export class UserDeleteDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
 }

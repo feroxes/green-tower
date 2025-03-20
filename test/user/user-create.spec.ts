@@ -64,8 +64,6 @@ describe('UserCreate', () => {
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
-    // TODO: when user/delete cmd will be ready
-
     it(`${UseCases.user.create} - owner not found (wrong owner id)`, async () => {
       const expectedError = userCreateError.OwnerNotFound();
       const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });

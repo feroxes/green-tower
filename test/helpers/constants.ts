@@ -8,5 +8,6 @@ export const UseCases = {
   },
   user: {
     create: '/user/create',
+    delete: '/user/delete',
   },
 };

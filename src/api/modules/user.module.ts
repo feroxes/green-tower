@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserController } from '../controllers/user.controller';
 import { UserService } from '../../services/user/user.service';
 import { UserCreateService } from '../../services/user/user-create.service';
+import { UserDeleteService } from '../../services/user/user-delete.service';
 import { UserComponent } from '../../components/user.component';
 import { JwtStrategy } from '../../strategies/jwt.strategy';
 import { User } from '../../entities/user.entity';
@@ -23,7 +24,7 @@ import { Farm } from '../../entities/farm.entity';
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, UserCreateService, JwtStrategy, UserComponent],
+  providers: [UserService, UserCreateService, UserDeleteService, JwtStrategy, UserComponent],
   exports: [UserService],
 })
 export class UserModule {}

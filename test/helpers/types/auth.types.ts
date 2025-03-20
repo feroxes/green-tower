@@ -2,7 +2,9 @@ export type LoginOrRegistrationResponseType = {
   body: {
     accessToken: string;
   };
-  user: {};
+  user: {
+    id: string;
+  };
 };
 
 export type LoginOrRegistrationResponseBodyType = {

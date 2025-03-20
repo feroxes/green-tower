@@ -42,8 +42,15 @@ export const Calls = {
     },
   },
   User: {
-    async create(app: INestApplication, accessToken: string, body = mockDto.getUserCreateDto()): Promise<Response> {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body = mockDto.getUserCreateDto(),
+    ): Promise<UserCreateResponseType | Response> {
       return Calls.post(app, UseCases.user.create, body, accessToken);
+    },
+    async delete(app: INestApplication, accessToken: string, body: { id: string }): Promise<Response> {
+      return Calls.post(app, UseCases.user.delete, body, accessToken);
     },
   },
 };
