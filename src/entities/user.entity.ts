@@ -3,12 +3,14 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Farm } from './farm.entity';
+import { Plant } from './plant.entity';
 
 export enum UserRole {
   OWNER = 'owner',
@@ -44,6 +46,9 @@ export class User {
   @ManyToOne(() => Farm, (farm) => farm.users)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;
+
+  @OneToMany(() => Plant, (plant) => plant.createdBy)
+  plants: Plant[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

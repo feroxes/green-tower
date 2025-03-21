@@ -2,6 +2,7 @@ import { mockDto } from '../mock/mock.dtos';
 import { Farm } from '../../src/entities/farm.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 import { LoginOrRegistrationResponseBodyType } from './types/auth.types';
+import { Plant } from '../../src/entities/plant.entity';
 
 export interface ErrorResponse {
   errorCode: string;
@@ -50,6 +51,25 @@ export const ValidationHelper = {
       expect(user.lastName).toBe(mockUserCreateDto.lastName);
       expect(user.email).toBe(mockUserCreateDto.email);
       expect(user.role).toBe(mockUserCreateDto.role);
+    },
+  },
+  plant: {
+    validatePlantCreation(plant: Plant, mockPlantCreateDto = mockDto.plantCreateDto) {
+      expect(plant).toBeDefined();
+      expect(plant.createdBy).toBeDefined();
+      expect(plant.farm).toBeDefined();
+      expect(plant).not.toBeNull();
+      expect(plant.name).toBe(mockPlantCreateDto.name);
+      expect(plant.description).toBe(mockPlantCreateDto.description);
+      expect(plant.notes).toBe(mockPlantCreateDto.notes);
+      expect(plant.imageUrl).toBe(mockPlantCreateDto.imageUrl);
+      expect(plant.type).toBe(mockPlantCreateDto.type);
+      expect(plant.expectedHoursToHarvest).toBe(mockPlantCreateDto.expectedHoursToHarvest);
+      expect(plant.hoursToSoak).toBe(mockPlantCreateDto.hoursToSoak);
+      expect(plant.hoursToMoveToLight).toBe(mockPlantCreateDto.hoursToMoveToLight);
+      expect(plant.shouldBePressed).toBe(mockPlantCreateDto.shouldBePressed);
+      expect(plant.seedsGramPerPlate).toBe(mockPlantCreateDto.seedsGramPerPlate);
+      expect(plant.expectedHarvestGramsPerPlate).toBe(mockPlantCreateDto.expectedHarvestGramsPerPlate);
     },
   },
 };

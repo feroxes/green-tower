@@ -11,4 +11,7 @@ export const UseCases = {
     delete: '/user/delete',
     setRole: '/user/setRole',
   },
+  plant: {
+    create: '/plant/create',
+  },
 };

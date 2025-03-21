@@ -4,8 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FarmModule } from './farm.module';
 import { AuthModule } from './auth.module';
 import { UserModule } from './user.module';
+import { PlantModule } from './plant.module';
 import { Farm } from '../../entities/farm.entity';
 import { User } from '../../entities/user.entity';
+import { Plant } from '../../entities/plant.entity';
 
 @Module({
   imports: [
@@ -25,13 +27,14 @@ import { User } from '../../entities/user.entity';
           database: config.get<string>('DB_NAME'),
           autoLoadEntities: config.get<boolean>('AUTO_LOAD_ENTITIES'),
           synchronize: config.get<boolean>('SYNCHRONIZE'),
-          entities: [Farm, User],
+          entities: [Farm, User, Plant],
         };
       },
     }),
     FarmModule,
     AuthModule,
     UserModule,
+    PlantModule,
   ],
   controllers: [],
   providers: [],

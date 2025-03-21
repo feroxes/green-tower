@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common';
 import { UseCases } from './constants';
 import { mockDto } from '../mock/mock.dtos';
 import { LoginOrRegistrationResponseType } from './types/auth.types';
-import { UserCreateResponseType } from './types/user.types';
+import { PlantCreateResponseType, UserCreateResponseType } from './types/user.types';
 import { UserRole } from '../../src/entities/user.entity';
 
 export const Calls = {
@@ -59,6 +59,15 @@ export const Calls = {
       body: { id: string; role: UserRole.ADMIN | UserRole.USER },
     ): Promise<Response> {
       return Calls.post(app, UseCases.user.setRole, body, accessToken);
+    },
+  },
+  Plant: {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body = mockDto.plantCreateDto,
+    ): Promise<PlantCreateResponseType | Response> {
+      return Calls.post(app, UseCases.plant.create, body, accessToken);
     },
   },
 };

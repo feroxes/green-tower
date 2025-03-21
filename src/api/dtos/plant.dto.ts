@@ -1,0 +1,52 @@
+import { IsString, MinLength, MaxLength, IsNotEmpty, Min, IsUrl, IsEnum, IsNumber, IsBoolean } from 'class-validator';
+import { PlantType } from '../../entities/plant.entity';
+
+export class PlantCreateDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(120)
+  name: string;
+
+  @IsString()
+  @MinLength(3)
+  @MaxLength(2024)
+  description: string;
+
+  @IsString()
+  @MinLength(3)
+  @MaxLength(2024)
+  notes: string;
+
+  @IsUrl()
+  @MinLength(3)
+  @MaxLength(512)
+  imageUrl: string;
+
+  @IsEnum(PlantType)
+  @IsNotEmpty()
+  type: PlantType.MICROGREEN | PlantType.COMMON;
+
+  @IsNumber()
+  @Min(1)
+  expectedHoursToHarvest: number;
+
+  @IsNumber()
+  @Min(0)
+  hoursToSoak: number;
+
+  @IsNumber()
+  @Min(1)
+  hoursToMoveToLight: number;
+
+  @IsBoolean()
+  shouldBePressed: boolean;
+
+  @IsNumber()
+  @Min(1)
+  seedsGramPerPlate: number;
+
+  @IsNumber()
+  @Min(1)
+  expectedHarvestGramsPerPlate: number;
+}

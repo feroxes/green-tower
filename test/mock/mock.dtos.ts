@@ -28,4 +28,17 @@ export const mockDto = {
       role,
     } as UserCreateCmdDto;
   },
+  plantCreateDto: {
+    name: 'Microgreen plant',
+    description: 'Microgreen plant description',
+    notes: 'Microgreen plant note',
+    imageUrl: 'https://moya-dacha.com.ua/wp-content/uploads/2021/07/mikrogrin-Rediska.jpg',
+    type: 'microgreen',
+    expectedHoursToHarvest: 144,
+    hoursToSoak: 0,
+    hoursToMoveToLight: 72,
+    shouldBePressed: false,
+    seedsGramPerPlate: 7,
+    expectedHarvestGramsPerPlate: 24,
+  },
 };

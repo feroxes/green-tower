@@ -16,7 +16,7 @@ export class FarmGetService {
   async get(farmGetDto: FarmGetDto, owner: Partial<User>): Promise<Farm> {
     const farm = await this.farmRepo.findOne({
       where: { id: farmGetDto.id },
-      relations: ['owner', 'users'],
+      relations: ['owner', 'users', 'plants'],
     });
 
     if (!farm) {
