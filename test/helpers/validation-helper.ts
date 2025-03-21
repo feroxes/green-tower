@@ -1,8 +1,10 @@
-import { mockDto } from '../mock/mock.dtos';
 import { Farm } from '../../src/entities/farm.entity';
-import { User, UserRole } from '../../src/entities/user.entity';
-import { LoginOrRegistrationResponseBodyType } from './types/auth.types';
 import { Plant } from '../../src/entities/plant.entity';
+import { User, UserRole } from '../../src/entities/user.entity';
+
+import { mockDto } from '../mock/mock.dtos';
+
+import { LoginOrRegistrationResponseBodyType } from './types/auth.types';
 
 export interface ErrorResponse {
   errorCode: string;

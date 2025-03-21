@@ -1,7 +1,8 @@
 /* istanbul ignore file */
-import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ClassSerializerInterceptor } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+
 import { AppModule } from './api/modules/app.module';
 
 async function bootstrap() {

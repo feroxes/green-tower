@@ -1,4 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
+
 import { BaseError } from './base.error';
 
 class PlantCreateError extends BaseError {

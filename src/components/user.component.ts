@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { UserCreateComponentError } from '../api/errors/user-component.errors';
-import { User } from '../entities/user.entity';
-import { UserCreateDto } from '../api/dtos/user.dto';
+import { Repository } from 'typeorm';
+
 import { Farm } from '../entities/farm.entity';
+import { User } from '../entities/user.entity';
+
+import { UserCreateDto } from '../api/dtos/user.dto';
+
+import { UserCreateComponentError } from '../api/errors/user-component.errors';
 
 @Injectable()
 export class UserComponent {

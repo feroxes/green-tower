@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FarmModule } from './farm.module';
-import { AuthModule } from './auth.module';
-import { UserModule } from './user.module';
-import { PlantModule } from './plant.module';
+
 import { Farm } from '../../entities/farm.entity';
-import { User } from '../../entities/user.entity';
 import { Plant } from '../../entities/plant.entity';
+import { User } from '../../entities/user.entity';
+
+import { AuthModule } from './auth.module';
+import { FarmModule } from './farm.module';
+import { PlantModule } from './plant.module';
+import { UserModule } from './user.module';
 
 @Module({
   imports: [

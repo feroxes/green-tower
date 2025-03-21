@@ -1,18 +1,23 @@
-import { Repository } from 'typeorm';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { Farm } from '../../src/entities/farm.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
+
 import { mockDto } from '../mock/mock.dtos';
+
 import { userCreateError } from '../../src/api/errors/user.errors';
 import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
-import { INestApplication } from '@nestjs/common';
+
+import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
+
+import { Calls } from '../helpers/calls';
+import { UseCases } from '../helpers/constants';
+import { getAccessTokenWithWrongFarm, getAccessTokenWithWrongOwner } from '../helpers/test-helper';
 import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
-import { Calls } from '../helpers/calls';
-import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
-import { UseCases } from '../helpers/constants';
-import { Farm } from '../../src/entities/farm.entity';
-import { getAccessTokenWithWrongFarm, getAccessTokenWithWrongOwner } from '../helpers/test-helper';
 
 describe('UserCreate', () => {
   let app: INestApplication;

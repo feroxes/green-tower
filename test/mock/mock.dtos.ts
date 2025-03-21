@@ -1,6 +1,7 @@
+import { UserRole } from '../../src/entities/user.entity';
+
 import { LoginDto, RegisterDto } from '../../src/api/dtos/auth.dto';
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
-import { UserRole } from '../../src/entities/user.entity';
 
 const commonValues = {
   email: 'john@example.com',

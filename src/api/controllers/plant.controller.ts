@@ -1,10 +1,14 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
+
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { OwnerOrAdminTokenType } from '../types/auth.types';
 import { OwnerOrAdminGuard } from '../../guards/ownerOrAdmin.guard';
+
 import { PlantService } from '../../services/plant/plant.service';
+
 import { PlantCreateDto } from '../dtos/plant.dto';
+
+import { OwnerOrAdminTokenType } from '../types/auth.types';
 
 @Controller('plant')
 @UseGuards(JwtAuthGuard)

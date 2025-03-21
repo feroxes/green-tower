@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User, UserRole } from '../../entities/user.entity';
+
 import { Farm } from '../../entities/farm.entity';
+import { User, UserRole } from '../../entities/user.entity';
+
 import { UserComponent } from '../../components/user.component';
-import { RegisterDto, AuthResponseDto } from '../../api/dtos/auth.dto';
+
+import { AuthResponseDto, RegisterDto } from '../../api/dtos/auth.dto';
 
 @Injectable()
 export class AuthSignupService {

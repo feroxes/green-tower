@@ -1,9 +1,10 @@
-import { UserRole } from '../../src/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Farm } from '../../src/entities/farm.entity';
-import { User } from '../../src/entities/user.entity';
 import { TestingModule } from '@nestjs/testing';
+
+import { Farm } from '../../src/entities/farm.entity';
+import { UserRole } from '../../src/entities/user.entity';
+import { User } from '../../src/entities/user.entity';
 
 type PayloadType = {
   sub: string;

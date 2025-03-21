@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { loginError } from '../../api/errors/auth.errors';
+import { Repository } from 'typeorm';
+
 import { User } from '../../entities/user.entity';
-import { LoginDto, AuthResponseDto } from '../../api/dtos/auth.dto';
+
+import { AuthResponseDto, LoginDto } from '../../api/dtos/auth.dto';
+
+import { loginError } from '../../api/errors/auth.errors';
 
 @Injectable()
 export class AuthLoginService {

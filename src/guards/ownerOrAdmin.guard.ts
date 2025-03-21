@@ -1,5 +1,7 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
+
 import { UserRole } from '../entities/user.entity';
+
 import { RequestWithUser } from '../api/types/auth.types';
 
 export class OwnerOrAdminGuard implements CanActivate {

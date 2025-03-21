@@ -1,7 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-import { FarmConstants } from '../utils/constants';
-import { User } from './user.entity';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Plant } from './plant.entity';
+import { User } from './user.entity';
+
+import { FarmConstants } from '../utils/constants';
 
 @Entity()
 export class Farm {

@@ -1,16 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { JwtStrategy } from '../../strategies/jwt.strategy';
+
+import { Farm } from '../../entities/farm.entity';
+import { User } from '../../entities/user.entity';
+
 import { UserController } from '../controllers/user.controller';
+
 import { UserService } from '../../services/user/user.service';
 import { UserCreateService } from '../../services/user/user-create.service';
 import { UserDeleteService } from '../../services/user/user-delete.service';
 import { UserSetRoleService } from '../../services/user/user-set-role.service';
+
 import { UserComponent } from '../../components/user.component';
-import { JwtStrategy } from '../../strategies/jwt.strategy';
-import { User } from '../../entities/user.entity';
-import { Farm } from '../../entities/farm.entity';
 
 @Module({
   imports: [

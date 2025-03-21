@@ -1,7 +1,8 @@
+import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+
 import { AppModule } from '../src/api/modules/app.module';
 
 export interface TestModuleOptions {

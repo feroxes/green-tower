@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../../api/dtos/user.dto';
+
 import { UserCreateService } from './user-create.service';
 import { UserDeleteService } from './user-delete.service';
 import { UserSetRoleService } from './user-set-role.service';
+
+import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../../api/dtos/user.dto';
+
 import { OwnerTokenType } from '../../api/types/auth.types';
 
 @Injectable()

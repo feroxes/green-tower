@@ -1,11 +1,14 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
+
 import { mockDto } from '../mock/mock.dtos';
+
 import { loginError } from '../../src/api/errors/auth.errors';
-import { ValidationHelper, validateError, ErrorResponse } from '../helpers/validation-helper';
-import { init, clearDatabase, closeDatabaseConnection } from '../test.config';
-import { UseCases } from '../helpers/constants';
+
 import { Calls } from '../helpers/calls';
+import { UseCases } from '../helpers/constants';
+import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('AuthLogin', () => {
   let app: INestApplication;

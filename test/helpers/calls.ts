@@ -1,11 +1,15 @@
+import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Response } from 'supertest';
-import { INestApplication } from '@nestjs/common';
-import { UseCases } from './constants';
+
+import { UserRole } from '../../src/entities/user.entity';
+
 import { mockDto } from '../mock/mock.dtos';
+
 import { LoginOrRegistrationResponseType } from './types/auth.types';
 import { PlantCreateResponseType, UserCreateResponseType } from './types/user.types';
-import { UserRole } from '../../src/entities/user.entity';
+
+import { UseCases } from './constants';
 
 export const Calls = {
   call(

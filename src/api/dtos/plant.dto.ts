@@ -1,4 +1,5 @@
-import { IsString, MinLength, MaxLength, IsNotEmpty, Min, IsUrl, IsEnum, IsNumber, IsBoolean } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsString, IsUrl, MaxLength, Min, MinLength } from 'class-validator';
+
 import { PlantType } from '../../entities/plant.entity';
 
 export class PlantCreateDto {

@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../../entities/user.entity';
+
 import { Farm } from '../../entities/farm.entity';
+import { User } from '../../entities/user.entity';
+
 import { UserSetRoleDto } from '../../api/dtos/user.dto';
+
 import { userSetRoleError } from '../../api/errors/user.errors';
+
 import { OwnerTokenType } from '../../api/types/auth.types';
 
 @Injectable()

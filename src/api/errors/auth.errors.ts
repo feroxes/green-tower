@@ -1,4 +1,5 @@
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
+
 import { BaseError } from './base.error';
 
 class RegisterError extends BaseError {

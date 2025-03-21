@@ -1,14 +1,18 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PlantController } from '../controllers/plant.controller';
-import { PlantService } from '../../services/plant/plant.service';
-import { PlantCreateService } from '../../services/plant/plant-create.service';
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { JwtStrategy } from '../../strategies/jwt.strategy';
-import { User } from '../../entities/user.entity';
+
 import { Farm } from '../../entities/farm.entity';
 import { Plant } from '../../entities/plant.entity';
+import { User } from '../../entities/user.entity';
+
+import { PlantController } from '../controllers/plant.controller';
+
+import { PlantService } from '../../services/plant/plant.service';
+import { PlantCreateService } from '../../services/plant/plant-create.service';
 
 @Module({
   imports: [

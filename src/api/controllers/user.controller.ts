@@ -1,10 +1,14 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
-import { UserService } from '../../services/user/user.service';
-import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../dtos/user.dto';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
+
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { OwnerTokenType } from '../types/auth.types';
 import { OwnerGuard } from '../../guards/owner.guard';
+
+import { UserService } from '../../services/user/user.service';
+
+import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../dtos/user.dto';
+
+import { OwnerTokenType } from '../types/auth.types';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)

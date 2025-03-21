@@ -1,4 +1,5 @@
-import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
+
 import { BaseError } from './base.error';
 
 export class FarmGetError extends BaseError {

@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+
 import { PlantCreateService } from './plant-create.service';
-import { OwnerOrAdminTokenType } from '../../api/types/auth.types';
+
 import { PlantCreateDto } from '../../api/dtos/plant.dto';
+
+import { OwnerOrAdminTokenType } from '../../api/types/auth.types';
 
 @Injectable()
 export class PlantService {

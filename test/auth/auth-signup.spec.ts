@@ -1,16 +1,21 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
-import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
-import { ValidationHelper, validateError, ErrorResponse } from '../helpers/validation-helper';
-import { LoginOrRegistrationResponseBodyType } from '../helpers/types/auth.types';
-import { User } from '../../src/entities/user.entity';
+import { Repository } from 'typeorm';
+
 import { Farm } from '../../src/entities/farm.entity';
+import { User } from '../../src/entities/user.entity';
+
 import { mockDto } from '../mock/mock.dtos';
-import { UseCases } from '../helpers/constants';
+
 import { registerError } from '../../src/api/errors/auth.errors';
+
+import { LoginOrRegistrationResponseBodyType } from '../helpers/types/auth.types';
+
 import { Calls } from '../helpers/calls';
+import { UseCases } from '../helpers/constants';
+import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('AuthSignup', () => {
   let app: INestApplication;
