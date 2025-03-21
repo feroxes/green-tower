@@ -5,6 +5,7 @@ import { UseCases } from './constants';
 import { mockDto } from '../mock/mock.dtos';
 import { LoginOrRegistrationResponseType } from './types/auth.types';
 import { UserCreateResponseType } from './types/user.types';
+import { UserRole } from '../../src/entities/user.entity';
 
 export const Calls = {
   call(
@@ -51,6 +52,13 @@ export const Calls = {
     },
     async delete(app: INestApplication, accessToken: string, body: { id: string }): Promise<Response> {
       return Calls.post(app, UseCases.user.delete, body, accessToken);
+    },
+    async setRole(
+      app: INestApplication,
+      accessToken: string,
+      body: { id: string; role: UserRole.ADMIN | UserRole.USER },
+    ): Promise<Response> {
+      return Calls.post(app, UseCases.user.setRole, body, accessToken);
     },
   },
 };

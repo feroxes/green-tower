@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { Farm } from '../../entities/farm.entity';
 import { UserDeleteDto } from '../../api/dtos/user.dto';
-import { UserRole } from '../../entities/user.entity';
 import { userDeleteError } from '../../api/errors/user.errors';
 import { OwnerTokenType } from '../../api/types/auth.types';
 
@@ -32,10 +31,6 @@ export class UserDeleteService {
 
     if (!farm) {
       throw userDeleteError.FarmNotFound();
-    }
-
-    if (owner.role !== UserRole.OWNER) {
-      throw userDeleteError.Forbidden();
     }
 
     const user = await this.userRepository.findOne({ where: { id: userDeleteDto.id, farm: { id: ownerUser.farmId } } });

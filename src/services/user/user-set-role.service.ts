@@ -3,42 +3,46 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { Farm } from '../../entities/farm.entity';
-import { UserCreateCmdDto } from '../../api/dtos/user.dto';
-import { userCreateError } from '../../api/errors/user.errors';
-import { UserComponent } from '../../components/user.component';
+import { UserSetRoleDto } from '../../api/dtos/user.dto';
+import { userSetRoleError } from '../../api/errors/user.errors';
 import { OwnerTokenType } from '../../api/types/auth.types';
 
 @Injectable()
-export class UserCreateService {
+export class UserSetRoleService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @InjectRepository(Farm)
     private farmRepository: Repository<Farm>,
-    private userComponent: UserComponent,
   ) {}
 
-  async create(userCreateDto: UserCreateCmdDto, ownerUser: OwnerTokenType): Promise<Partial<User>> {
+  async setRole(userSetRoleDto: UserSetRoleDto, ownerUser: OwnerTokenType): Promise<object> {
     const owner = await this.userRepository.findOne({ where: { id: ownerUser.id, farm: { id: ownerUser.farmId } } });
 
     if (!owner) {
-      throw userCreateError.OwnerNotFound();
+      throw userSetRoleError.OwnerNotFound();
+    }
+
+    if (userSetRoleDto.id === ownerUser.id) {
+      throw userSetRoleError.OwnerCouldNotBeUpdated();
     }
 
     const farm = await this.farmRepository.findOne({ where: { id: ownerUser.farmId } });
 
     if (!farm) {
-      throw userCreateError.FarmNotFound();
+      throw userSetRoleError.FarmNotFound();
     }
 
-    const { user } = await this.userComponent.create(userCreateDto, farm, 'user/create/');
+    const user = await this.userRepository.findOne({
+      where: { id: userSetRoleDto.id, farm: { id: ownerUser.farmId } },
+    });
 
-    return {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-    };
+    if (!user) {
+      throw userSetRoleError.UserNotFound();
+    }
+
+    user.role = userSetRoleDto.role;
+
+    return await this.userRepository.save(user);
   }
 }

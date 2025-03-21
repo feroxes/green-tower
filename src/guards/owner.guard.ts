@@ -11,6 +11,7 @@ interface RequestWithUser extends Request {
 export class OwnerGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
+
     if (!request.user) {
       return false;
     }

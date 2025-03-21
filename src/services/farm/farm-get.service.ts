@@ -13,7 +13,7 @@ export class FarmGetService {
     private farmRepo: Repository<Farm>,
   ) {}
 
-  async get(farmGetDto: FarmGetDto, user: Partial<User>): Promise<Farm> {
+  async get(farmGetDto: FarmGetDto, owner: Partial<User>): Promise<Farm> {
     const farm = await this.farmRepo.findOne({
       where: { id: farmGetDto.id },
       relations: ['owner', 'users'],
@@ -23,7 +23,7 @@ export class FarmGetService {
       throw getError.FarmNotFound();
     }
 
-    if (user.id !== farm.owner.id) {
+    if (owner.id !== farm.owner.id) {
       throw getError.Forbidden();
     }
 

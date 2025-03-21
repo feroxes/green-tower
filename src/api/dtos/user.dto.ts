@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, MaxLength, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsEmail, IsString, MinLength, MaxLength, IsNotEmpty, IsUUID, IsEnum } from 'class-validator';
 import { UserRole } from '../../entities/user.entity';
 
 export class UserCreateDto {
@@ -25,9 +25,8 @@ export class UserCreateDto {
   @MaxLength(40)
   password: string;
 
-  @IsString()
-  @IsNotEmpty()
-  role: UserRole.ADMIN | UserRole.USER | UserRole.OWNER;
+  @IsEnum(UserRole)
+  role: UserRole.OWNER | UserRole.ADMIN | UserRole.USER;
 }
 
 export class UserCreateCmdDto {
@@ -54,8 +53,7 @@ export class UserCreateCmdDto {
   @MaxLength(40)
   password: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsEnum(UserRole, { message: 'Role must be either admin or user' })
   role: UserRole.ADMIN | UserRole.USER;
 }
 
@@ -63,4 +61,13 @@ export class UserDeleteDto {
   @IsUUID()
   @IsNotEmpty()
   id: string;
+}
+
+export class UserSetRoleDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @IsEnum(UserRole, { message: 'Role must be either admin or user' })
+  role: UserRole.ADMIN | UserRole.USER;
 }

@@ -7,7 +7,7 @@ import { FarmGetDto } from '../../api/dtos/farm.dto';
 export class FarmService {
   constructor(private farmGetService: FarmGetService) {}
 
-  async get(farmGetDto: FarmGetDto, user: Partial<User>) {
-    return this.farmGetService.get(farmGetDto, user);
+  async get(farmGetDto: FarmGetDto, owner: Partial<User>) {
+    return this.farmGetService.get(farmGetDto, owner);
   }
 }

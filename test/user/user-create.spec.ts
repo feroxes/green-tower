@@ -1,6 +1,4 @@
 import { Repository } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestingModule } from '@nestjs/testing';
 import { User, UserRole } from '../../src/entities/user.entity';
@@ -8,12 +6,13 @@ import { mockDto } from '../mock/mock.dtos';
 import { userCreateError } from '../../src/api/errors/user.errors';
 import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 import { INestApplication } from '@nestjs/common';
-import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 import { Calls } from '../helpers/calls';
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 import { UseCases } from '../helpers/constants';
 import { Farm } from '../../src/entities/farm.entity';
+import { getAccessTokenWithWrongFarm, getAccessTokenWithWrongOwner } from '../helpers/test-helper';
 
 describe('UserCreate', () => {
   let app: INestApplication;
@@ -67,44 +66,21 @@ describe('UserCreate', () => {
     it(`${UseCases.user.create} - owner not found (wrong owner id)`, async () => {
       const expectedError = userCreateError.OwnerNotFound();
       const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
-      const payload = {
-        sub: crypto.randomUUID(),
-        email: owner.email,
-        role: UserRole.OWNER,
-        farmId: farm!.id,
-      };
-      const configService = module.get(ConfigService);
-      const secret: string = configService.get('JWT_SECRET')!;
-      const jwtService = new JwtService({
-        secret,
-        signOptions: { expiresIn: '60s' },
-      });
-      const _accessToken = jwtService.sign(payload);
+      const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm!);
+
       const res = await Calls.User.create(app, _accessToken);
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.user.create} - owner not found (wrong farm id)`, async () => {
       const expectedError = userCreateError.OwnerNotFound();
-      const payload = {
-        sub: owner.id,
-        email: owner.email,
-        role: UserRole.OWNER,
-        farmId: crypto.randomUUID(),
-      };
-      const configService = module.get(ConfigService);
-      const secret: string = configService.get('JWT_SECRET')!;
-      const jwtService = new JwtService({
-        secret,
-        signOptions: { expiresIn: '60s' },
-      });
-      const _accessToken = jwtService.sign(payload);
+      const _accessToken = getAccessTokenWithWrongFarm(module, owner);
+
       const res = await Calls.User.create(app, _accessToken);
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.user.create} - forbidden (call by ADMIN)`, async () => {
-      const expectedError = userCreateError.Forbidden();
       const createUserDto = mockDto.getUserCreateDto(UserRole.USER);
       const { email, password } = createUserDto;
 
@@ -112,7 +88,7 @@ describe('UserCreate', () => {
       const userLoginRes = (await Calls.Auth.login(app, { email, password })) as LoginOrRegistrationResponseType;
 
       const res = await Calls.User.create(app, userLoginRes.body.accessToken, createUserDto);
-      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+      validateOwnerGuard(res.body);
     });
   });
 });
