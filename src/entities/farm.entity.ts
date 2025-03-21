@@ -1,4 +1,14 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
 
 import { Plant } from './plant.entity';
 import { User } from './user.entity';
@@ -22,4 +32,13 @@ export class Farm {
 
   @OneToMany(() => Plant, (user: Plant) => user.farm)
   plants: Plant[];
+
+  @VersionColumn()
+  version: number;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

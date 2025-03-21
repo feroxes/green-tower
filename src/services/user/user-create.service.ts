@@ -38,12 +38,6 @@ export class UserCreateService {
 
     const { user } = await this.userComponent.create(userCreateDto, farm, 'user/create/');
 
-    return {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-    };
+    return user;
   }
 }

@@ -6,6 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
@@ -65,6 +66,9 @@ export class Plant {
   @ManyToOne(() => User, (user) => user.plants)
   @JoinColumn({ name: 'createdById' })
   createdBy: User;
+
+  @VersionColumn()
+  version: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

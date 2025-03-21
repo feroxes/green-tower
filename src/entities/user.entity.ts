@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
@@ -50,6 +51,9 @@ export class User {
 
   @OneToMany(() => Plant, (plant) => plant.createdBy)
   plants: Plant[];
+
+  @VersionColumn()
+  version: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
