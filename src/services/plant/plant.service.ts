@@ -4,13 +4,13 @@ import { PlantCreateService } from './plant-create.service';
 
 import { PlantCreateDto } from '../../api/dtos/plant.dto';
 
-import { OwnerOrAdminTokenType } from '../../api/types/auth.types';
+import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
 export class PlantService {
   constructor(private plantCreateService: PlantCreateService) {}
 
-  async create(plantCreateDto: PlantCreateDto, userToken: OwnerOrAdminTokenType) {
-    return this.plantCreateService.create(plantCreateDto, userToken);
+  async create(plantCreateDto: PlantCreateDto, executor: ExecutorType) {
+    return this.plantCreateService.create(plantCreateDto, executor);
   }
 }

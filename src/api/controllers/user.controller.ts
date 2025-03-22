@@ -1,5 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { OwnerGuard } from '../../guards/owner.guard';
@@ -8,7 +7,9 @@ import { UserService } from '../../services/user/user.service';
 
 import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../dtos/user.dto';
 
-import { OwnerTokenType } from '../types/auth.types';
+import { ExecutorType } from '../types/auth.types';
+
+import { Executor } from '../../decorators/executor.decorator';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)
@@ -17,22 +18,19 @@ export class UserController {
 
   @Post('create')
   @UseGuards(OwnerGuard)
-  async create(@Body() createDto: UserCreateCmdDto, @Req() req: Request) {
-    const owner = req.user as OwnerTokenType;
-    return this.userService.create(createDto, owner);
+  async create(@Body() createDto: UserCreateCmdDto, @Executor() executor: ExecutorType) {
+    return this.userService.create(createDto, executor);
   }
 
   @Post('delete')
   @UseGuards(OwnerGuard)
-  async delete(@Body() deleteDto: UserDeleteDto, @Req() req: Request) {
-    const owner = req.user as OwnerTokenType;
-    return this.userService.delete(deleteDto, owner);
+  async delete(@Body() deleteDto: UserDeleteDto, @Executor() executor: ExecutorType) {
+    return this.userService.delete(deleteDto, executor);
   }
 
   @Post('setRole')
   @UseGuards(OwnerGuard)
-  async setRole(@Body() setRoleDto: UserSetRoleDto, @Req() req: Request) {
-    const owner = req.user as OwnerTokenType;
-    return this.userService.setRole(setRoleDto, owner);
+  async setRole(@Body() setRoleDto: UserSetRoleDto, @Executor() executor: ExecutorType) {
+    return this.userService.setRole(setRoleDto, executor);
   }
 }

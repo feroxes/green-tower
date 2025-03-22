@@ -11,7 +11,7 @@ import { UserDeleteDto } from '../../api/dtos/user.dto';
 
 import { userDeleteError } from '../../api/errors/user.errors';
 
-import { OwnerTokenType } from '../../api/types/auth.types';
+import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
 export class UserDeleteService {
@@ -22,17 +22,17 @@ export class UserDeleteService {
     private farmComponent: FarmComponent,
   ) {}
 
-  async delete(userDeleteDto: UserDeleteDto, ownerUser: OwnerTokenType): Promise<object> {
+  async delete(userDeleteDto: UserDeleteDto, executor: ExecutorType): Promise<object> {
     const useCase = 'user/delete/';
-    await this.userComponent.checkUserExistence(ownerUser.id, ownerUser.farmId, useCase);
+    await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
 
-    if (userDeleteDto.id === ownerUser.id) {
+    if (userDeleteDto.id === executor.id) {
       throw userDeleteError.OwnerCouldNotBeDeleted();
     }
 
-    await this.farmComponent.checkFarmExistence(ownerUser.farmId, useCase);
+    await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
-    const user = await this.userComponent.checkUserExistence(userDeleteDto.id, ownerUser.farmId, useCase);
+    const user = await this.userComponent.checkUserExistence(userDeleteDto.id, executor.farmId, useCase);
 
     await this.userRepository.remove(user);
 

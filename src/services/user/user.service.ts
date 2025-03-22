@@ -6,7 +6,7 @@ import { UserSetRoleService } from './user-set-role.service';
 
 import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../../api/dtos/user.dto';
 
-import { OwnerTokenType } from '../../api/types/auth.types';
+import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
 export class UserService {
@@ -16,15 +16,15 @@ export class UserService {
     private userSetRoleService: UserSetRoleService,
   ) {}
 
-  async create(userCreateDto: UserCreateCmdDto, owner: OwnerTokenType) {
-    return this.userCreateService.create(userCreateDto, owner);
+  async create(userCreateDto: UserCreateCmdDto, executor: ExecutorType) {
+    return this.userCreateService.create(userCreateDto, executor);
   }
 
-  async delete(userDeleteDto: UserDeleteDto, owner: OwnerTokenType) {
-    return this.userDeleteService.delete(userDeleteDto, owner);
+  async delete(userDeleteDto: UserDeleteDto, executor: ExecutorType) {
+    return this.userDeleteService.delete(userDeleteDto, executor);
   }
 
-  async setRole(userSetRoleDto: UserSetRoleDto, owner: OwnerTokenType) {
-    return this.userSetRoleService.setRole(userSetRoleDto, owner);
+  async setRole(userSetRoleDto: UserSetRoleDto, executor: ExecutorType) {
+    return this.userSetRoleService.setRole(userSetRoleDto, executor);
   }
 }

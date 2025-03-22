@@ -11,7 +11,7 @@ import { UserSetRoleDto } from '../../api/dtos/user.dto';
 
 import { userSetRoleError } from '../../api/errors/user.errors';
 
-import { OwnerTokenType } from '../../api/types/auth.types';
+import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
 export class UserSetRoleService {
@@ -22,17 +22,17 @@ export class UserSetRoleService {
     private farmComponent: FarmComponent,
   ) {}
 
-  async setRole(userSetRoleDto: UserSetRoleDto, ownerUser: OwnerTokenType): Promise<object> {
+  async setRole(userSetRoleDto: UserSetRoleDto, executor: ExecutorType): Promise<object> {
     const useCase = 'user/setRole/';
-    await this.userComponent.checkUserExistence(ownerUser.id, ownerUser.farmId, useCase);
+    await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
 
-    if (userSetRoleDto.id === ownerUser.id) {
+    if (userSetRoleDto.id === executor.id) {
       throw userSetRoleError.OwnerCouldNotBeUpdated();
     }
 
-    await this.farmComponent.checkFarmExistence(ownerUser.farmId, useCase);
+    await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
-    const user = await this.userComponent.checkUserExistence(userSetRoleDto.id, ownerUser.farmId, useCase);
+    const user = await this.userComponent.checkUserExistence(userSetRoleDto.id, executor.farmId, useCase);
 
     user.role = userSetRoleDto.role;
 

@@ -9,7 +9,7 @@ import { UserComponent } from '../../components/user.component';
 
 import { PlantCreateDto } from '../../api/dtos/plant.dto';
 
-import { OwnerOrAdminTokenType } from '../../api/types/auth.types';
+import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
 export class PlantCreateService {
@@ -20,11 +20,11 @@ export class PlantCreateService {
     private farmComponent: FarmComponent,
   ) {}
 
-  async create(plantCreateDto: PlantCreateDto, userToken: OwnerOrAdminTokenType): Promise<Plant> {
+  async create(plantCreateDto: PlantCreateDto, executor: ExecutorType): Promise<Plant> {
     const useCase = 'plant/create/';
-    const user = await this.userComponent.checkUserExistence(userToken.id, userToken.farmId, useCase);
+    const user = await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
 
-    const farm = await this.farmComponent.checkFarmExistence(userToken.farmId, useCase);
+    const farm = await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
     const _plantCreateDto = {
       ...plantCreateDto,
