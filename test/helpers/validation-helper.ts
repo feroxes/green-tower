@@ -54,6 +54,13 @@ export const ValidationHelper = {
       expect(user.email).toBe(mockUserCreateDto.email);
       expect(user.role).toBe(mockUserCreateDto.role);
     },
+    validateUserUpdate(user: User, mockUserUpdateDto = mockDto.userUpdateDto) {
+      expect(user).toBeDefined();
+      expect(user).not.toBeNull();
+      for (const key in mockUserUpdateDto) {
+        expect(user[key]).toBe(mockUserUpdateDto[key]);
+      }
+    },
   },
   plant: {
     validatePlantCreation(plant: Plant, mockPlantCreateDto = mockDto.plantCreateDto) {

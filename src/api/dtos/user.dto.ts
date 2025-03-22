@@ -58,6 +58,22 @@ export class UserCreateCmdDto {
   role: UserRole.ADMIN | UserRole.USER;
 }
 
+export class UserUpdateDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(30)
+  firstName: string;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(30)
+  lastName: string;
+}
+
 export class UserDeleteDto {
   @IsUUID()
   @IsNotEmpty()

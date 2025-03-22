@@ -3,8 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { UserCreateService } from './user-create.service';
 import { UserDeleteService } from './user-delete.service';
 import { UserSetRoleService } from './user-set-role.service';
+import { UserUpdateService } from './user-update.service';
 
-import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto } from '../../api/dtos/user.dto';
+import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto, UserUpdateDto } from '../../api/dtos/user.dto';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -12,12 +13,17 @@ import { ExecutorType } from '../../api/types/auth.types';
 export class UserService {
   constructor(
     private userCreateService: UserCreateService,
+    private userUpdateService: UserUpdateService,
     private userDeleteService: UserDeleteService,
     private userSetRoleService: UserSetRoleService,
   ) {}
 
   async create(userCreateDto: UserCreateCmdDto, executor: ExecutorType) {
     return this.userCreateService.create(userCreateDto, executor);
+  }
+
+  async update(userUpdateDto: UserUpdateDto, executor: ExecutorType) {
+    return this.userUpdateService.update(userUpdateDto, executor);
   }
 
   async delete(userDeleteDto: UserDeleteDto, executor: ExecutorType) {

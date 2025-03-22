@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { OwnerOrAdminGuard } from '../../guards/ownerOrAdmin.guard';
+import { OwnerOrAdminGuard } from '../../guards/owner-or-admin.guard';
 
 import { PlantService } from '../../services/plant/plant.service';
 

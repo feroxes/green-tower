@@ -8,6 +8,19 @@ class UserCreateError extends BaseError {
   }
 }
 
+class UserUpdateError extends BaseError {
+  constructor() {
+    super('user/update/');
+  }
+  readonly UserUpdateForbidden = this.createError(ForbiddenException, 'userUpdateForbidden', 'User update forbidden');
+
+  readonly FailedToUpdateUser = this.createError(
+    InternalServerErrorException,
+    'failedToUpdateUser',
+    'Failed to update a User',
+  );
+}
+
 class UserDeleteError extends BaseError {
   constructor() {
     super('user/delete/');
@@ -41,5 +54,6 @@ class UserSetRoleError extends BaseError {
 }
 
 export const userCreateError = new UserCreateError();
+export const userUpdateError = new UserUpdateError();
 export const userDeleteError = new UserDeleteError();
 export const userSetRoleError = new UserSetRoleError();

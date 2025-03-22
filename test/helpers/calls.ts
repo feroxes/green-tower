@@ -4,6 +4,7 @@ import { Response } from 'supertest';
 
 import { UserRole } from '../../src/entities/user.entity';
 
+import { UserUpdateDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
 import { LoginOrRegistrationResponseType } from './types/auth.types';
@@ -53,6 +54,13 @@ export const Calls = {
       body = mockDto.getUserCreateDto(),
     ): Promise<UserCreateResponseType | Response> {
       return Calls.post(app, UseCases.user.create, body, accessToken);
+    },
+    async update(
+      app: INestApplication,
+      accessToken: string,
+      body: UserUpdateDto,
+    ): Promise<UserCreateResponseType | Response> {
+      return Calls.post(app, UseCases.user.update, body, accessToken);
     },
     async delete(app: INestApplication, accessToken: string, body: { id: string }): Promise<Response> {
       return Calls.post(app, UseCases.user.delete, body, accessToken);
