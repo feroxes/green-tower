@@ -9,6 +9,8 @@ import { UserComponent } from '../../components/user.component';
 
 import { PlantCreateDto } from '../../api/dtos/plant.dto';
 
+import { plantCreateError } from '../../api/errors/plant.errors';
+
 import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
@@ -32,8 +34,13 @@ export class PlantCreateService {
       farm,
     };
 
-    const plant = this.plantRepository.create(_plantCreateDto);
+    let plant = this.plantRepository.create(_plantCreateDto);
 
-    return await this.plantRepository.save(plant);
+    try {
+      plant = await this.plantRepository.save(plant);
+    } catch (e: unknown) {
+      throw plantCreateError.FailedToCreatePlant({ e });
+    }
+    return plant;
   }
 }

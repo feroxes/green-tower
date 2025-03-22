@@ -103,5 +103,13 @@ describe('UserDelete', () => {
       const res = await Calls.User.delete(app, accessToken, { id: crypto.randomUUID() });
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
+
+    it(`${UseCases.user.delete} - failed to delete a user`, async () => {
+      jest.spyOn(userRepository, 'remove').mockRejectedValue(new Error());
+      const expectedError = userDeleteError.FailedToDeleteUser();
+      const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
+      const res = await Calls.User.delete(app, accessToken, { id: user.body.id });
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
   });
 });

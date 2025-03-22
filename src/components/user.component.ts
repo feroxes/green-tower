@@ -38,7 +38,11 @@ export class UserComponent {
 
     user.farm = farm;
 
-    user = await this.userRepository.save(user);
+    try {
+      user = await this.userRepository.save(user);
+    } catch (e: unknown) {
+      throw Errors.FailedToCreateUser({ e });
+    }
 
     const token = this.generateToken(user);
 

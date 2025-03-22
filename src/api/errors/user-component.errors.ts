@@ -1,4 +1,4 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -11,6 +11,12 @@ export class UserCreateComponentError extends BaseError {
     ConflictException,
     'userAlreadyExists',
     'User with this email already exists',
+  );
+
+  readonly FailedToCreateUser = this.createError(
+    InternalServerErrorException,
+    'failedToCreateUser',
+    'Failed to create a User',
   );
 }
 

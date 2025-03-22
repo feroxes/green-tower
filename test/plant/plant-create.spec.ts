@@ -4,10 +4,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Farm } from '../../src/entities/farm.entity';
+import { Plant } from '../../src/entities/plant.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
+import { plantCreateError } from '../../src/api/errors/plant.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
@@ -20,6 +22,7 @@ import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('PlantCreate', () => {
   let app: INestApplication;
+  let plantRepository: Repository<Plant>;
   let userRepository: Repository<User>;
   let farmRepository: Repository<Farm>;
   let module: TestingModule;
@@ -30,6 +33,7 @@ describe('PlantCreate', () => {
     const testConfig = await init();
     app = testConfig.app;
     module = testConfig.module;
+    plantRepository = module.get<Repository<Plant>>(getRepositoryToken(Plant));
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     farmRepository = module.get<Repository<Farm>>(getRepositoryToken(Farm));
   });
@@ -80,6 +84,13 @@ describe('PlantCreate', () => {
 
       const res = await Calls.Plant.create(app, userLoginRes.body.accessToken);
       validateOwnerGuard(res.body);
+    });
+
+    it(`${UseCases.plant.create} - failed to create a plant`, async () => {
+      const expectedError = plantCreateError.FailedToCreatePlant();
+      jest.spyOn(plantRepository, 'save').mockRejectedValue(new Error());
+      const res = await Calls.Plant.create(app, accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
 });

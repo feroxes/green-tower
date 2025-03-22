@@ -8,7 +8,6 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
-import { userCreateError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError, UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
@@ -96,6 +95,14 @@ describe('UserCreate', () => {
 
       const res = await Calls.User.create(app, userLoginRes.body.accessToken, createUserDto);
       validateOwnerGuard(res.body);
+    });
+
+    it(`${UseCases.user.create} - failed to create a user`, async () => {
+      jest.spyOn(userRepository, 'save').mockRejectedValue(new Error());
+      const userCreateComponentError = new UserCreateComponentError('user/create/');
+      const expectedError = userCreateComponentError.FailedToCreateUser();
+      const res = await Calls.User.create(app, accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
 });

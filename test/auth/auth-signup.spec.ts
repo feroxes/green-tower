@@ -9,6 +9,7 @@ import { User } from '../../src/entities/user.entity';
 import { mockDto } from '../mock/mock.dtos';
 
 import { registerError } from '../../src/api/errors/auth.errors';
+import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseBodyType } from '../helpers/types/auth.types';
 
@@ -57,10 +58,25 @@ describe('AuthSignup', () => {
     });
 
     it(`${UseCases.auth.signUp} - user already exists error`, async () => {
-      const expectedError = registerError.UserAlreadyExists();
+      const userCheckExistenceComponentError = new UserCreateComponentError('auth/register/');
+      const expectedError = userCheckExistenceComponentError.UserAlreadyExists();
       await Calls.Auth.signUp(app);
       const res = await Calls.Auth.signUp(app);
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
+
+    it(`${UseCases.auth.signUp} - failed to create farm`, async () => {
+      jest.spyOn(farmRepository, 'save').mockRejectedValue(new Error());
+      const expectedError = registerError.FailedToCreateFarm();
+      const res = await Calls.Auth.signUp(app);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+      const user = await userRepository.findOne({
+        where: { email: mockDto.authRegisterDto.email },
+        relations: ['farm'],
+      });
+      expect(user).toBe(null);
+    });
+
+    // `${UseCases.auth.signUp} - failed to update user - could not be reproduced`
   });
 });

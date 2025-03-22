@@ -104,5 +104,13 @@ describe('UserSetRole', () => {
       const res = await Calls.User.setRole(app, accessToken, { id: crypto.randomUUID(), role });
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
+
+    it(`${UseCases.user.setRole} - HDS`, async () => {
+      jest.spyOn(userRepository, 'save').mockRejectedValue(new Error());
+      const expectedError = userSetRoleError.FailedToSetUserRole();
+      const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
+      const res = await Calls.User.setRole(app, accessToken, { id: user.body.id, role });
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, InternalServerErrorException } from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -17,6 +17,11 @@ class UserDeleteError extends BaseError {
     'ownerCouldNotBeDeleted',
     'Owner could not be deleted',
   );
+  readonly FailedToDeleteUser = this.createError(
+    InternalServerErrorException,
+    'failedToDeleteUser',
+    'Failed to delete a User',
+  );
 }
 
 class UserSetRoleError extends BaseError {
@@ -27,6 +32,11 @@ class UserSetRoleError extends BaseError {
     ForbiddenException,
     'ownerCouldNotBeUpdated',
     'Owner could not be updated',
+  );
+  readonly FailedToSetUserRole = this.createError(
+    InternalServerErrorException,
+    'failedToSetUserRole',
+    'Failed to set user role',
   );
 }
 

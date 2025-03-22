@@ -34,7 +34,11 @@ export class UserDeleteService {
 
     const user = await this.userComponent.checkUserExistence(userDeleteDto.id, executor.farmId, useCase);
 
-    await this.userRepository.remove(user);
+    try {
+      await this.userRepository.remove(user);
+    } catch (e: unknown) {
+      throw userDeleteError.FailedToDeleteUser({ e });
+    }
 
     return {};
   }

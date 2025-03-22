@@ -9,6 +9,8 @@ import { UserComponent } from '../../components/user.component';
 
 import { AuthResponseDto, RegisterDto } from '../../api/dtos/auth.dto';
 
+import { registerError } from '../../api/errors/auth.errors';
+
 @Injectable()
 export class AuthSignupService {
   constructor(
@@ -29,9 +31,21 @@ export class AuthSignupService {
     const { user, accessToken } = await this.userComponent.create(createUserDto, farm, 'auth/register/');
 
     farm.owner = user;
-    farm = await this.farmRepository.save(farm);
 
-    await this.userRepository.save({ ...user, farm });
+    try {
+      farm = await this.farmRepository.save(farm);
+    } catch (e: unknown) {
+      await this.userRepository.remove(user);
+      throw registerError.FailedToCreateFarm({ e });
+    }
+
+    try {
+      await this.userRepository.save({ ...user, farm });
+    } catch (e: unknown) {
+      await this.userRepository.remove(user);
+      await this.farmRepository.remove(farm);
+      throw registerError.FailedToUpdateUser({ e });
+    }
 
     return { accessToken };
   }

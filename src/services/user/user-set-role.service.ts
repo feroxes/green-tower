@@ -32,10 +32,15 @@ export class UserSetRoleService {
 
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
-    const user = await this.userComponent.checkUserExistence(userSetRoleDto.id, executor.farmId, useCase);
+    let user = await this.userComponent.checkUserExistence(userSetRoleDto.id, executor.farmId, useCase);
 
     user.role = userSetRoleDto.role;
 
-    return await this.userRepository.save(user);
+    try {
+      user = await this.userRepository.save(user);
+    } catch (e: unknown) {
+      throw userSetRoleError.FailedToSetUserRole({ e });
+    }
+    return user;
   }
 }

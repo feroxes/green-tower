@@ -1,4 +1,4 @@
-import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -7,10 +7,16 @@ class RegisterError extends BaseError {
     super('auth/register/');
   }
 
-  readonly UserAlreadyExists = this.createError(
-    ConflictException,
-    'userAlreadyExists',
-    'User with this email already exists',
+  readonly FailedToCreateFarm = this.createError(
+    InternalServerErrorException,
+    'failedToCreateFarm',
+    'Failed to create a Farm',
+  );
+
+  readonly FailedToUpdateUser = this.createError(
+    InternalServerErrorException,
+    'failedToUpdateUser',
+    'Failed to update a User',
   );
 }
 
