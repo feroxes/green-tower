@@ -9,11 +9,13 @@ import { User, UserRole } from '../../src/entities/user.entity';
 import { mockDto } from '../mock/mock.dtos';
 
 import { getError } from '../../src/api/errors/farm.errors';
+import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
+import { getAccessTokenWithWrongOwner } from '../helpers/test-helper';
 import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
@@ -22,7 +24,7 @@ describe('FarmGet', () => {
   let userRepository: Repository<User>;
   let module: TestingModule;
   let accessToken: string;
-  let user: User;
+  let owner: User;
 
   beforeAll(async () => {
     const testConfig = await init();
@@ -39,7 +41,7 @@ describe('FarmGet', () => {
     await clearDatabase(module);
     const res = (await Calls.Auth.signUp(app)) as LoginOrRegistrationResponseType;
     accessToken = res.body.accessToken;
-    user = (await userRepository.findOne({
+    owner = (await userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },
       relations: ['farm'],
     })) as User;
@@ -47,8 +49,18 @@ describe('FarmGet', () => {
 
   describe(UseCases.farm.get, () => {
     it(`${UseCases.farm.get} - HDS`, async () => {
-      const res = await Calls.Farm.get(app, { id: user.farm.id }, accessToken);
+      const res = await Calls.Farm.get(app, { id: owner.farm.id }, accessToken);
       ValidationHelper.farm.validateFarm(res.body as Farm);
+    });
+
+    it(`${UseCases.plant.create} - user not found`, async () => {
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('farm/get/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
+      const farm = await Calls.Farm.get(app, { id: owner.farm.id }, accessToken);
+      const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm.body as Farm);
+
+      const res = await Calls.Farm.get(app, { id: owner.farm.id }, _accessToken);
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.farm.get} - farm not found`, async () => {
@@ -64,7 +76,7 @@ describe('FarmGet', () => {
       await Calls.User.create(app, accessToken, userCreateDto);
 
       const userLogin = (await Calls.Auth.login(app, { email, password })) as LoginOrRegistrationResponseType;
-      const res = await Calls.Farm.get(app, { id: user.farm.id }, userLogin.body.accessToken);
+      const res = await Calls.Farm.get(app, { id: owner.farm.id }, userLogin.body.accessToken);
       validateOwnerGuard(res.body);
     });
 
@@ -76,7 +88,7 @@ describe('FarmGet', () => {
         email,
       })) as LoginOrRegistrationResponseType;
 
-      const res = await Calls.Farm.get(app, { id: user.farm.id }, newUserRegistration.body.accessToken);
+      const res = await Calls.Farm.get(app, { id: owner.farm.id }, newUserRegistration.body.accessToken);
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });

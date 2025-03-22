@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { Farm } from '../../entities/farm.entity';
 import { User } from '../../entities/user.entity';
 
+import { UserComponent } from '../../components/user.component';
+
 import { UserSetRoleDto } from '../../api/dtos/user.dto';
 
 import { userSetRoleError } from '../../api/errors/user.errors';
@@ -18,14 +20,12 @@ export class UserSetRoleService {
     private userRepository: Repository<User>,
     @InjectRepository(Farm)
     private farmRepository: Repository<Farm>,
+    private userComponent: UserComponent,
   ) {}
 
   async setRole(userSetRoleDto: UserSetRoleDto, ownerUser: OwnerTokenType): Promise<object> {
-    const owner = await this.userRepository.findOne({ where: { id: ownerUser.id, farm: { id: ownerUser.farmId } } });
-
-    if (!owner) {
-      throw userSetRoleError.OwnerNotFound();
-    }
+    const useCase = 'user/setRole/';
+    await this.userComponent.checkUserExistence(ownerUser.id, ownerUser.farmId, useCase);
 
     if (userSetRoleDto.id === ownerUser.id) {
       throw userSetRoleError.OwnerCouldNotBeUpdated();
@@ -36,14 +36,7 @@ export class UserSetRoleService {
     if (!farm) {
       throw userSetRoleError.FarmNotFound();
     }
-
-    const user = await this.userRepository.findOne({
-      where: { id: userSetRoleDto.id, farm: { id: ownerUser.farmId } },
-    });
-
-    if (!user) {
-      throw userSetRoleError.UserNotFound();
-    }
+    const user = await this.userComponent.checkUserExistence(userSetRoleDto.id, ownerUser.farmId, useCase);
 
     user.role = userSetRoleDto.role;
 

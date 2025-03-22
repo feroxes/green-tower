@@ -9,7 +9,7 @@ import { User, UserRole } from '../../src/entities/user.entity';
 import { mockDto } from '../mock/mock.dtos';
 
 import { userCreateError } from '../../src/api/errors/user.errors';
-import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
+import { UserCheckExistenceComponentError, UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 
@@ -69,7 +69,8 @@ describe('UserCreate', () => {
     });
 
     it(`${UseCases.user.create} - owner not found (wrong owner id)`, async () => {
-      const expectedError = userCreateError.OwnerNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/create/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
       const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm!);
 
@@ -78,7 +79,8 @@ describe('UserCreate', () => {
     });
 
     it(`${UseCases.user.create} - owner not found (wrong farm id)`, async () => {
-      const expectedError = userCreateError.OwnerNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/create/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const _accessToken = getAccessTokenWithWrongFarm(module, owner);
 
       const res = await Calls.User.create(app, _accessToken);

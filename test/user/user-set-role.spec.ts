@@ -9,6 +9,7 @@ import { User, UserRole } from '../../src/entities/user.entity';
 import { mockDto } from '../mock/mock.dtos';
 
 import { userSetRoleError } from '../../src/api/errors/user.errors';
+import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 import { UserCreateResponseType } from '../helpers/types/user.types';
@@ -60,7 +61,8 @@ describe('UserSetRole', () => {
     });
 
     it(`${UseCases.user.setRole} - owner not found (wrong owner id)`, async () => {
-      const expectedError = userSetRoleError.OwnerNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/setRole/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
       const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
       const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm!);
@@ -70,7 +72,8 @@ describe('UserSetRole', () => {
     });
 
     it(`${UseCases.user.setRole} - owner not found (wrong farm id)`, async () => {
-      const expectedError = userSetRoleError.OwnerNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/setRole/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
       const _accessToken = getAccessTokenWithWrongFarm(module, owner);
 
@@ -96,7 +99,8 @@ describe('UserSetRole', () => {
     });
 
     it(`${UseCases.user.setRole} - user not found`, async () => {
-      const expectedError = userSetRoleError.UserNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/setRole/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const res = await Calls.User.setRole(app, accessToken, { id: crypto.randomUUID(), role });
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });

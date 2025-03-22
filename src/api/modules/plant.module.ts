@@ -14,6 +14,8 @@ import { PlantController } from '../controllers/plant.controller';
 import { PlantService } from '../../services/plant/plant.service';
 import { PlantCreateService } from '../../services/plant/plant-create.service';
 
+import { UserComponent } from '../../components/user.component';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Farm, Plant]),
@@ -27,7 +29,7 @@ import { PlantCreateService } from '../../services/plant/plant-create.service';
     }),
   ],
   controllers: [PlantController],
-  providers: [PlantService, PlantCreateService, JwtStrategy],
+  providers: [PlantService, PlantCreateService, JwtStrategy, UserComponent],
   exports: [PlantService],
 })
 export class PlantModule {}

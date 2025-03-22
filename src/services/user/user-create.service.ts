@@ -16,19 +16,14 @@ import { OwnerTokenType } from '../../api/types/auth.types';
 @Injectable()
 export class UserCreateService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(Farm)
     private farmRepository: Repository<Farm>,
     private userComponent: UserComponent,
   ) {}
 
-  async create(userCreateDto: UserCreateCmdDto, ownerUser: OwnerTokenType): Promise<Partial<User>> {
-    const owner = await this.userRepository.findOne({ where: { id: ownerUser.id, farm: { id: ownerUser.farmId } } });
-
-    if (!owner) {
-      throw userCreateError.OwnerNotFound();
-    }
+  async create(userCreateDto: UserCreateCmdDto, ownerUser: OwnerTokenType): Promise<User> {
+    const useCase = 'user/create/';
+    await this.userComponent.checkUserExistence(ownerUser.id, ownerUser.farmId, useCase);
 
     const farm = await this.farmRepository.findOne({ where: { id: ownerUser.farmId } });
 
@@ -36,7 +31,7 @@ export class UserCreateService {
       throw userCreateError.FarmNotFound();
     }
 
-    const { user } = await this.userComponent.create(userCreateDto, farm, 'user/create/');
+    const { user } = await this.userComponent.create(userCreateDto, farm, useCase);
 
     return user;
   }

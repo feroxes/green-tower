@@ -9,6 +9,7 @@ import { User, UserRole } from '../../src/entities/user.entity';
 import { mockDto } from '../mock/mock.dtos';
 
 import { userDeleteError } from '../../src/api/errors/user.errors';
+import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 import { UserCreateResponseType } from '../helpers/types/user.types';
@@ -59,7 +60,8 @@ describe('UserDelete', () => {
     });
 
     it(`${UseCases.user.delete} - owner not found (wrong owner id)`, async () => {
-      const expectedError = userDeleteError.OwnerNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/delete/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
       const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
       const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm!);
@@ -69,7 +71,8 @@ describe('UserDelete', () => {
     });
 
     it(`${UseCases.user.delete} - owner not found (wrong farm id)`, async () => {
-      const expectedError = userDeleteError.OwnerNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/delete/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
       const _accessToken = getAccessTokenWithWrongFarm(module, owner);
 
@@ -95,7 +98,8 @@ describe('UserDelete', () => {
     });
 
     it(`${UseCases.user.delete} - user not found`, async () => {
-      const expectedError = userDeleteError.UserNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/delete/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const res = await Calls.User.delete(app, accessToken, { id: crypto.randomUUID() });
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });

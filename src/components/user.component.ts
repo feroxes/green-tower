@@ -9,7 +9,8 @@ import { User } from '../entities/user.entity';
 
 import { UserCreateDto } from '../api/dtos/user.dto';
 
-import { UserCreateComponentError } from '../api/errors/user-component.errors';
+import { userCreateError } from '../api/errors/user.errors';
+import { UserCheckExistenceComponentError, UserCreateComponentError } from '../api/errors/user-component.errors';
 
 @Injectable()
 export class UserComponent {
@@ -43,6 +44,16 @@ export class UserComponent {
     const token = this.generateToken(user);
 
     return { accessToken: token, user };
+  }
+
+  async checkUserExistence(id: string, farmId: string, errorCode: string): Promise<User> {
+    const Errors = new UserCheckExistenceComponentError(errorCode);
+    const user = await this.userRepository.findOne({ where: { id, farm: { id: farmId } } });
+
+    if (!user) {
+      throw Errors.UserNotFound({ id });
+    }
+    return user;
   }
 
   private generateToken(user: User): string {

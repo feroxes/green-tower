@@ -6,7 +6,6 @@ class PlantCreateError extends BaseError {
   constructor() {
     super('plant/create/');
   }
-  readonly UserNotFound = this.createError(NotFoundException, 'userNotFound', 'User not found');
   readonly FarmNotFound = this.createError(NotFoundException, 'farmNotFound', 'Farm not found');
 }
 

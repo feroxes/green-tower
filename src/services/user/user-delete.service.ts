@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { Farm } from '../../entities/farm.entity';
 import { User } from '../../entities/user.entity';
 
+import { UserComponent } from '../../components/user.component';
+
 import { UserDeleteDto } from '../../api/dtos/user.dto';
 
 import { userDeleteError } from '../../api/errors/user.errors';
@@ -18,14 +20,12 @@ export class UserDeleteService {
     private userRepository: Repository<User>,
     @InjectRepository(Farm)
     private farmRepository: Repository<Farm>,
+    private userComponent: UserComponent,
   ) {}
 
   async delete(userDeleteDto: UserDeleteDto, ownerUser: OwnerTokenType): Promise<object> {
-    const owner = await this.userRepository.findOne({ where: { id: ownerUser.id, farm: { id: ownerUser.farmId } } });
-
-    if (!owner) {
-      throw userDeleteError.OwnerNotFound();
-    }
+    const useCase = 'user/delete/';
+    await this.userComponent.checkUserExistence(ownerUser.id, ownerUser.farmId, useCase);
 
     if (userDeleteDto.id === ownerUser.id) {
       throw userDeleteError.OwnerCouldNotBeDeleted();
@@ -37,11 +37,7 @@ export class UserDeleteService {
       throw userDeleteError.FarmNotFound();
     }
 
-    const user = await this.userRepository.findOne({ where: { id: userDeleteDto.id, farm: { id: ownerUser.farmId } } });
-
-    if (!user) {
-      throw userDeleteError.UserNotFound();
-    }
+    const user = await this.userComponent.checkUserExistence(userDeleteDto.id, ownerUser.farmId, useCase);
 
     await this.userRepository.remove(user);
 

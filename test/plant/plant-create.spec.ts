@@ -8,7 +8,7 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
-import { plantCreateError } from '../../src/api/errors/plant.errors';
+import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
 
@@ -62,7 +62,8 @@ describe('PlantCreate', () => {
     });
 
     it(`${UseCases.plant.create} - user not found`, async () => {
-      const expectedError = plantCreateError.UserNotFound();
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('plant/create/');
+      const expectedError = userCheckExistenceComponentError.UserNotFound();
       const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
       const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm!);
 
