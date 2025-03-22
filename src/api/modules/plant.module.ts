@@ -14,6 +14,7 @@ import { PlantController } from '../controllers/plant.controller';
 import { PlantService } from '../../services/plant/plant.service';
 import { PlantCreateService } from '../../services/plant/plant-create.service';
 
+import { FarmComponent } from '../../components/farm.component';
 import { UserComponent } from '../../components/user.component';
 
 @Module({
@@ -29,7 +30,7 @@ import { UserComponent } from '../../components/user.component';
     }),
   ],
   controllers: [PlantController],
-  providers: [PlantService, PlantCreateService, JwtStrategy, UserComponent],
+  providers: [PlantService, PlantCreateService, JwtStrategy, FarmComponent, UserComponent],
   exports: [PlantService],
 })
 export class PlantModule {}

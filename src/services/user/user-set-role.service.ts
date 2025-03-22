@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Farm } from '../../entities/farm.entity';
 import { User } from '../../entities/user.entity';
 
+import { FarmComponent } from '../../components/farm.component';
 import { UserComponent } from '../../components/user.component';
 
 import { UserSetRoleDto } from '../../api/dtos/user.dto';
@@ -18,9 +18,8 @@ export class UserSetRoleService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    @InjectRepository(Farm)
-    private farmRepository: Repository<Farm>,
     private userComponent: UserComponent,
+    private farmComponent: FarmComponent,
   ) {}
 
   async setRole(userSetRoleDto: UserSetRoleDto, ownerUser: OwnerTokenType): Promise<object> {
@@ -31,11 +30,8 @@ export class UserSetRoleService {
       throw userSetRoleError.OwnerCouldNotBeUpdated();
     }
 
-    const farm = await this.farmRepository.findOne({ where: { id: ownerUser.farmId } });
+    await this.farmComponent.checkFarmExistence(ownerUser.farmId, useCase);
 
-    if (!farm) {
-      throw userSetRoleError.FarmNotFound();
-    }
     const user = await this.userComponent.checkUserExistence(userSetRoleDto.id, ownerUser.farmId, useCase);
 
     user.role = userSetRoleDto.role;

@@ -9,7 +9,6 @@ import { User } from '../entities/user.entity';
 
 import { UserCreateDto } from '../api/dtos/user.dto';
 
-import { userCreateError } from '../api/errors/user.errors';
 import { UserCheckExistenceComponentError, UserCreateComponentError } from '../api/errors/user-component.errors';
 
 @Injectable()

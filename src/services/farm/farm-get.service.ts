@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 import { Farm } from '../../entities/farm.entity';
-import { User } from '../../entities/user.entity';
 
+import { FarmComponent } from '../../components/farm.component';
 import { UserComponent } from '../../components/user.component';
 
 import { FarmGetDto } from '../../api/dtos/farm.dto';
@@ -16,23 +14,17 @@ import { OwnerTokenType } from '../../api/types/auth.types';
 @Injectable()
 export class FarmGetService {
   constructor(
-    @InjectRepository(Farm)
-    private farmRepo: Repository<Farm>,
     private userComponent: UserComponent,
+    private farmComponent: FarmComponent,
   ) {}
 
   async get(farmGetDto: FarmGetDto, owner: OwnerTokenType): Promise<Farm> {
     const useCase = 'farm/get/';
     await this.userComponent.checkUserExistence(owner.id, owner.farmId, useCase);
 
-    const farm = await this.farmRepo.findOne({
-      where: { id: farmGetDto.id },
+    const farm = await this.farmComponent.checkFarmExistence(farmGetDto.id, useCase, {
       relations: ['owner', 'users', 'plants'],
     });
-
-    if (!farm) {
-      throw getError.FarmNotFound();
-    }
 
     if (owner.id !== farm.owner.id) {
       throw getError.Forbidden();

@@ -6,7 +6,6 @@ class UserCreateError extends BaseError {
   constructor() {
     super('user/create/');
   }
-  readonly FarmNotFound = this.createError(NotFoundException, 'farmNotFound', 'Farm not found');
 }
 
 class UserDeleteError extends BaseError {
@@ -18,7 +17,6 @@ class UserDeleteError extends BaseError {
     'ownerCouldNotBeDeleted',
     'Owner could not be deleted',
   );
-  readonly FarmNotFound = this.createError(NotFoundException, 'farmNotFound', 'Farm not found');
 }
 
 class UserSetRoleError extends BaseError {
@@ -30,7 +28,6 @@ class UserSetRoleError extends BaseError {
     'ownerCouldNotBeUpdated',
     'Owner could not be updated',
   );
-  readonly FarmNotFound = this.createError(NotFoundException, 'farmNotFound', 'Farm not found');
 }
 
 export const userCreateError = new UserCreateError();

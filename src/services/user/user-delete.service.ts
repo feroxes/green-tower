@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Farm } from '../../entities/farm.entity';
 import { User } from '../../entities/user.entity';
 
+import { FarmComponent } from '../../components/farm.component';
 import { UserComponent } from '../../components/user.component';
 
 import { UserDeleteDto } from '../../api/dtos/user.dto';
@@ -18,9 +18,8 @@ export class UserDeleteService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    @InjectRepository(Farm)
-    private farmRepository: Repository<Farm>,
     private userComponent: UserComponent,
+    private farmComponent: FarmComponent,
   ) {}
 
   async delete(userDeleteDto: UserDeleteDto, ownerUser: OwnerTokenType): Promise<object> {
@@ -31,11 +30,7 @@ export class UserDeleteService {
       throw userDeleteError.OwnerCouldNotBeDeleted();
     }
 
-    const farm = await this.farmRepository.findOne({ where: { id: ownerUser.farmId } });
-
-    if (!farm) {
-      throw userDeleteError.FarmNotFound();
-    }
+    await this.farmComponent.checkFarmExistence(ownerUser.farmId, useCase);
 
     const user = await this.userComponent.checkUserExistence(userDeleteDto.id, ownerUser.farmId, useCase);
 
