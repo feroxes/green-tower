@@ -8,6 +8,7 @@ import { User } from '../../entities/user.entity';
 
 import { AuthModule } from './auth.module';
 import { FarmModule } from './farm.module';
+import { JwtGlobalModule } from './jwt.module';
 import { PlantModule } from './plant.module';
 import { UserModule } from './user.module';
 
@@ -33,6 +34,7 @@ import { UserModule } from './user.module';
         };
       },
     }),
+    JwtGlobalModule,
     FarmModule,
     AuthModule,
     UserModule,

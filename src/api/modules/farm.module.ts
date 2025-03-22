@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { JwtStrategy } from '../../strategies/jwt.strategy';
 
 import { Farm } from '../../entities/farm.entity';
+import { Plant } from '../../entities/plant.entity';
 import { User } from '../../entities/user.entity';
 
 import { FarmController } from '../controllers/farm.controller';
@@ -17,17 +16,7 @@ import { FarmComponent } from '../../components/farm.component';
 import { UserComponent } from '../../components/user.component';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Farm, User]),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '1d' },
-      }),
-      inject: [ConfigService],
-    }),
-  ],
+  imports: [TypeOrmModule.forFeature([Farm, User, Plant])],
   controllers: [FarmController],
   providers: [FarmService, FarmGetService, JwtStrategy, FarmComponent, UserComponent],
   exports: [FarmService],
