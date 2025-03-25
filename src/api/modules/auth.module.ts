@@ -9,15 +9,29 @@ import { User } from '../../entities/user.entity';
 import { AuthController } from '../controllers/auth.controller';
 
 import { AuthService } from '../../services/auth/auth.service';
+import { AuthConfirmEmailService } from '../../services/auth/auth-confirm-email.service';
 import { AuthLoginService } from '../../services/auth/auth-login.service';
 import { AuthSignupService } from '../../services/auth/auth-signup.service';
+import { EmailService } from '../../services/email/email.service';
+import { TokenService } from '../../services/token/token.service';
 
+import { FarmComponent } from '../../components/farm.component';
 import { UserComponent } from '../../components/user.component';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Farm])],
   controllers: [AuthController],
-  providers: [AuthService, AuthSignupService, AuthLoginService, JwtStrategy, UserComponent],
+  providers: [
+    AuthService,
+    AuthLoginService,
+    AuthSignupService,
+    AuthConfirmEmailService,
+    EmailService,
+    TokenService,
+    FarmComponent,
+    UserComponent,
+    JwtStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

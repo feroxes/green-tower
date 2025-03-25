@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { Farm } from '../../entities/farm.entity';
 import { User, UserRole } from '../../entities/user.entity';
 
+import { EmailService } from '../email/email.service';
+
 import { UserComponent } from '../../components/user.component';
 
 import { AuthResponseDto, RegisterDto } from '../../api/dtos/auth.dto';
@@ -19,16 +21,17 @@ export class AuthSignupService {
     @InjectRepository(Farm)
     private farmRepository: Repository<Farm>,
     private userComponent: UserComponent,
+    private emailService: EmailService,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
+  async register(registerDto: RegisterDto): Promise<object> {
     let farm = this.farmRepository.create({
       name: registerDto.farmName,
     });
     const createUserDto = { ...registerDto, role: UserRole.OWNER };
     // @ts-ignore - no need here
     delete createUserDto.farmName;
-    const { user, accessToken } = await this.userComponent.create(createUserDto, farm, 'auth/register/');
+    const { user } = await this.userComponent.create(createUserDto, farm, 'auth/register/');
 
     farm.owner = user;
 
@@ -47,6 +50,12 @@ export class AuthSignupService {
       throw registerError.FailedToUpdateUser({ e });
     }
 
-    return { accessToken };
+    try {
+      await this.emailService.sendEmailConfirmation(user.email, user.emailConfirmationToken!);
+    } catch (e: unknown) {
+      throw registerError.FailedToSendConfirmationEmail({ e });
+    }
+
+    return {};
   }
 }

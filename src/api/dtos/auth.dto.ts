@@ -41,6 +41,12 @@ export class LoginDto {
   password: string;
 }
 
+export class ConfirmEmailDto {
+  @IsString()
+  @IsNotEmpty()
+  token: string;
+}
+
 export class AuthResponseDto {
-  accessToken: string;
+  accessToken?: string;
 }

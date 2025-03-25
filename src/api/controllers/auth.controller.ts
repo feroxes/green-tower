@@ -1,8 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
 import { AuthService } from '../../services/auth/auth.service';
 
-import { AuthResponseDto, LoginDto, RegisterDto } from '../dtos/auth.dto';
+import { AuthResponseDto, ConfirmEmailDto, LoginDto, RegisterDto } from '../dtos/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -16,5 +16,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<AuthResponseDto> {
     return this.authService.login(loginDto);
+  }
+
+  @Get('confirmEmail/:token')
+  async confirmEmail(@Param('token') token: string): Promise<object> {
+    const confirmEmailDto = { token } as ConfirmEmailDto;
+    return this.authService.confirmEmail(confirmEmailDto);
   }
 }

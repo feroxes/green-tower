@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -7,19 +6,23 @@ import { Repository } from 'typeorm';
 import { Farm } from '../entities/farm.entity';
 import { User } from '../entities/user.entity';
 
+import { TokenService } from '../services/token/token.service';
+
 import { UserCreateDto } from '../api/dtos/user.dto';
 
 import { UserCheckExistenceComponentError, UserCreateComponentError } from '../api/errors/user-component.errors';
+
+import { AuthConstants } from '../utils/constants';
 
 @Injectable()
 export class UserComponent {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
+    private tokenService: TokenService,
   ) {}
 
-  async create(createDto: UserCreateDto, farm: Farm, errorCode: string): Promise<{ user: User; accessToken: string }> {
+  async create(createDto: UserCreateDto, farm: Farm, errorCode: string): Promise<{ user: User }> {
     const Errors = new UserCreateComponentError(errorCode);
     const existingUser = await this.userRepository.findOne({
       where: { email: createDto.email },
@@ -37,6 +40,16 @@ export class UserComponent {
     });
 
     user.farm = farm;
+    const confirmationToken = this.tokenService.generateEmailConfirmationToken();
+
+    const emailConfirmationExpires = new Date();
+    emailConfirmationExpires.setHours(
+      emailConfirmationExpires.getHours() + AuthConstants.EMAIL_CONFIRMATION_EXPIRES_HOURS,
+    );
+
+    user.emailConfirmationToken = confirmationToken;
+    user.emailConfirmationExpires = emailConfirmationExpires;
+    user.isEmailConfirmed = false;
 
     try {
       user = await this.userRepository.save(user);
@@ -44,9 +57,7 @@ export class UserComponent {
       throw Errors.FailedToCreateUser({ e });
     }
 
-    const token = this.generateToken(user);
-
-    return { accessToken: token, user };
+    return { user };
   }
 
   async checkUserExistence(id: string, farmId: string, errorCode: string): Promise<User> {
@@ -57,16 +68,5 @@ export class UserComponent {
       throw Errors.UserNotFound({ id });
     }
     return user;
-  }
-
-  private generateToken(user: User): string {
-    const payload = {
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-      farmId: user.farm.id,
-    };
-
-    return this.jwtService.sign(payload);
   }
 }

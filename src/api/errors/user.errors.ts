@@ -6,6 +6,12 @@ class UserCreateError extends BaseError {
   constructor() {
     super('user/create/');
   }
+
+  readonly FailedToSendConfirmationEmail = this.createError(
+    InternalServerErrorException,
+    'failedToSendConfirmationEmail',
+    'Failed to send confirmation email',
+  );
 }
 
 class UserUpdateError extends BaseError {

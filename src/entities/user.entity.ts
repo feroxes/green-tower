@@ -45,6 +45,17 @@ export class User {
   })
   role: UserRole;
 
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
+
+  @Column({ type: 'text', nullable: true })
+  @Exclude()
+  emailConfirmationToken: string | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  @Exclude()
+  emailConfirmationExpires: Date | null;
+
   @ManyToOne(() => Farm, (farm) => farm.users)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;

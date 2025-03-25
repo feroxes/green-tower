@@ -1,35 +1,28 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { Farm } from '../../src/entities/farm.entity';
-import { User } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
 import { registerError } from '../../src/api/errors/auth.errors';
 import { UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 
-import { LoginOrRegistrationResponseBodyType } from '../helpers/types/auth.types';
+import { ErrorResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
+import { TestHelper } from '../helpers/test-helper';
 import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('AuthSignup', () => {
   let app: INestApplication;
   let module: TestingModule;
-  let farmRepository: Repository<Farm>;
-  let userRepository: Repository<User>;
+  let testHelper: TestHelper;
 
   beforeAll(async () => {
     const testConfig = await init();
     app = testConfig.app;
     module = testConfig.module;
-    farmRepository = module.get<Repository<Farm>>(getRepositoryToken(Farm));
-    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   afterAll(async () => {
@@ -38,40 +31,36 @@ describe('AuthSignup', () => {
 
   beforeEach(async () => {
     await clearDatabase(module);
+    testHelper = new TestHelper(app, module);
+    await testHelper.init();
   });
 
   describe(UseCases.auth.signUp, () => {
     it(`${UseCases.auth.signUp} - HDS`, async () => {
-      const response = await Calls.Auth.signUp(app);
-      const user = await userRepository.findOne({
-        where: { email: mockDto.authRegisterDto.email },
-        relations: ['farm'],
-      });
-
-      const farm = await farmRepository.findOne({
-        where: { name: mockDto.authRegisterDto.farmName },
-      });
-
-      ValidationHelper.auth.validateDto(response.body as LoginOrRegistrationResponseBodyType);
-      ValidationHelper.farm.validateFarm(farm as Farm);
-      ValidationHelper.user.validateUserRegistration(user as User, farm as Farm);
+      const user = await testHelper.getUser();
+      const farm = await testHelper.getFarm();
+      ValidationHelper.farm.validateFarm(farm);
+      ValidationHelper.user.validateUserRegistration(user, farm);
     });
 
     it(`${UseCases.auth.signUp} - user already exists error`, async () => {
       const userCheckExistenceComponentError = new UserCreateComponentError('auth/register/');
       const expectedError = userCheckExistenceComponentError.UserAlreadyExists();
-      await Calls.Auth.signUp(app);
-      const res = await Calls.Auth.signUp(app);
+      const res = (await Calls.Auth.signUp(app)) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.auth.signUp} - failed to create farm`, async () => {
-      jest.spyOn(farmRepository, 'save').mockRejectedValue(new Error());
+      jest.spyOn(testHelper.farmRepository, 'save').mockRejectedValue(new Error());
       const expectedError = registerError.FailedToCreateFarm();
-      const res = await Calls.Auth.signUp(app);
+      const email = 'test@test.com';
+      const registerDto = { ...mockDto.authRegisterDto, email };
+      const res = (await Calls.Auth.signUp(app, registerDto)) as ErrorResponseType;
+
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
-      const user = await userRepository.findOne({
-        where: { email: mockDto.authRegisterDto.email },
+
+      const user = await testHelper.userRepository.findOne({
+        where: { email },
         relations: ['farm'],
       });
       expect(user).toBe(null);

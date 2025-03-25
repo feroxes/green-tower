@@ -1,40 +1,29 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
-import { Farm } from '../../src/entities/farm.entity';
-import { User, UserRole } from '../../src/entities/user.entity';
-
-import { mockDto } from '../mock/mock.dtos';
+import { UserRole } from '../../src/entities/user.entity';
 
 import { userSetRoleError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { LoginOrRegistrationResponseType } from '../helpers/types/auth.types';
-import { UserCreateResponseType } from '../helpers/types/user.types';
+import { ErrorResponseType, GuardErrorResponseType, UserResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
-import { getAccessTokenWithWrongFarm, getAccessTokenWithWrongOwner } from '../helpers/test-helper';
+import { TestHelper } from '../helpers/test-helper';
 import { ErrorResponse, validateError, validateOwnerGuard } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('UserSetRole', () => {
   let app: INestApplication;
-  let userRepository: Repository<User>;
-  let farmRepository: Repository<Farm>;
   let module: TestingModule;
-  let accessToken: string;
-  let owner: User;
   let role: UserRole.USER;
+  let testHelper: TestHelper;
 
   beforeAll(async () => {
     const testConfig = await init();
     app = testConfig.app;
     module = testConfig.module;
-    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
-    farmRepository = module.get<Repository<Farm>>(getRepositoryToken(Farm));
     role = UserRole.USER;
   });
 
@@ -44,72 +33,78 @@ describe('UserSetRole', () => {
 
   beforeEach(async () => {
     await clearDatabase(module);
-    const res = (await Calls.Auth.signUp(app)) as LoginOrRegistrationResponseType;
-    owner = (await userRepository.findOne({
-      where: { email: mockDto.authRegisterDto.email },
-      relations: ['farm'],
-    })) as User;
-    accessToken = res.body.accessToken;
+    testHelper = new TestHelper(app, module);
+    await testHelper.init();
   });
 
   describe(UseCases.user.setRole, () => {
     it(`${UseCases.user.setRole} - HDS`, async () => {
-      let user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
-      user = await Calls.User.setRole(app, accessToken, { id: user.body.id, role });
+      const { user } = await testHelper.createUser();
+      const res = (await Calls.User.setRole(app, testHelper.getAccessToken, { id: user.id, role })) as UserResponseType;
 
-      expect(user.body.role).toBe(role);
+      expect(res.body.role).toBe(role);
     });
 
     it(`${UseCases.user.setRole} - owner not found (wrong owner id)`, async () => {
       const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/setRole/');
       const expectedError = userCheckExistenceComponentError.UserNotFound();
-      const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
-      const farm = await farmRepository.findOne({ where: { id: owner.farm.id }, relations: ['users'] });
-      const _accessToken = getAccessTokenWithWrongOwner(module, owner, farm!);
+      const { user } = await testHelper.createUser();
 
-      const res = await Calls.User.setRole(app, _accessToken, { id: user.body.id, role });
+      const res = (await Calls.User.setRole(app, testHelper.getAccessTokenWithWrongOwner, {
+        id: user.id,
+        role,
+      })) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.user.setRole} - owner not found (wrong farm id)`, async () => {
       const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/setRole/');
       const expectedError = userCheckExistenceComponentError.UserNotFound();
-      const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
-      const _accessToken = getAccessTokenWithWrongFarm(module, owner);
+      const { user } = await testHelper.createUser();
 
-      const res = await Calls.User.setRole(app, _accessToken, { id: user.body.id, role });
+      const res = (await Calls.User.setRole(app, testHelper.getAccessTokenWithWrongFarm, {
+        id: user.id,
+        role,
+      })) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.user.setRole} - set role to owner`, async () => {
       const expectedError = userSetRoleError.OwnerCouldNotBeUpdated();
-      const res = await Calls.User.setRole(app, accessToken, { id: owner.id, role });
+      const res = (await Calls.User.setRole(app, testHelper.getAccessToken, {
+        id: testHelper.getOwner.id,
+        role,
+      })) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
     it(`${UseCases.user.setRole} - forbidden (call by ADMIN)`, async () => {
-      const createUserDto = mockDto.getUserCreateDto(UserRole.USER);
-      const { email, password } = createUserDto;
-
-      await Calls.User.create(app, accessToken, createUserDto);
-      const userLoginRes = (await Calls.Auth.login(app, { email, password })) as LoginOrRegistrationResponseType;
-
-      const res = await Calls.User.setRole(app, userLoginRes.body.accessToken, { id: crypto.randomUUID(), role });
+      const { accessToken } = await testHelper.createUser();
+      const res = (await Calls.User.setRole(app, accessToken, {
+        id: crypto.randomUUID(),
+        role,
+      })) as GuardErrorResponseType;
       validateOwnerGuard(res.body);
     });
 
     it(`${UseCases.user.setRole} - user not found`, async () => {
       const userCheckExistenceComponentError = new UserCheckExistenceComponentError('user/setRole/');
       const expectedError = userCheckExistenceComponentError.UserNotFound();
-      const res = await Calls.User.setRole(app, accessToken, { id: crypto.randomUUID(), role });
+      const res = (await Calls.User.setRole(app, testHelper.getAccessToken, {
+        id: crypto.randomUUID(),
+        role,
+      })) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
-    it(`${UseCases.user.setRole} - HDS`, async () => {
-      jest.spyOn(userRepository, 'save').mockRejectedValue(new Error());
+    it(`${UseCases.user.setRole} - failed to set user role`, async () => {
+      jest.spyOn(testHelper.userRepository, 'save').mockRejectedValue(new Error());
       const expectedError = userSetRoleError.FailedToSetUserRole();
-      const user = (await Calls.User.create(app, accessToken)) as UserCreateResponseType;
-      const res = await Calls.User.setRole(app, accessToken, { id: user.body.id, role });
+      const { user } = await testHelper.createUser();
+      const res = (await Calls.User.setRole(app, testHelper.getAccessToken, {
+        id: user.id,
+        role,
+      })) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });

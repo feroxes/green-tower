@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
 import { User } from '../../entities/user.entity';
+
+import { TokenService } from '../token/token.service';
 
 import { AuthResponseDto, LoginDto } from '../../api/dtos/auth.dto';
 
@@ -15,7 +16,7 @@ export class AuthLoginService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
+    private tokenService: TokenService,
   ) {}
 
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
@@ -34,21 +35,12 @@ export class AuthLoginService {
       throw loginError.InvalidCredentials();
     }
 
-    const token = this.generateToken(user);
+    if (!user.isEmailConfirmed) {
+      throw loginError.EmailNotConfirmed();
+    }
 
-    return {
-      accessToken: token,
-    };
-  }
+    const accessToken = this.tokenService.generateAccessToken(user);
 
-  private generateToken(user: User): string {
-    const payload = {
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-      farmId: user.farm.id,
-    };
-
-    return this.jwtService.sign(payload);
+    return { accessToken };
   }
 }

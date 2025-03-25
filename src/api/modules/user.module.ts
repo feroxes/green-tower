@@ -8,6 +8,8 @@ import { User } from '../../entities/user.entity';
 
 import { UserController } from '../controllers/user.controller';
 
+import { EmailService } from '../../services/email/email.service';
+import { TokenService } from '../../services/token/token.service';
 import { UserService } from '../../services/user/user.service';
 import { UserCreateService } from '../../services/user/user-create.service';
 import { UserDeleteService } from '../../services/user/user-delete.service';
@@ -28,6 +30,8 @@ import { UserComponent } from '../../components/user.component';
     UserUpdateService,
     JwtStrategy,
     FarmComponent,
+    TokenService,
+    EmailService,
     UserComponent,
   ],
   exports: [UserService],

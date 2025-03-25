@@ -7,8 +7,15 @@ import { UserRole } from '../../src/entities/user.entity';
 import { UserUpdateDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
-import { LoginOrRegistrationResponseType } from './types/auth.types';
-import { PlantCreateResponseType, UserCreateResponseType } from './types/user.types';
+import {
+  EmptyResponseType,
+  ErrorResponseType,
+  FarmResponseType,
+  GuardErrorResponseType,
+  LoginResponseType,
+  PlantResponseType,
+  UserResponseType,
+} from './types/response.types';
 
 import { UseCases } from './constants';
 
@@ -32,18 +39,22 @@ export const Calls = {
     async signUp(
       app: INestApplication,
       body = mockDto.authRegisterDto,
-    ): Promise<LoginOrRegistrationResponseType | Response> {
+    ): Promise<EmptyResponseType | ErrorResponseType> {
       return Calls.post(app, UseCases.auth.signUp, body);
     },
-    async login(
-      app: INestApplication,
-      body = mockDto.authLoginDto,
-    ): Promise<LoginOrRegistrationResponseType | Response> {
+    async login(app: INestApplication, body = mockDto.authLoginDto): Promise<LoginResponseType | ErrorResponseType> {
       return Calls.post(app, UseCases.auth.login, body);
+    },
+    async confirmEmail(app: INestApplication, body: { token: string }): Promise<EmptyResponseType | ErrorResponseType> {
+      return Calls.get(app, `${UseCases.auth.confirmEmail}/${body.token}`, body);
     },
   },
   Farm: {
-    async get(app: INestApplication, body: { id: string }, accessToken: string): Promise<Response> {
+    async get(
+      app: INestApplication,
+      body: { id: string },
+      accessToken: string,
+    ): Promise<FarmResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.farm.get, body, accessToken);
     },
   },
@@ -52,24 +63,28 @@ export const Calls = {
       app: INestApplication,
       accessToken: string,
       body = mockDto.getUserCreateDto(),
-    ): Promise<UserCreateResponseType | Response> {
+    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.create, body, accessToken);
     },
     async update(
       app: INestApplication,
       accessToken: string,
       body: UserUpdateDto,
-    ): Promise<UserCreateResponseType | Response> {
+    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.update, body, accessToken);
     },
-    async delete(app: INestApplication, accessToken: string, body: { id: string }): Promise<Response> {
+    async delete(
+      app: INestApplication,
+      accessToken: string,
+      body: { id: string },
+    ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.delete, body, accessToken);
     },
     async setRole(
       app: INestApplication,
       accessToken: string,
       body: { id: string; role: UserRole.ADMIN | UserRole.USER },
-    ): Promise<Response> {
+    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.setRole, body, accessToken);
     },
   },
@@ -78,7 +93,7 @@ export const Calls = {
       app: INestApplication,
       accessToken: string,
       body = mockDto.plantCreateDto,
-    ): Promise<PlantCreateResponseType | Response> {
+    ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.plant.create, body, accessToken);
     },
   },

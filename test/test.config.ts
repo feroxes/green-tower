@@ -5,6 +5,8 @@ import { DataSource } from 'typeorm';
 
 import { AppModule } from '../src/api/modules/app.module';
 
+import { EmailService } from '../src/services/email/email.service';
+
 export interface TestModuleOptions {
   imports?: any[];
   providers?: any[];
@@ -16,6 +18,10 @@ export async function init(): Promise<{ module: TestingModule; app: INestApplica
   const app = module.createNestApplication();
   await app.init();
   return { module, app };
+}
+
+export class FakeEmailService {
+  sendEmailConfirmation = jest.fn().mockResolvedValue(undefined);
 }
 
 export async function createTestModule(options: TestModuleOptions = {}): Promise<TestingModule> {
@@ -31,7 +37,10 @@ export async function createTestModule(options: TestModuleOptions = {}): Promise
     ],
     providers: options.providers || [],
     controllers: options.controllers || [],
-  }).compile();
+  })
+    .overrideProvider(EmailService)
+    .useClass(FakeEmailService)
+    .compile();
 }
 
 export async function clearDatabase(module: TestingModule): Promise<void> {
@@ -44,5 +53,11 @@ export async function clearDatabase(module: TestingModule): Promise<void> {
 
 export async function closeDatabaseConnection(module: TestingModule): Promise<void> {
   const dataSource = module.get<DataSource>(DataSource);
-  await dataSource.destroy();
+  // Close all connections
+  if (dataSource.isInitialized) {
+    await dataSource.destroy();
+  }
+  // Close the app if it exists
+  const app = module.createNestApplication();
+  await app.close();
 }

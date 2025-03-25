@@ -4,10 +4,14 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
-import { LoginOrRegistrationResponseBodyType } from './types/auth.types';
-
 export interface ErrorResponse {
   errorCode: string;
+  message: string;
+}
+
+export interface GuardError {
+  statusCode: number;
+  error: string;
   message: string;
 }
 
@@ -16,15 +20,18 @@ export function validateError(error: ErrorResponse, expectedError: ErrorResponse
   expect(error.message).toEqual(expectedError.message);
 }
 
-export function validateOwnerGuard(error: { statusCode: number; error: string; message: string }): void {
+export function validateOwnerGuard(error: GuardError): void {
   expect(error.statusCode).toEqual(403);
   expect(error.error).toEqual('Forbidden');
   expect(error.message).toEqual('Forbidden resource');
 }
 
 export const ValidationHelper = {
+  validateSuccessRequest(response: Response) {
+    expect([200, 201]).toContain(response.status);
+  },
   auth: {
-    validateDto: (body: LoginOrRegistrationResponseBodyType) => {
+    validateDto: (body: { accessToken: string }) => {
       expect(body).toHaveProperty('accessToken');
       expect(body.accessToken).toBeDefined();
     },
@@ -48,6 +55,9 @@ export const ValidationHelper = {
     },
     validateUserCreation(user: Partial<User>, mockUserCreateDto = mockDto.getUserCreateDto()) {
       expect(user).toBeDefined();
+      expect(user.emailConfirmationToken).toBeDefined();
+      expect(user.emailConfirmationExpires).toBeDefined();
+      expect(user.isEmailConfirmed).toBe(false);
       expect(user).not.toBeNull();
       expect(user.firstName).toBe(mockUserCreateDto.firstName);
       expect(user.lastName).toBe(mockUserCreateDto.lastName);

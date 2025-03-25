@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Farm } from '../../entities/farm.entity';
@@ -12,8 +13,11 @@ import { JwtGlobalModule } from './jwt.module';
 import { PlantModule } from './plant.module';
 import { UserModule } from './user.module';
 
+import { CleanupService } from '../../services/cleanup/cleanup.service';
+
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User, Farm]),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env/.env.${process.env.NODE_ENV}`,
@@ -34,6 +38,7 @@ import { UserModule } from './user.module';
         };
       },
     }),
+    ScheduleModule.forRoot(),
     JwtGlobalModule,
     FarmModule,
     AuthModule,
@@ -41,6 +46,6 @@ import { UserModule } from './user.module';
     PlantModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [CleanupService],
 })
 export class AppModule {}

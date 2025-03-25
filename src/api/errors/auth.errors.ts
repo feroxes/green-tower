@@ -2,7 +2,7 @@ import { InternalServerErrorException, UnauthorizedException } from '@nestjs/com
 
 import { BaseError } from './base.error';
 
-class RegisterError extends BaseError {
+export class RegisterError extends BaseError {
   constructor() {
     super('auth/register/');
   }
@@ -10,13 +10,19 @@ class RegisterError extends BaseError {
   readonly FailedToCreateFarm = this.createError(
     InternalServerErrorException,
     'failedToCreateFarm',
-    'Failed to create a Farm',
+    'Failed to create a farm',
   );
 
   readonly FailedToUpdateUser = this.createError(
     InternalServerErrorException,
     'failedToUpdateUser',
-    'Failed to update a User',
+    'Failed to update a user',
+  );
+
+  readonly FailedToSendConfirmationEmail = this.createError(
+    InternalServerErrorException,
+    'failedToSendConfirmationEmail',
+    'Failed to send confirmation email',
   );
 }
 
@@ -26,7 +32,44 @@ class LoginError extends BaseError {
   }
 
   readonly InvalidCredentials = this.createError(UnauthorizedException, 'invalidCredentials', 'Invalid credentials');
+
+  readonly EmailNotConfirmed = this.createError(
+    UnauthorizedException,
+    'emailNotConfirmed',
+    'Please confirm your email before logging in',
+  );
+}
+
+export class ConfirmEmailError extends BaseError {
+  constructor() {
+    super('auth/confirmEmail/');
+  }
+
+  readonly EmailNotConfirmed = this.createError(
+    UnauthorizedException,
+    'emailNotConfirmed',
+    'Please confirm your email before logging in',
+  );
+
+  readonly InvalidConfirmationToken = this.createError(
+    UnauthorizedException,
+    'invalidConfirmationToken',
+    'Invalid or expired confirmation token',
+  );
+
+  readonly ConfirmationTokenExpired = this.createError(
+    UnauthorizedException,
+    'confirmationTokenExpired',
+    'Confirmation token has expired',
+  );
+
+  readonly FailedToUpdateUser = this.createError(
+    InternalServerErrorException,
+    'failedToUpdateUser',
+    'Failed to update a user',
+  );
 }
 
 export const registerError = new RegisterError();
 export const loginError = new LoginError();
+export const confirmEmailError = new ConfirmEmailError();

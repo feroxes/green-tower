@@ -2,6 +2,7 @@ export const UseCases = {
   auth: {
     signUp: '/auth/signup',
     login: '/auth/login',
+    confirmEmail: '/auth/confirmEmail',
   },
   farm: {
     get: '/farm/get',
