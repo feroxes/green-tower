@@ -50,3 +50,9 @@ export class ConfirmEmailDto {
 export class AuthResponseDto {
   accessToken?: string;
 }
+
+export class ResendConfirmationEmailDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}

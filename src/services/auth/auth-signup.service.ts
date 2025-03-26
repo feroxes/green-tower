@@ -9,7 +9,7 @@ import { EmailService } from '../email/email.service';
 
 import { UserComponent } from '../../components/user.component';
 
-import { AuthResponseDto, RegisterDto } from '../../api/dtos/auth.dto';
+import { RegisterDto } from '../../api/dtos/auth.dto';
 
 import { registerError } from '../../api/errors/auth.errors';
 

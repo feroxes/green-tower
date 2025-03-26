@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
 import { AuthService } from '../../services/auth/auth.service';
 
-import { AuthResponseDto, ConfirmEmailDto, LoginDto, RegisterDto } from '../dtos/auth.dto';
+import { AuthResponseDto, ConfirmEmailDto, LoginDto, RegisterDto, ResendConfirmationEmailDto } from '../dtos/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,5 +22,10 @@ export class AuthController {
   async confirmEmail(@Param('token') token: string): Promise<object> {
     const confirmEmailDto = { token } as ConfirmEmailDto;
     return this.authService.confirmEmail(confirmEmailDto);
+  }
+
+  @Get('resendConfirmationEmail')
+  async resendConfirmationEmail(@Body() resendConfirmationEmailDto: ResendConfirmationEmailDto): Promise<object> {
+    return this.authService.resendConfirmationEmail(resendConfirmationEmailDto);
   }
 }

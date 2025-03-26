@@ -64,6 +64,25 @@ export class ConfirmEmailError extends BaseError {
   );
 }
 
+export class ResendConfirmationEmailError extends BaseError {
+  constructor() {
+    super('auth/resendConfirmationEmail/');
+  }
+
+  readonly UserDoesNotExist = this.createError(ConflictException, 'userDoesNotExist', 'User does not exist');
+  readonly EmailAlreadyConfirmed = this.createError(
+    ConflictException,
+    'emailAlreadyConfirmed',
+    'Email already confirmed',
+  );
+  readonly FailedToUpdateUser = this.createError(
+    InternalServerErrorException,
+    'failedToUpdateUser',
+    'Failed to update a user',
+  );
+}
+
 export const registerError = new RegisterError();
 export const loginError = new LoginError();
 export const confirmEmailError = new ConfirmEmailError();
+export const resendConfirmationEmailError = new ResendConfirmationEmailError();

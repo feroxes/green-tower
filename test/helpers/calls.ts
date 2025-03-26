@@ -48,6 +48,12 @@ export const Calls = {
     async confirmEmail(app: INestApplication, body: { token: string }): Promise<EmptyResponseType | ErrorResponseType> {
       return Calls.get(app, `${UseCases.auth.confirmEmail}/${body.token}`, body);
     },
+    async resendConfirmationEmail(
+      app: INestApplication,
+      body: { email: string },
+    ): Promise<EmptyResponseType | ErrorResponseType> {
+      return Calls.get(app, UseCases.auth.resendConfirmationEmail, body);
+    },
   },
   Farm: {
     async get(
