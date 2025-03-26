@@ -1,4 +1,4 @@
-import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -45,20 +45,14 @@ export class ConfirmEmailError extends BaseError {
     super('auth/confirmEmail/');
   }
 
-  readonly EmailNotConfirmed = this.createError(
-    UnauthorizedException,
-    'emailNotConfirmed',
-    'Please confirm your email before logging in',
-  );
-
   readonly InvalidConfirmationToken = this.createError(
-    UnauthorizedException,
+    ConflictException,
     'invalidConfirmationToken',
     'Invalid or expired confirmation token',
   );
 
   readonly ConfirmationTokenExpired = this.createError(
-    UnauthorizedException,
+    ConflictException,
     'confirmationTokenExpired',
     'Confirmation token has expired',
   );
