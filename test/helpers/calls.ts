@@ -79,6 +79,13 @@ export const Calls = {
     ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.update, body, accessToken);
     },
+    async get(
+      app: INestApplication,
+      accessToken: string,
+      body: { id?: string } = {},
+    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.user.get, body, accessToken);
+    },
     async delete(
       app: INestApplication,
       accessToken: string,

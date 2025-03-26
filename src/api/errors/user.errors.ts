@@ -27,6 +27,13 @@ class UserUpdateError extends BaseError {
   );
 }
 
+class UserGetError extends BaseError {
+  constructor() {
+    super('user/get/');
+  }
+  readonly UserGetForbidden = this.createError(ForbiddenException, 'userGetForbidden', 'User get forbidden');
+}
+
 class UserDeleteError extends BaseError {
   constructor() {
     super('user/delete/');
@@ -61,5 +68,6 @@ class UserSetRoleError extends BaseError {
 
 export const userCreateError = new UserCreateError();
 export const userUpdateError = new UserUpdateError();
+export const userGetError = new UserGetError();
 export const userDeleteError = new UserDeleteError();
 export const userSetRoleError = new UserSetRoleError();

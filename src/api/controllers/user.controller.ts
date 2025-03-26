@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { AuthorizedGuard } from '../../guards/authorized.guard';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
@@ -6,7 +6,7 @@ import { OwnerGuard } from '../../guards/owner.guard';
 
 import { UserService } from '../../services/user/user.service';
 
-import { UserCreateCmdDto, UserDeleteDto, UserSetRoleDto, UserUpdateDto } from '../dtos/user.dto';
+import { UserCreateCmdDto, UserDeleteDto, UserGetDto, UserSetRoleDto, UserUpdateDto } from '../dtos/user.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -39,5 +39,11 @@ export class UserController {
   @UseGuards(OwnerGuard)
   async setRole(@Body() userSetRoleDto: UserSetRoleDto, @Executor() executor: ExecutorType) {
     return this.userService.setRole(userSetRoleDto, executor);
+  }
+
+  @Get('get')
+  @UseGuards(AuthorizedGuard)
+  async get(@Body() userGetDto: UserGetDto, @Executor() executor: ExecutorType) {
+    return this.userService.get(userGetDto, executor);
   }
 }

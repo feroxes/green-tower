@@ -29,7 +29,7 @@ export class UserUpdateService {
     let user = await this.userComponent.checkUserExistence(userUpdateDto.id, executor.farmId, useCase);
 
     if (user.id !== executor.id) {
-      if (executor.role !== UserRole.OWNER && executor.role !== UserRole.ADMIN) {
+      if (executor.role !== UserRole.OWNER) {
         throw userUpdateError.UserUpdateForbidden();
       }
     }

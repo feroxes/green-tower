@@ -13,6 +13,7 @@ import { TokenService } from '../../services/token/token.service';
 import { UserService } from '../../services/user/user.service';
 import { UserCreateService } from '../../services/user/user-create.service';
 import { UserDeleteService } from '../../services/user/user-delete.service';
+import { UserGetService } from '../../services/user/user-get.service';
 import { UserSetRoleService } from '../../services/user/user-set-role.service';
 import { UserUpdateService } from '../../services/user/user-update.service';
 
@@ -26,6 +27,7 @@ import { UserComponent } from '../../components/user.component';
     UserService,
     UserCreateService,
     UserDeleteService,
+    UserGetService,
     UserSetRoleService,
     UserUpdateService,
     JwtStrategy,

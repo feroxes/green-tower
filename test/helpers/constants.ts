@@ -11,6 +11,7 @@ export const UseCases = {
   user: {
     create: '/user/create',
     update: '/user/update',
+    get: '/user/get',
     delete: '/user/delete',
     setRole: '/user/setRole',
   },

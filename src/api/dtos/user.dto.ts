@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 import { UserRole } from '../../entities/user.entity';
 
@@ -87,4 +87,10 @@ export class UserSetRoleDto {
 
   @IsEnum(UserRole, { message: 'Role must be either admin or user' })
   role: UserRole.ADMIN | UserRole.USER;
+}
+
+export class UserGetDto {
+  @IsOptional()
+  @IsUUID()
+  id?: string;
 }
