@@ -18,6 +18,10 @@ export type UserResponseType = {
   body: User;
 };
 
+export type UserListResponseType = {
+  body: User[];
+};
+
 export type FarmResponseType = {
   body: Farm;
 };

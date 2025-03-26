@@ -46,4 +46,10 @@ export class UserController {
   async get(@Body() userGetDto: UserGetDto, @Executor() executor: ExecutorType) {
     return this.userService.get(userGetDto, executor);
   }
+
+  @Get('list')
+  @UseGuards(OwnerGuard)
+  async list(@Executor() executor: ExecutorType) {
+    return this.userService.list(executor);
+  }
 }

@@ -46,6 +46,7 @@ export class User {
   role: UserRole;
 
   @Column({ default: false })
+  @Exclude()
   isEmailConfirmed: boolean;
 
   @Column({ type: 'text', nullable: true })

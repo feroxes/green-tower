@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { UserCreateService } from './user-create.service';
 import { UserDeleteService } from './user-delete.service';
 import { UserGetService } from './user-get.service';
+import { UserListService } from './user-list.service';
 import { UserSetRoleService } from './user-set-role.service';
 import { UserUpdateService } from './user-update.service';
 
@@ -18,6 +19,7 @@ export class UserService {
     private userDeleteService: UserDeleteService,
     private userSetRoleService: UserSetRoleService,
     private userGetService: UserGetService,
+    private userListService: UserListService,
   ) {}
 
   async create(userCreateDto: UserCreateCmdDto, executor: ExecutorType) {
@@ -38,5 +40,9 @@ export class UserService {
 
   async get(userGetDto: UserGetDto, executor: ExecutorType) {
     return this.userGetService.get(userGetDto, executor);
+  }
+
+  async list(executor: ExecutorType) {
+    return this.userListService.list(executor);
   }
 }

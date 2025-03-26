@@ -1,11 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
-import { User, UserRole } from '../../src/entities/user.entity';
+import { User } from '../../src/entities/user.entity';
 
-import { mockDto } from '../mock/mock.dtos';
-
-import { userGetError, userUpdateError } from '../../src/api/errors/user.errors';
+import { userGetError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { ErrorResponseType, UserResponseType } from '../helpers/types/response.types';

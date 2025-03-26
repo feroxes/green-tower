@@ -14,6 +14,7 @@ import { UserService } from '../../services/user/user.service';
 import { UserCreateService } from '../../services/user/user-create.service';
 import { UserDeleteService } from '../../services/user/user-delete.service';
 import { UserGetService } from '../../services/user/user-get.service';
+import { UserListService } from '../../services/user/user-list.service';
 import { UserSetRoleService } from '../../services/user/user-set-role.service';
 import { UserUpdateService } from '../../services/user/user-update.service';
 
@@ -28,6 +29,7 @@ import { UserComponent } from '../../components/user.component';
     UserCreateService,
     UserDeleteService,
     UserGetService,
+    UserListService,
     UserSetRoleService,
     UserUpdateService,
     JwtStrategy,

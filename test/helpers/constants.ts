@@ -12,6 +12,7 @@ export const UseCases = {
     create: '/user/create',
     update: '/user/update',
     get: '/user/get',
+    list: '/user/list',
     delete: '/user/delete',
     setRole: '/user/setRole',
   },

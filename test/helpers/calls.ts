@@ -14,6 +14,7 @@ import {
   GuardErrorResponseType,
   LoginResponseType,
   PlantResponseType,
+  UserListResponseType,
   UserResponseType,
 } from './types/response.types';
 
@@ -85,6 +86,12 @@ export const Calls = {
       body: { id?: string } = {},
     ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.user.get, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+    ): Promise<UserListResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.user.list, {}, accessToken);
     },
     async delete(
       app: INestApplication,
