@@ -12,6 +12,7 @@ export type LoginResponseType = {
   body: {
     accessToken: string;
   };
+  headers: object;
 };
 
 export type UserResponseType = {

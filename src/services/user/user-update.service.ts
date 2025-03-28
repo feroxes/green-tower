@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
 
 import { User, UserRole } from '../../entities/user.entity';
 
@@ -29,7 +30,7 @@ export class UserUpdateService {
     let user = await this.userComponent.checkUserExistence(userUpdateDto.id, executor.farmId, useCase);
 
     if (user.id !== executor.id) {
-      if (executor.role !== UserRole.OWNER) {
+      if (executor.role !== UserRole.OWNER && executor.role !== UserRole.ADMIN) {
         throw userUpdateError.UserUpdateForbidden();
       }
     }
@@ -37,8 +38,9 @@ export class UserUpdateService {
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
     try {
-      Object.assign(user, userUpdateDto);
-      user = await this.userRepository.save(user);
+      user = await this.userRepository.save(
+        this.userRepository.create({ ...user, ...userUpdateDto })
+      );
       return user;
     } catch (e: unknown) {
       throw userUpdateError.FailedToUpdateUser({ e });

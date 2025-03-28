@@ -15,7 +15,7 @@ import { loginError } from '../../api/errors/auth.errors';
 export class AuthLoginService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
     private tokenService: TokenService,
   ) {}
 
@@ -29,18 +29,18 @@ export class AuthLoginService {
       throw loginError.InvalidCredentials();
     }
 
+    if (!user.isEmailConfirmed) {
+      throw loginError.EmailNotConfirmed();
+    }
+
     const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
 
     if (!isPasswordValid) {
       throw loginError.InvalidCredentials();
     }
 
-    if (!user.isEmailConfirmed) {
-      throw loginError.EmailNotConfirmed();
-    }
+    const { accessToken, refreshToken } = await this.tokenService.generateTokens(user);
 
-    const accessToken = this.tokenService.generateAccessToken(user);
-
-    return { accessToken };
+    return { accessToken, refreshToken };
   }
 }

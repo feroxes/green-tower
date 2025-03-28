@@ -28,6 +28,7 @@ type PayloadType = {
 export class TestHelper {
   owner: User;
   accessToken: string;
+  refreshToken: string;
   farm: Farm;
   userRepository: Repository<User>;
   farmRepository: Repository<Farm>;
@@ -56,13 +57,18 @@ export class TestHelper {
 
     await Calls.Auth.confirmEmail(this.app, { token: ownerDataObject!.emailConfirmationToken! });
 
+    const loginResult = (await Calls.Auth.login(this.app)) as LoginResponseType;
+    this.accessToken = loginResult.body.accessToken;
+    const refreshTokenHeader = loginResult.headers['set-cookie'] as string[];
+
+    if (refreshTokenHeader) {
+      this.refreshToken = refreshTokenHeader[0].split('refreshToken=')[1];
+    }
+
     this.owner = (await this.userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },
       relations: ['farm'],
     })) as User;
-    const loginResult = (await Calls.Auth.login(this.app)) as LoginResponseType;
-
-    this.accessToken = loginResult.body.accessToken;
 
     this.farm = (await this.farmRepository.findOne({
       where: { id: this.owner.farm.id },

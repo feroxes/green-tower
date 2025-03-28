@@ -41,7 +41,7 @@ describe('AuthResendConfirmationEmail', () => {
   describe(UseCases.auth.resendConfirmationEmail, () => {
     it(`${UseCases.auth.resendConfirmationEmail} - HDS`, async () => {
       const res = (await Calls.Auth.resendConfirmationEmail(app, { email: mockDto.authRegisterDto.email })) as Response;
-      ValidationHelper.validateSuccessRequest(res);
+      ValidationHelper.validateSuccessResponse(res);
     });
 
     it(`${UseCases.auth.resendConfirmationEmail} - user does not exist`, async () => {

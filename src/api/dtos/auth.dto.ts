@@ -34,10 +34,13 @@ export class RegisterDto {
 export class LoginDto {
   @IsEmail()
   @IsNotEmpty()
+  @MaxLength(40)
   email: string;
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(40)
   password: string;
 }
 
@@ -47,8 +50,16 @@ export class ConfirmEmailDto {
   token: string;
 }
 
+export interface CookieOptions {
+  httpOnly: boolean;
+  secure: boolean;
+  sameSite: 'strict' | 'lax' | 'none';
+  maxAge: number;
+}
+
 export class AuthResponseDto {
   accessToken?: string;
+  refreshToken?: string;
 }
 
 export class ResendConfirmationEmailDto {

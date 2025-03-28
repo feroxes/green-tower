@@ -57,6 +57,10 @@ export class User {
   @Exclude()
   emailConfirmationExpires: Date | null;
 
+  @Column({ type: 'text', nullable: true })
+  @Exclude()
+  refreshToken: string | null;
+
   @ManyToOne(() => Farm, (farm) => farm.users)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;

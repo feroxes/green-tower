@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { CookieOptions, Response } from 'express';
 
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -14,8 +15,21 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto): Promise<AuthResponseDto> {
-    return this.authService.login(loginDto);
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) response: Response): Promise<AuthResponseDto> {
+    const result = await this.authService.login(loginDto);
+
+    const cookieOptions: CookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    };
+    response.cookie('refreshToken', result.refreshToken, cookieOptions);
+
+    return {
+      accessToken: result.accessToken,
+    };
   }
 
   @Get('confirmEmail/:token')

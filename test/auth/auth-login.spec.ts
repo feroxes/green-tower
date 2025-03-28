@@ -56,6 +56,8 @@ describe('AuthLogin', () => {
 
     it(`${UseCases.auth.login} - wrong password`, async () => {
       const expectedError = loginError.InvalidCredentials();
+      const user = await userRepository.findOne({ where: { email: mockDto.authRegisterDto.email } });
+      await Calls.Auth.confirmEmail(app, { token: user!.emailConfirmationToken! });
       const res = (await Calls.Auth.login(app, {
         ...mockDto.authLoginDto,
         password: 'wrongPassword',

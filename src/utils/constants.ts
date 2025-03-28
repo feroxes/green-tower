@@ -4,4 +4,6 @@ export const FarmConstants = {
 
 export const AuthConstants = {
   EMAIL_CONFIRMATION_EXPIRES_HOURS: 24 as const,
+  ACCESS_TOKEN_EXPIRATION: '15m' as const,
+  REFRESH_TOKEN_EXPIRATION: '7d' as const,
 };

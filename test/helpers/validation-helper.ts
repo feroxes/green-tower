@@ -27,7 +27,7 @@ export function validateOwnerGuard(error: GuardError): void {
 }
 
 export const ValidationHelper = {
-  validateSuccessRequest(response: Response) {
+  validateSuccessResponse(response: Response) {
     expect([200, 201]).toContain(response.status);
   },
   auth: {

@@ -10,3 +10,12 @@ export type ExecutorType = {
 export interface RequestWithUser extends Request {
   user?: ExecutorType;
 }
+
+export interface JwtPayloadType {
+  sub: string;
+  email: string;
+  role: string;
+  farmId: string;
+  exp?: number;
+  iat?: number;
+}

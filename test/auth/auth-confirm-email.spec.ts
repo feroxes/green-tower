@@ -42,7 +42,7 @@ describe('AuthConfirmEmail', () => {
     it(`${UseCases.auth.confirmEmail} - HDS`, async () => {
       const user = (await userRepository.findOne({ where: { email: mockDto.authRegisterDto.email } })) as User;
       const res = (await Calls.Auth.confirmEmail(app, { token: user.emailConfirmationToken! })) as Response;
-      ValidationHelper.validateSuccessRequest(res);
+      ValidationHelper.validateSuccessResponse(res);
     });
 
     it(`${UseCases.auth.confirmEmail} - invalid confirmation token`, async () => {

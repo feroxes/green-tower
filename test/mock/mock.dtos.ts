@@ -1,7 +1,7 @@
 import { UserRole } from '../../src/entities/user.entity';
 
 import { LoginDto, RegisterDto } from '../../src/api/dtos/auth.dto';
-import { UserCreateCmdDto, UserUpdateDto } from '../../src/api/dtos/user.dto';
+import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
 
 const commonValues = {
   email: 'john@example.com',
@@ -32,7 +32,7 @@ export const mockDto = {
   userUpdateDto: {
     firstName: 'Elizabeth',
     lastName: 'Huanita Cortes',
-  } as Omit<UserUpdateDto, 'id'>,
+  },
   plantCreateDto: {
     name: 'Microgreen plant',
     description: 'Microgreen plant description',

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,6 +14,9 @@ import { PlantModule } from './plant.module';
 import { UserModule } from './user.module';
 
 import { CleanupService } from '../../services/cleanup/cleanup.service';
+import { TokenService } from '../../services/token/token.service';
+
+import { RefreshTokenMiddleware } from '../../middleware/refresh-token.middleware';
 
 @Module({
   imports: [
@@ -46,6 +49,10 @@ import { CleanupService } from '../../services/cleanup/cleanup.service';
     PlantModule,
   ],
   controllers: [],
-  providers: [CleanupService],
+  providers: [TokenService, CleanupService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RefreshTokenMiddleware).exclude('/auth/(.*)').forRoutes('*');
+  }
+}
