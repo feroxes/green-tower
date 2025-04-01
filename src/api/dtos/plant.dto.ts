@@ -114,3 +114,9 @@ export class PlantUpdateDto {
   @Min(1)
   expectedHarvestGramsPerPlate: number;
 }
+
+export class PlantGetDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+}

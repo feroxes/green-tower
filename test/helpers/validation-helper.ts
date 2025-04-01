@@ -101,5 +101,9 @@ export const ValidationHelper = {
         expect(mockPlantUpdateDto[key]).toBe(plant[key]);
       }
     },
+    validatePlantGet(plant: Plant) {
+      expect(plant).toBeDefined();
+      expect(plant).not.toBeNull();
+    },
   },
 };

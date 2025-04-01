@@ -1,11 +1,12 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
+import { AuthorizedGuard } from '../../guards/authorized.guard';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { OwnerOrAdminGuard } from '../../guards/owner-or-admin.guard';
 
 import { PlantService } from '../../services/plant/plant.service';
 
-import { PlantCreateDto, PlantUpdateDto } from '../dtos/plant.dto';
+import { PlantCreateDto, PlantGetDto, PlantUpdateDto } from '../dtos/plant.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -26,5 +27,11 @@ export class PlantController {
   @UseGuards(OwnerOrAdminGuard)
   async update(@Body() plantUpdateDto: PlantUpdateDto, @Executor() executor: ExecutorType) {
     return this.plantService.update(plantUpdateDto, executor);
+  }
+
+  @Get('get')
+  @UseGuards(AuthorizedGuard)
+  async get(@Body() plantGetDto: PlantGetDto, @Executor() executor: ExecutorType) {
+    return this.plantService.get(plantGetDto, executor);
   }
 }

@@ -3,8 +3,7 @@ import { TestingModule } from '@nestjs/testing';
 
 import { UserRole } from '../../src/entities/user.entity';
 
-import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
-import { mockDto } from '../mock/mock.dtos';
+import { PlantGetDto } from '../../src/api/dtos/plant.dto';
 
 import { plantUpdateError } from '../../src/api/errors/plant.errors';
 import { PlantComponentError } from '../../src/api/errors/plant-component.errors';
@@ -18,11 +17,11 @@ import { TestHelper } from '../helpers/test-helper';
 import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
-describe('PlantUpdate', () => {
+describe('PlantGet', () => {
   let app: INestApplication;
   let module: TestingModule;
   let testHelper: TestHelper;
-  let dto: PlantUpdateDto;
+  let dto: PlantGetDto;
 
   beforeAll(async () => {
     const testConfig = await init();
@@ -38,46 +37,29 @@ describe('PlantUpdate', () => {
     await clearDatabase(module);
     testHelper = new TestHelper(app, module);
     await testHelper.init();
-    dto = {
-      id: testHelper.plant.id,
-      ...mockDto.plantUpdateDto,
-    };
+    dto = { id: testHelper.plant.id };
   });
 
-  describe(UseCases.plant.update, () => {
-    it(`${UseCases.plant.update} - HDS`, async () => {
-      const res = (await Calls.Plant.update(app, testHelper.getAccessToken, dto)) as PlantResponseType;
-      ValidationHelper.plant.validatePlantUpdate(res.body, dto);
+  describe(UseCases.plant.get, () => {
+    it(`${UseCases.plant.get} - HDS`, async () => {
+      const res = (await Calls.Plant.get(app, testHelper.getAccessToken, dto)) as PlantResponseType;
+      ValidationHelper.plant.validatePlantGet(res.body);
     });
 
-    it(`${UseCases.plant.update} - user not found`, async () => {
-      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('plant/update/');
+    it(`${UseCases.plant.get} - user not found`, async () => {
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('plant/get/');
       const expectedError = userCheckExistenceComponentError.UserNotFound();
 
-      const res = (await Calls.Plant.update(app, testHelper.getAccessTokenWithWrongOwner, dto)) as ErrorResponseType;
+      const res = (await Calls.Plant.get(app, testHelper.getAccessTokenWithWrongOwner, dto)) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
-    });
-
-    it(`${UseCases.plant.update} - forbidden (call by USER)`, async () => {
-      const { accessToken } = await testHelper.createUser(UserRole.USER);
-
-      const res = (await Calls.Plant.update(app, accessToken, dto)) as GuardErrorResponseType;
-      validateOwnerGuard(res.body);
     });
 
     it(`${UseCases.plant.update} - plant not found`, async () => {
-      const plantComponentError = new PlantComponentError('plant/update/');
+      const plantComponentError = new PlantComponentError('plant/get/');
       const expectedError = plantComponentError.PlantNotFound();
 
       dto.id = crypto.randomUUID();
-      const res = (await Calls.Plant.update(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
-      validateError(res.body, expectedError.getResponse() as ErrorResponse);
-    });
-
-    it(`${UseCases.plant.update} - failed to create a plant`, async () => {
-      const expectedError = plantUpdateError.FailedToUpdatePlant();
-      jest.spyOn(testHelper.plantRepository, 'save').mockRejectedValue(new Error());
-      const res = (await Calls.Plant.update(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
+      const res = (await Calls.Plant.get(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });

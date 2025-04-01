@@ -4,7 +4,7 @@ import { Response } from 'supertest';
 
 import { UserRole } from '../../src/entities/user.entity';
 
-import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import { PlantGetDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import { UserUpdateDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
@@ -123,6 +123,13 @@ export const Calls = {
       body: PlantUpdateDto,
     ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.plant.update, body, accessToken);
+    },
+    async get(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantGetDto,
+    ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.plant.get, body, accessToken);
     },
   },
 };

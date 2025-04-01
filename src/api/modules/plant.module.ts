@@ -11,6 +11,7 @@ import { PlantController } from '../controllers/plant.controller';
 
 import { PlantService } from '../../services/plant/plant.service';
 import { PlantCreateService } from '../../services/plant/plant-create.service';
+import { PlantGetService } from '../../services/plant/plant-get.service';
 import { PlantUpdateService } from '../../services/plant/plant-update.service';
 import { TokenService } from '../../services/token/token.service';
 
@@ -28,6 +29,7 @@ import { UserComponent } from '../../components/user.component';
     JwtStrategy,
     FarmComponent,
     UserComponent,
+    PlantGetService,
     PlantComponent,
     TokenService,
   ],

@@ -21,7 +21,7 @@ export class PlantComponent {
     const Errors = new PlantComponentError(errorCode);
     const plant = await this.plantRepository.findOne({
       where: filter,
-      relations: ['farm'],
+      relations: ['farm', 'createdBy'],
       ...(params && { ...params }),
     });
 

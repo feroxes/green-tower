@@ -19,5 +19,6 @@ export const UseCases = {
   plant: {
     create: '/plant/create',
     update: '/plant/update',
+    get: '/plant/get',
   },
 };
