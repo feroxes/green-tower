@@ -13,4 +13,16 @@ class PlantCreateError extends BaseError {
   );
 }
 
+class PlantUpdateError extends BaseError {
+  constructor() {
+    super('plant/update/');
+  }
+  readonly FailedToUpdatePlant = this.createError(
+    InternalServerErrorException,
+    'failedToUpdatePlant',
+    'Failed to update a Plant',
+  );
+}
+
 export const plantCreateError = new PlantCreateError();
+export const plantUpdateError = new PlantUpdateError();

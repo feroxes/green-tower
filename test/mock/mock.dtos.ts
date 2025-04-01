@@ -1,3 +1,4 @@
+import { PlantType } from '../../src/entities/plant.entity';
 import { UserRole } from '../../src/entities/user.entity';
 
 import { LoginDto, RegisterDto } from '../../src/api/dtos/auth.dto';
@@ -38,12 +39,25 @@ export const mockDto = {
     description: 'Microgreen plant description',
     notes: 'Microgreen plant note',
     imageUrl: 'https://moya-dacha.com.ua/wp-content/uploads/2021/07/mikrogrin-Rediska.jpg',
-    type: 'microgreen',
+    type: PlantType.MICROGREEN,
     expectedHoursToHarvest: 144,
     hoursToSoak: 0,
     hoursToMoveToLight: 72,
     shouldBePressed: false,
     seedsGramPerPlate: 7,
     expectedHarvestGramsPerPlate: 24,
+  },
+  plantUpdateDto: {
+    name: 'Updated Microgreen plant',
+    description: 'Updated Microgreen plant description',
+    notes: 'Updated Microgreen plant note',
+    imageUrl: 'https://moya-dacha.com.ua/wp-content/uploads/2021/07/mikrogrin-Rediska.jpg',
+    type: PlantType.MICROGREEN,
+    expectedHoursToHarvest: 244,
+    hoursToSoak: 2,
+    hoursToMoveToLight: 32,
+    shouldBePressed: true,
+    seedsGramPerPlate: 2,
+    expectedHarvestGramsPerPlate: 14,
   },
 };

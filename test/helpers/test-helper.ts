@@ -13,9 +13,8 @@ import { User } from '../../src/entities/user.entity';
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
-import { LoginResponseType } from './types/response.types';
+import { LoginResponseType, PlantResponseType } from './types/response.types';
 
-import { closeDatabaseConnection } from '../test.config';
 import { Calls } from './calls';
 
 type PayloadType = {
@@ -29,9 +28,10 @@ export class TestHelper {
   owner: User;
   accessToken: string;
   refreshToken: string;
-  farm: Farm;
   userRepository: Repository<User>;
+  farm: Farm;
   farmRepository: Repository<Farm>;
+  plant: Plant;
   plantRepository: Repository<Plant>;
   private jwtService: JwtService;
 
@@ -65,6 +65,8 @@ export class TestHelper {
       this.refreshToken = refreshTokenHeader[0].split('refreshToken=')[1];
     }
 
+    const plant = (await Calls.Plant.create(this.app, this.accessToken)) as PlantResponseType;
+
     this.owner = (await this.userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },
       relations: ['farm'],
@@ -74,6 +76,11 @@ export class TestHelper {
       where: { id: this.owner.farm.id },
       relations: ['users', 'plants'],
     })) as Farm;
+
+    this.plant = (await this.plantRepository.findOne({
+      where: { id: plant.body.id },
+      relations: ['createdBy'],
+    })) as Plant;
   }
 
   async createUser(

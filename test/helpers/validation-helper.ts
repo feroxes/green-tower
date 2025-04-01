@@ -94,5 +94,12 @@ export const ValidationHelper = {
       expect(plant.seedsGramPerPlate).toBe(mockPlantCreateDto.seedsGramPerPlate);
       expect(plant.expectedHarvestGramsPerPlate).toBe(mockPlantCreateDto.expectedHarvestGramsPerPlate);
     },
+    validatePlantUpdate(plant: Plant, mockPlantUpdateDto = mockDto.plantUpdateDto) {
+      expect(plant).toBeDefined();
+      expect(plant).not.toBeNull();
+      for (const key in mockPlantUpdateDto) {
+        expect(mockPlantUpdateDto[key]).toBe(plant[key]);
+      }
+    },
   },
 };

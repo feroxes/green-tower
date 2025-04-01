@@ -5,7 +5,7 @@ import { OwnerOrAdminGuard } from '../../guards/owner-or-admin.guard';
 
 import { PlantService } from '../../services/plant/plant.service';
 
-import { PlantCreateDto } from '../dtos/plant.dto';
+import { PlantCreateDto, PlantUpdateDto } from '../dtos/plant.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -20,5 +20,11 @@ export class PlantController {
   @UseGuards(OwnerOrAdminGuard)
   async create(@Body() plantCreateDto: PlantCreateDto, @Executor() executor: ExecutorType) {
     return this.plantService.create(plantCreateDto, executor);
+  }
+
+  @Post('update')
+  @UseGuards(OwnerOrAdminGuard)
+  async update(@Body() plantUpdateDto: PlantUpdateDto, @Executor() executor: ExecutorType) {
+    return this.plantService.update(plantUpdateDto, executor);
   }
 }

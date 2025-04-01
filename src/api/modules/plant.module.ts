@@ -11,15 +11,26 @@ import { PlantController } from '../controllers/plant.controller';
 
 import { PlantService } from '../../services/plant/plant.service';
 import { PlantCreateService } from '../../services/plant/plant-create.service';
+import { PlantUpdateService } from '../../services/plant/plant-update.service';
 import { TokenService } from '../../services/token/token.service';
 
 import { FarmComponent } from '../../components/farm.component';
+import { PlantComponent } from '../../components/plant.component';
 import { UserComponent } from '../../components/user.component';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Plant, Farm])],
   controllers: [PlantController],
-  providers: [PlantService, PlantCreateService, JwtStrategy, FarmComponent, UserComponent, TokenService],
+  providers: [
+    PlantService,
+    PlantCreateService,
+    PlantUpdateService,
+    JwtStrategy,
+    FarmComponent,
+    UserComponent,
+    PlantComponent,
+    TokenService,
+  ],
   exports: [PlantService],
 })
 export class PlantModule {}

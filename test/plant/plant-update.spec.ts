@@ -3,7 +3,10 @@ import { TestingModule } from '@nestjs/testing';
 
 import { UserRole } from '../../src/entities/user.entity';
 
-import { plantCreateError } from '../../src/api/errors/plant.errors';
+import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import { mockDto } from '../mock/mock.dtos';
+
+import { plantCreateError, plantUpdateError } from '../../src/api/errors/plant.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { ErrorResponseType, GuardErrorResponseType, PlantResponseType } from '../helpers/types/response.types';
@@ -14,10 +17,11 @@ import { TestHelper } from '../helpers/test-helper';
 import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
-describe('PlantCreate', () => {
+describe('PlantUpdate', () => {
   let app: INestApplication;
   let module: TestingModule;
   let testHelper: TestHelper;
+  let dto: PlantUpdateDto;
 
   beforeAll(async () => {
     const testConfig = await init();
@@ -33,40 +37,37 @@ describe('PlantCreate', () => {
     await clearDatabase(module);
     testHelper = new TestHelper(app, module);
     await testHelper.init();
+    dto = {
+      id: testHelper.plant.id,
+      ...mockDto.plantUpdateDto,
+    };
   });
 
-  describe(UseCases.plant.create, () => {
-    it(`${UseCases.plant.create} - HDS`, async () => {
-      const res = (await Calls.Plant.create(app, testHelper.getAccessToken)) as PlantResponseType;
-      ValidationHelper.plant.validatePlantCreation(res.body);
-
-      const farm = await testHelper.getFarm();
-      const user = await testHelper.getUser();
-      expect(farm.plants.length).toBe(2);
-      expect(farm.plants[1].id).toBe(res.body.id);
-      expect(user.plants.length).toBe(2);
-      expect(user.plants[1].id).toBe(res.body.id);
+  describe(UseCases.plant.update, () => {
+    it(`${UseCases.plant.update} - HDS`, async () => {
+      const res = (await Calls.Plant.update(app, testHelper.getAccessToken, dto)) as PlantResponseType;
+      ValidationHelper.plant.validatePlantUpdate(res.body, dto);
     });
 
-    it(`${UseCases.plant.create} - user not found`, async () => {
-      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('plant/create/');
+    it(`${UseCases.plant.update} - user not found`, async () => {
+      const userCheckExistenceComponentError = new UserCheckExistenceComponentError('plant/update/');
       const expectedError = userCheckExistenceComponentError.UserNotFound();
 
-      const res = (await Calls.Plant.create(app, testHelper.getAccessTokenWithWrongOwner)) as ErrorResponseType;
+      const res = (await Calls.Plant.update(app, testHelper.getAccessTokenWithWrongOwner, dto)) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
-    it(`${UseCases.plant.create} - forbidden (call by USER)`, async () => {
+    it(`${UseCases.plant.update} - forbidden (call by USER)`, async () => {
       const { accessToken } = await testHelper.createUser(UserRole.USER);
 
-      const res = (await Calls.Plant.create(app, accessToken)) as GuardErrorResponseType;
+      const res = (await Calls.Plant.update(app, accessToken, dto)) as GuardErrorResponseType;
       validateOwnerGuard(res.body);
     });
 
-    it(`${UseCases.plant.create} - failed to create a plant`, async () => {
-      const expectedError = plantCreateError.FailedToCreatePlant();
+    it(`${UseCases.plant.update} - failed to create a plant`, async () => {
+      const expectedError = plantUpdateError.FailedToUpdatePlant();
       jest.spyOn(testHelper.plantRepository, 'save').mockRejectedValue(new Error());
-      const res = (await Calls.Plant.create(app, testHelper.getAccessToken)) as ErrorResponseType;
+      const res = (await Calls.Plant.update(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
