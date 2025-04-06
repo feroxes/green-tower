@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
 import { PlantCreateService } from './plant-create.service';
+import { PlantDeleteService } from './plant-delete.service';
 import { PlantGetService } from './plant-get.service';
 import { PlantUpdateService } from './plant-update.service';
 
-import { PlantCreateDto, PlantGetDto, PlantUpdateDto } from '../../api/dtos/plant.dto';
+import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantUpdateDto } from '../../api/dtos/plant.dto';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -14,6 +15,7 @@ export class PlantService {
     private plantCreateService: PlantCreateService,
     private plantUpdateService: PlantUpdateService,
     private plantGetService: PlantGetService,
+    private plantDeleteService: PlantDeleteService,
   ) {}
 
   async create(plantCreateDto: PlantCreateDto, executor: ExecutorType) {
@@ -26,5 +28,9 @@ export class PlantService {
 
   async get(plantGetDto: PlantGetDto, executor: ExecutorType) {
     return this.plantGetService.get(plantGetDto, executor);
+  }
+
+  async delete(plantDeleteDto: PlantDeleteDto, executor: ExecutorType) {
+    return this.plantDeleteService.delete(plantDeleteDto, executor);
   }
 }

@@ -120,3 +120,9 @@ export class PlantGetDto {
   @IsNotEmpty()
   id: string;
 }
+
+export class PlantDeleteDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+}

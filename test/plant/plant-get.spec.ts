@@ -1,20 +1,17 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
-import { UserRole } from '../../src/entities/user.entity';
-
 import { PlantGetDto } from '../../src/api/dtos/plant.dto';
 
-import { plantUpdateError } from '../../src/api/errors/plant.errors';
 import { PlantComponentError } from '../../src/api/errors/plant-component.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, GuardErrorResponseType, PlantResponseType } from '../helpers/types/response.types';
+import { ErrorResponseType, PlantResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
+import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('PlantGet', () => {

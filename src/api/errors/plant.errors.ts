@@ -24,5 +24,17 @@ class PlantUpdateError extends BaseError {
   );
 }
 
+class PlantDeleteError extends BaseError {
+  constructor() {
+    super('plant/delete/');
+  }
+  readonly FailedToDeletePlant = this.createError(
+    InternalServerErrorException,
+    'failedToDeletePlant',
+    'Failed to delete a Plant',
+  );
+}
+
 export const plantCreateError = new PlantCreateError();
 export const plantUpdateError = new PlantUpdateError();
+export const plantDeleteError = new PlantDeleteError();
