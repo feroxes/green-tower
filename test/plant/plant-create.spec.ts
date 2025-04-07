@@ -1,17 +1,23 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
+import { Plant } from '../../src/entities/plant.entity';
 import { UserRole } from '../../src/entities/user.entity';
 
 import { plantCreateError } from '../../src/api/errors/plant.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, GuardErrorResponseType, PlantResponseType } from '../helpers/types/response.types';
+import {
+  ErrorResponse,
+  ErrorResponseType,
+  GuardErrorResponseType,
+  ObjectResponseType,
+} from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('PlantCreate', () => {
@@ -37,7 +43,7 @@ describe('PlantCreate', () => {
 
   describe(UseCases.plant.create, () => {
     it(`${UseCases.plant.create} - HDS`, async () => {
-      const res = (await Calls.Plant.create(app, testHelper.getAccessToken)) as PlantResponseType;
+      const res = (await Calls.Plant.create(app, testHelper.getAccessToken)) as ObjectResponseType<Plant>;
       ValidationHelper.plant.validatePlantCreation(res.body);
 
       const farm = await testHelper.getFarm();

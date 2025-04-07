@@ -6,12 +6,12 @@ import { User } from '../../src/entities/user.entity';
 import { userGetError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, UserResponseType } from '../helpers/types/response.types';
+import { ErrorResponse, ErrorResponseType, ObjectResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('UserGet', () => {
@@ -42,7 +42,7 @@ describe('UserGet', () => {
 
   describe(UseCases.user.get, () => {
     it(`${UseCases.user.get} - HDS (get owner himself)`, async () => {
-      const res = (await Calls.User.get(app, testHelper.getAccessToken)) as UserResponseType;
+      const res = (await Calls.User.get(app, testHelper.getAccessToken)) as ObjectResponseType<User>;
 
       ValidationHelper.user.validateUserGet(res.body);
     });
@@ -50,13 +50,13 @@ describe('UserGet', () => {
     it(`${UseCases.user.get} - HDS (call by owner - getting user)`, async () => {
       const res = (await Calls.User.get(app, testHelper.getAccessToken, {
         id: user.id,
-      })) as UserResponseType;
+      })) as ObjectResponseType<User>;
 
       ValidationHelper.user.validateUserGet(res.body);
     });
 
     it(`${UseCases.user.get} - HDS (call by user - getting himself)`, async () => {
-      const res = (await Calls.User.get(app, userAccessToken)) as UserResponseType;
+      const res = (await Calls.User.get(app, userAccessToken)) as ObjectResponseType<User>;
 
       ValidationHelper.user.validateUserGet(res.body);
     });

@@ -13,7 +13,7 @@ import { User } from '../../src/entities/user.entity';
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
-import { LoginResponseType, PlantResponseType } from './types/response.types';
+import { LoginResponseType, ObjectResponseType } from './types/response.types';
 
 import { Calls } from './calls';
 
@@ -65,7 +65,7 @@ export class TestHelper {
       this.refreshToken = refreshTokenHeader[0].split('refreshToken=')[1];
     }
 
-    const plant = (await Calls.Plant.create(this.app, this.accessToken)) as PlantResponseType;
+    const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
 
     this.owner = (await this.userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },

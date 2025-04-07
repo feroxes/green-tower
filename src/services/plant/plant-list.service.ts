@@ -26,6 +26,6 @@ export class PlantListService {
 
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
-    return await this.plantComponent.list(plantListDto.meta, executor, plantListDto.filters, plantListDto.sorters);
+    return await this.plantComponent.list(executor, plantListDto.meta, plantListDto.filters, plantListDto.sorters);
   }
 }

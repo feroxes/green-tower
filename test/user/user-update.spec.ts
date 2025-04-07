@@ -8,12 +8,12 @@ import { mockDto } from '../mock/mock.dtos';
 import { userUpdateError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, UserResponseType } from '../helpers/types/response.types';
+import { ErrorResponse, ErrorResponseType, ObjectResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('UserCreate', () => {
@@ -47,7 +47,7 @@ describe('UserCreate', () => {
       const res = (await Calls.User.update(app, testHelper.getAccessToken, {
         id: user.id,
         ...mockDto.userUpdateDto,
-      })) as UserResponseType;
+      })) as ObjectResponseType<User>;
 
       ValidationHelper.user.validateUserUpdate(res.body);
     });
@@ -56,7 +56,7 @@ describe('UserCreate', () => {
       const res = (await Calls.User.update(app, userAccessToken, {
         id: user.id,
         ...mockDto.userUpdateDto,
-      })) as UserResponseType;
+      })) as ObjectResponseType<User>;
 
       ValidationHelper.user.validateUserUpdate(res.body);
     });

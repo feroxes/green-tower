@@ -23,8 +23,8 @@ export function List<T extends ObjectLiteral>(options: ListOptions<T>) {
   return function (_: any, __: string, descriptor: PropertyDescriptor) {
     descriptor.value = async function (
       this: { repository: Repository<T> },
-      meta: ListMetaDto,
       executor: ExecutorType,
+      meta: ListMetaDto,
       filters: Record<string, unknown>,
       sorters?: Record<string, SortDirectionType>,
     ): Promise<ListResponseType<T>> {

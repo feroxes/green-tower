@@ -1,17 +1,22 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
-import { UserRole } from '../../src/entities/user.entity';
+import { User, UserRole } from '../../src/entities/user.entity';
 
 import { userSetRoleError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, GuardErrorResponseType, UserResponseType } from '../helpers/types/response.types';
+import {
+  ErrorResponse,
+  ErrorResponseType,
+  GuardErrorResponseType,
+  ObjectResponseType,
+} from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, validateOwnerGuard } from '../helpers/validation-helper';
+import { validateError, validateOwnerGuard } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('UserSetRole', () => {
@@ -40,7 +45,10 @@ describe('UserSetRole', () => {
   describe(UseCases.user.setRole, () => {
     it(`${UseCases.user.setRole} - HDS`, async () => {
       const { user } = await testHelper.createUser();
-      const res = (await Calls.User.setRole(app, testHelper.getAccessToken, { id: user.id, role })) as UserResponseType;
+      const res = (await Calls.User.setRole(app, testHelper.getAccessToken, {
+        id: user.id,
+        role,
+      })) as ObjectResponseType<User>;
 
       expect(res.body.role).toBe(role);
     });

@@ -10,10 +10,11 @@ import { refreshTokenMiddlewareErrors } from '../../src/api/errors/refresh-token
 import { refreshAccessTokenErrors } from '../../src/api/errors/token-service.errors';
 
 import { JwtPayloadType } from '../../src/api/types/auth.types';
+import { ErrorResponse } from '../helpers/types/response.types';
 
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 const useCase = 'token.service';

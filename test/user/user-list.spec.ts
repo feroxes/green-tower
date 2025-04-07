@@ -1,7 +1,10 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
-import { GuardErrorResponseType, UserListResponseType } from '../helpers/types/response.types';
+import { User } from '../../src/entities/user.entity';
+
+import { GuardErrorResponseType } from '../helpers/types/response.types';
+import { ListResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
@@ -35,12 +38,11 @@ describe('UserList', () => {
 
   describe(UseCases.user.list, () => {
     it(`${UseCases.user.list} - HDS`, async () => {
-      const res = (await Calls.User.list(app, testHelper.getAccessToken)) as UserListResponseType;
-
-      res.body.forEach((user) => {
+      const res = (await Calls.User.list(app, testHelper.getAccessToken)) as ListResponseType<User>;
+      res.body.itemList.forEach((user) => {
         ValidationHelper.user.validateUserGet(user);
       });
-      expect(res.body.length).toBe(2);
+      expect(res.body.itemList.length).toBe(2);
     });
 
     it(`${UseCases.user.list} - call by user`, async () => {

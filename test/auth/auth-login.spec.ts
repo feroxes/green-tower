@@ -9,11 +9,11 @@ import { mockDto } from '../mock/mock.dtos';
 
 import { loginError } from '../../src/api/errors/auth.errors';
 
-import { ErrorResponseType, LoginResponseType } from '../helpers/types/response.types';
+import { ErrorResponse, ErrorResponseType, LoginResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
-import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('AuthLogin', () => {

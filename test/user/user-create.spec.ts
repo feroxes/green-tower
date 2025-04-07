@@ -5,12 +5,17 @@ import { User } from '../../src/entities/user.entity';
 
 import { UserCheckExistenceComponentError, UserCreateComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, GuardErrorResponseType } from '../helpers/types/response.types';
+import {
+  ErrorResponse,
+  ErrorResponseType,
+  GuardErrorResponseType,
+  ObjectResponseType,
+} from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('UserCreate', () => {
@@ -36,7 +41,7 @@ describe('UserCreate', () => {
 
   describe(UseCases.user.create, () => {
     it(`${UseCases.user.create} - HDS`, async () => {
-      const res = (await Calls.User.create(app, testHelper.getAccessToken)) as { body: User };
+      const res = (await Calls.User.create(app, testHelper.getAccessToken)) as ObjectResponseType<User>;
       const farm = await testHelper.getFarm();
 
       ValidationHelper.user.validateUserCreation(res.body);

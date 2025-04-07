@@ -94,3 +94,5 @@ export class UserGetDto {
   @IsUUID()
   id?: string;
 }
+
+export class UserListFiltersDto {}

@@ -45,8 +45,8 @@ export class PlantComponent {
     defaultSort: { field: 'createdAt', order: SortDirectionType.DESC },
   })
   async list(
-    meta: ListMetaDto,
     executor: ExecutorType,
+    meta: ListMetaDto,
     filters?: PlantListFiltersDto,
     sorters?: PlantListSortersDto,
   ): Promise<ListResponseType<Plant>> {

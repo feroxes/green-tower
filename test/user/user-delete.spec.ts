@@ -4,12 +4,12 @@ import { TestingModule } from '@nestjs/testing';
 import { userDeleteError } from '../../src/api/errors/user.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
-import { ErrorResponseType, GuardErrorResponseType, PlantResponseType } from '../helpers/types/response.types';
+import { ErrorResponse, ErrorResponseType, GuardErrorResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, validateOwnerGuard } from '../helpers/validation-helper';
+import { validateError, validateOwnerGuard } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('UserDelete', () => {

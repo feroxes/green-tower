@@ -2,8 +2,9 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Response } from 'supertest';
 
+import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
-import { UserRole } from '../../src/entities/user.entity';
+import { User, UserRole } from '../../src/entities/user.entity';
 
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import { UserUpdateDto } from '../../src/api/dtos/user.dto';
@@ -12,15 +13,12 @@ import { mockDto } from '../mock/mock.dtos';
 import {
   EmptyResponseType,
   ErrorResponseType,
-  FarmResponseType,
   GuardErrorResponseType,
+  ListResponseType,
   LoginResponseType,
-  PlantResponseType,
-  UserListResponseType,
-  UserResponseType,
+  ObjectResponseType,
 } from './types/response.types';
 
-import { ListResponseType } from '../../src/api/types/dto-types';
 import { UseCases } from './constants';
 
 export const Calls = {
@@ -64,7 +62,7 @@ export const Calls = {
       app: INestApplication,
       body: { id: string },
       accessToken: string,
-    ): Promise<FarmResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<Farm> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.farm.get, body, accessToken);
     },
   },
@@ -73,27 +71,27 @@ export const Calls = {
       app: INestApplication,
       accessToken: string,
       body = mockDto.getUserCreateDto(),
-    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<User> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.create, body, accessToken);
     },
     async update(
       app: INestApplication,
       accessToken: string,
       body: UserUpdateDto,
-    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<User> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.update, body, accessToken);
     },
     async get(
       app: INestApplication,
       accessToken: string,
       body: { id?: string } = {},
-    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<User> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.user.get, body, accessToken);
     },
     async list(
       app: INestApplication,
       accessToken: string,
-    ): Promise<UserListResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ListResponseType<User> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.user.list, {}, accessToken);
     },
     async delete(
@@ -107,7 +105,7 @@ export const Calls = {
       app: INestApplication,
       accessToken: string,
       body: { id: string; role: UserRole.ADMIN | UserRole.USER },
-    ): Promise<UserResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<User> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.user.setRole, body, accessToken);
     },
   },
@@ -116,28 +114,28 @@ export const Calls = {
       app: INestApplication,
       accessToken: string,
       body = mockDto.plantCreateDto,
-    ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<Plant> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.plant.create, body, accessToken);
     },
     async update(
       app: INestApplication,
       accessToken: string,
       body: PlantUpdateDto,
-    ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<Plant> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.plant.update, body, accessToken);
     },
     async get(
       app: INestApplication,
       accessToken: string,
       body: PlantGetDto,
-    ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<Plant> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.plant.get, body, accessToken);
     },
     async list(
       app: INestApplication,
       accessToken: string,
       body: PlantListDto,
-    ): Promise<{ body: ListResponseType<Plant> } | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ListResponseType<Plant> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.plant.list, body, accessToken);
     },
     async delete(

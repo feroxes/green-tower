@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
+import { Farm } from '../../src/entities/farm.entity';
 import { User } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
@@ -9,16 +10,17 @@ import { getError } from '../../src/api/errors/farm.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import {
+  ErrorResponse,
   ErrorResponseType,
-  FarmResponseType,
   GuardErrorResponseType,
   LoginResponseType,
+  ObjectResponseType,
 } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, validateOwnerGuard, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('FarmGet', () => {
@@ -48,7 +50,7 @@ describe('FarmGet', () => {
         app,
         { id: testHelper.farm.id },
         testHelper.getAccessToken,
-      )) as FarmResponseType;
+      )) as ObjectResponseType<Farm>;
 
       ValidationHelper.farm.validateFarm(res.body);
     });

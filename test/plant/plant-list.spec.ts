@@ -9,12 +9,12 @@ import { mockDto } from '../mock/mock.dtos';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
 import { SortDirectionType } from '../../src/api/types/common.types';
-import { ErrorResponseType, ListResponseType } from '../helpers/types/response.types';
+import { ErrorResponse, ErrorResponseType, ListResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { ErrorResponse, validateError, ValidationHelper } from '../helpers/validation-helper';
+import { validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('PlantList', () => {

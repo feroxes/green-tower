@@ -4,18 +4,9 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
+import { ErrorResponse, GuardError } from './types/response.types';
+
 import { ListResponseType } from '../../src/api/types/dto-types';
-
-export interface ErrorResponse {
-  errorCode: string;
-  message: string;
-}
-
-export interface GuardError {
-  statusCode: number;
-  error: string;
-  message: string;
-}
 
 export function validateError(error: ErrorResponse, expectedError: ErrorResponse) {
   expect(error.errorCode).toEqual(expectedError.errorCode);

@@ -1,12 +1,14 @@
-import { Farm } from '../../../src/entities/farm.entity';
-import { Plant } from '../../../src/entities/plant.entity';
-import { User } from '../../../src/entities/user.entity';
-
 import { ListMetaType } from '../../../src/api/types/dto-types';
-import { ErrorResponse, GuardError } from '../validation-helper';
 
-export type EmptyResponseType = {
-  body: object;
+export type ErrorResponse = {
+  errorCode: string;
+  message: string;
+};
+
+export type GuardError = {
+  statusCode: number;
+  error: string;
+  message: string;
 };
 
 export type LoginResponseType = {
@@ -16,28 +18,20 @@ export type LoginResponseType = {
   headers: object;
 };
 
-export type UserResponseType = {
-  body: User;
-};
-
-export type UserListResponseType = {
-  body: User[];
-};
-
-export type FarmResponseType = {
-  body: Farm;
-};
-
-export type PlantResponseType = {
-  body: Plant;
-};
-
 export type ErrorResponseType = {
   body: ErrorResponse;
 };
 
 export type GuardErrorResponseType = {
   body: GuardError;
+};
+
+export type EmptyResponseType = {
+  body: object;
+};
+
+export type ObjectResponseType<T> = {
+  body: T;
 };
 
 export type ListResponseType<T> = {
