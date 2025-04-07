@@ -1,17 +1,24 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsUrl,
   IsUUID,
   MaxLength,
   Min,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
 
 import { PlantType } from '../../entities/plant.entity';
+
+import { SortDirectionType } from '../types/common.types';
+
+import { ListMetaDto } from '../types/dto-types';
 
 export class PlantCreateDto {
   @IsString()
@@ -125,4 +132,37 @@ export class PlantDeleteDto {
   @IsUUID()
   @IsNotEmpty()
   id: string;
+}
+
+export class PlantListFiltersDto {
+  @IsEnum(PlantType)
+  @IsOptional()
+  type?: PlantType.MICROGREEN | PlantType.COMMON;
+
+  @IsUUID()
+  @IsOptional()
+  createdBy?: string;
+}
+
+export class PlantListSortersDto {
+  @IsEnum(SortDirectionType)
+  @IsOptional()
+  createdAt?: SortDirectionType.ASC | SortDirectionType.DESC;
+}
+
+export class PlantListDto {
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => ListMetaDto)
+  meta: ListMetaDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => PlantListFiltersDto)
+  filters?: PlantListFiltersDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => PlantListSortersDto)
+  sorters?: PlantListSortersDto;
 }

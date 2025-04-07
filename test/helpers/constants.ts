@@ -20,6 +20,7 @@ export const UseCases = {
     create: '/plant/create',
     update: '/plant/update',
     get: '/plant/get',
+    list: '/plant/list',
     delete: '/plant/delete',
   },
 };

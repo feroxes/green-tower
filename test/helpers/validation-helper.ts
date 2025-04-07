@@ -4,6 +4,8 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
 
+import { ListResponseType } from '../../src/api/types/dto-types';
+
 export interface ErrorResponse {
   errorCode: string;
   message: string;
@@ -29,6 +31,14 @@ export function validateOwnerGuard(error: GuardError): void {
 export const ValidationHelper = {
   validateSuccessResponse(response: Response) {
     expect([200, 201]).toContain(response.status);
+  },
+  validateListResponse<T>(body: ListResponseType<T>) {
+    expect(body).toBeDefined();
+    expect(body.itemList).toBeDefined();
+    expect(body.meta).toBeDefined();
+    expect(body.meta.page).toBeDefined();
+    expect(body.meta.size).toBeDefined();
+    expect(body.meta.total).toBeDefined();
   },
   auth: {
     validateDto: (body: { accessToken: string }) => {

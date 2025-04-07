@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -18,6 +19,7 @@ export enum PlantType {
 }
 
 @Entity()
+@Index('IDX_PLANT_CREATED_AT', ['createdAt'])
 export class Plant {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -6,7 +6,7 @@ import { OwnerOrAdminGuard } from '../../guards/owner-or-admin.guard';
 
 import { PlantService } from '../../services/plant/plant.service';
 
-import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantUpdateDto } from '../dtos/plant.dto';
+import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../dtos/plant.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -39,5 +39,11 @@ export class PlantController {
   @UseGuards(OwnerOrAdminGuard)
   async delete(@Body() plantDeleteDto: PlantDeleteDto, @Executor() executor: ExecutorType) {
     return this.plantService.delete(plantDeleteDto, executor);
+  }
+
+  @Get('list')
+  @UseGuards(AuthorizedGuard)
+  async let(@Body() plantListDto: PlantListDto, @Executor() executor: ExecutorType) {
+    return this.plantService.list(plantListDto, executor);
   }
 }

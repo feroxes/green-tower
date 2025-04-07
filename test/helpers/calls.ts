@@ -2,9 +2,10 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Response } from 'supertest';
 
+import { Plant } from '../../src/entities/plant.entity';
 import { UserRole } from '../../src/entities/user.entity';
 
-import { PlantDeleteDto, PlantGetDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import { UserUpdateDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
@@ -19,6 +20,7 @@ import {
   UserResponseType,
 } from './types/response.types';
 
+import { ListResponseType } from '../../src/api/types/dto-types';
 import { UseCases } from './constants';
 
 export const Calls = {
@@ -130,6 +132,13 @@ export const Calls = {
       body: PlantGetDto,
     ): Promise<PlantResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.plant.get, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantListDto,
+    ): Promise<{ body: ListResponseType<Plant> } | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.plant.list, body, accessToken);
     },
     async delete(
       app: INestApplication,

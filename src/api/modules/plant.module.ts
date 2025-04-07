@@ -13,6 +13,7 @@ import { PlantService } from '../../services/plant/plant.service';
 import { PlantCreateService } from '../../services/plant/plant-create.service';
 import { PlantDeleteService } from '../../services/plant/plant-delete.service';
 import { PlantGetService } from '../../services/plant/plant-get.service';
+import { PlantListService } from '../../services/plant/plant-list.service';
 import { PlantUpdateService } from '../../services/plant/plant-update.service';
 import { TokenService } from '../../services/token/token.service';
 
@@ -32,6 +33,7 @@ import { UserComponent } from '../../components/user.component';
     UserComponent,
     PlantGetService,
     PlantDeleteService,
+    PlantListService,
     PlantComponent,
     TokenService,
   ],
