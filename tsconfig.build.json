@@ -1,3 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "green-tower-server/test", "dist", "**/*spec.ts"]}
