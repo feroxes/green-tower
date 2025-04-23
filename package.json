@@ -1,6 +1,8 @@
 {
   "name": "green-tower",
   "version": "0.1.0",
+  "description": "",
+  "author": "",
   "private": true,
   "workspaces": [
     "green-tower-client",
