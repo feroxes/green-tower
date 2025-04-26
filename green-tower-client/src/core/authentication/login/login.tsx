@@ -1,11 +1,15 @@
+import React from 'react';
 import { useLsi } from '../../../hooks/hooks';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import LoginFormView, { LoginFormInputs } from './login-form-view';
 import { ValidationLsi } from '../../../lsi/validation-lsi';
+import { useAuthentication } from '../../../hooks/hooks';
+import Calls from 'calls';
 
 function Login() {
+  const { login } = useAuthentication();
   const validationLsi = useLsi(ValidationLsi);
 
   const validationSchema = yup
@@ -21,9 +25,15 @@ function Login() {
     formState: { errors },
   } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) });
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log('----->data<-----', data);
-  };
+  async function onSubmit(data: LoginFormInputs, event?: React.BaseSyntheticEvent) {
+    await Calls.Auth.login(data)
+      .then((result) => {
+        login(result.data.accessToken);
+      })
+      .catch((error) => {
+        console.log('----->error<-----', error);
+      });
+  }
 
   return <LoginFormView onSubmit={handleSubmit(onSubmit)} errors={errors} register={register} />;
 }

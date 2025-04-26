@@ -22,6 +22,8 @@ let RefreshTokenMiddleware = class RefreshTokenMiddleware {
     }
     async use(req, res, next) {
         const authHeader = req.headers.authorization;
+        const cookieHeader = req.headers.cookie ?? '';
+        const parsedCookies = (0, cookie_1.parse)(cookieHeader);
         if (!authHeader) {
             throw refresh_token_middleware_errors_1.refreshTokenMiddlewareErrors.NoAuthorizationHeader();
         }
@@ -35,8 +37,6 @@ let RefreshTokenMiddleware = class RefreshTokenMiddleware {
         }
         catch (error) {
             if (error instanceof Error && error.name === 'TokenExpiredError') {
-                const cookieHeader = req.headers.cookie ?? '';
-                const parsedCookies = (0, cookie_1.parse)(cookieHeader);
                 const refreshToken = parsedCookies['refreshToken'];
                 if (!refreshToken) {
                     throw refresh_token_middleware_errors_1.refreshTokenMiddlewareErrors.NoRefreshTokenProvided();

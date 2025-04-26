@@ -21,7 +21,7 @@ function AppView() {
     '/': <Authentication />,
   };
 
-  return <AppRouter routerMap={isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap} />;
+  return <AppRouter routerMap={authenticatedRouteMap} />;
 }
 
 export default AppView;

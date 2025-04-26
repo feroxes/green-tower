@@ -1,5 +1,6 @@
 import { LanguageProvider, AuthProvider } from '../../context/context-providers';
 import ThemeProvider from '../../components/theme-provider/theme-provider';
+import { AlertProvider } from '../../context/alert-context/alert-provider';
 import AppView from './app-view';
 
 function App() {
@@ -7,7 +8,9 @@ function App() {
     <ThemeProvider>
       <LanguageProvider>
         <AuthProvider>
-          <AppView />
+          <AlertProvider>
+            <AppView />
+          </AlertProvider>
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>

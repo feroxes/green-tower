@@ -8,6 +8,12 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true }));
     app.useGlobalInterceptors(new common_2.ClassSerializerInterceptor(app.get(core_1.Reflector)));
+    app.enableCors({
+        origin: ['http://localhost:3001'],
+        methods: 'GET,HEAD,POST',
+        credentials: true,
+        exposedHeaders: ['New-Access-Token'],
+    });
     await app.listen(3000);
 }
 bootstrap();

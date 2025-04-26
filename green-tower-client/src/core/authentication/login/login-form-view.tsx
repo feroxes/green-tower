@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { useLsi } from '../../../hooks/hooks';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { Constants } from '../../../helpers/constants';
@@ -16,6 +19,7 @@ import {
   RegisterWrapper,
   FooterWrapper,
 } from './login.styles';
+import { useAlert } from '../../../hooks/hooks';
 
 export interface LoginFormInputs {
   email: string;
@@ -29,8 +33,10 @@ interface LoginFormViewProps {
 }
 
 function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
+  const alert = useAlert();
   const lsi = useLsi(Lsi);
   const commonLsi = useLsi();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <ComponentWrapper>
@@ -52,11 +58,22 @@ function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
             fullWidth
             margin="dense"
             size="small"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             label={commonLsi.password}
             error={Boolean(errors.password)}
             helperText={errors.password?.message ?? ''}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end" size="small">
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
             {...register('password')}
           />
 

@@ -21,15 +21,15 @@ let UserGetService = class UserGetService {
     async get(userGetDto, executor) {
         const useCase = 'user/get/';
         const _executor = await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
-        if (userGetDto.id && userGetDto.id !== executor.id) {
+        if (userGetDto?.id && userGetDto.id !== executor.id) {
             if (executor.role !== user_entity_1.UserRole.OWNER) {
                 throw user_errors_1.userGetError.UserGetForbidden();
             }
         }
-        if (!userGetDto.id || userGetDto.id === executor.id) {
+        if (!userGetDto?.id || userGetDto.id === executor.id) {
             return _executor;
         }
-        return await this.userComponent.checkUserExistence(userGetDto.id, executor.farmId, useCase);
+        return await this.userComponent.checkUserExistence(userGetDto?.id, executor.farmId, useCase);
     }
 };
 exports.UserGetService = UserGetService;

@@ -1,5 +1,6 @@
-import { useLanguage } from './use-language';
 import { useLsi } from './use-lsi';
-import { useAuthentication } from './use-authentication';
+import { useLanguage } from '../context/language-context/use-language';
+import { useAuthentication } from '../context/auth-context/use-authentication';
+import { useAlert } from '../context/alert-context/use-alert';
 
-export { useLanguage, useLsi, useAuthentication };
+export { useLanguage, useLsi, useAuthentication, useAlert };

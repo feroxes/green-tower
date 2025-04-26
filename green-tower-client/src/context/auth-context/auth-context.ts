@@ -1,6 +1,13 @@
 import { createContext } from 'react';
 
-export const AuthContext = createContext({
+interface AuthContextValue {
+  isAuthenticated: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+}
+
+export const AuthContext = createContext<AuthContextValue | undefined>({
   isAuthenticated: false,
-  setIsAuthenticated: (value: boolean) => {},
+  login: (token: string) => {},
+  logout: () => {},
 });

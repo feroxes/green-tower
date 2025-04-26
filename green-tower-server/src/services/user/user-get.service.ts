@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 
 import { User, UserRole } from '../../entities/user.entity';
 
@@ -19,16 +18,16 @@ export class UserGetService {
     const useCase = 'user/get/';
     const _executor = await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
 
-    if (userGetDto.id && userGetDto.id !== executor.id) {
+    if (userGetDto?.id && userGetDto.id !== executor.id) {
       if (executor.role !== UserRole.OWNER) {
         throw userGetError.UserGetForbidden();
       }
     }
 
-    if (!userGetDto.id || userGetDto.id === executor.id) {
+    if (!userGetDto?.id || userGetDto.id === executor.id) {
       return _executor;
     }
 
-    return await this.userComponent.checkUserExistence(userGetDto.id, executor.farmId, useCase);
+    return await this.userComponent.checkUserExistence(userGetDto?.id, executor.farmId, useCase);
   }
 }
