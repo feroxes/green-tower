@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { LanguageContext } from '../store/language-context/language-context';
-import { Constants } from '../utils/constants';
-import { Lsi } from '../lsi/lsi';
+import { LanguageContext } from '../../store/language-context/language-context';
+import { Constants } from '../../utils/constants';
+import { Lsi } from '../../lsi/lsi';
 
 export const useLsi = (lsi: Record<string, Record<string, string>> = Lsi) => {
   const { language } = useContext(LanguageContext);
