@@ -7,7 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { Constants } from '../../../helpers/constants';
+import { Constants } from '../../../utils/constants';
 import { Lsi } from './lsi';
 import LanguageSelector from '../../../components/language-selector/language-selector';
 import {

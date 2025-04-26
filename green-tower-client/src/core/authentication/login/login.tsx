@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import LoginFormView, { LoginFormInputs } from './login-form-view';
 import { ValidationLsi } from '../../../lsi/validation-lsi';
 import { useAuthentication } from '../../../hooks/hooks';
-import Calls from 'calls';
+import Calls from 'services/calls';
 
 function Login() {
   const { login } = useAuthentication();

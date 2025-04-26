@@ -5,10 +5,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SelectChangeEvent } from '@mui/material';
 import { SupportedLanguages } from '../../types/types';
-import { useLanguage } from '../../context/language-context/use-language';
+import { useLanguage } from '../../hooks/use-language';
 import ukFlag from '../../assets/flags/ukraine.png';
 import enFlag from '../../assets/flags/united-kingdom.png';
-import { Constants } from '../../helpers/constants';
+import { Constants } from '../../utils/constants';
 
 const languageList = [
   { code: SupportedLanguages.EN, icon: enFlag, value: 'English' },
