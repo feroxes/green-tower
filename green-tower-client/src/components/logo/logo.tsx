@@ -19,11 +19,12 @@ function Logo({
   logoSize = 110,
   fontSize = 54,
   textPosition = 'bottom',
+  ...rest
 }: LogoPropTypes) {
   const lsi = useLsi();
 
   return (
-    <ComponentWrapper>
+    <ComponentWrapper {...rest}>
       {displayLogo && <LogoWrapper size={logoSize} />}
       {displayText && (
         <Stack direction="row" sx={{ marginTop: '8px' }}>
