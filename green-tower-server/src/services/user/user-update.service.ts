@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
 
 import { User, UserRole } from '../../entities/user.entity';
 
@@ -38,9 +37,7 @@ export class UserUpdateService {
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
     try {
-      user = await this.userRepository.save(
-        this.userRepository.create({ ...user, ...userUpdateDto })
-      );
+      user = await this.userRepository.save(this.userRepository.create({ ...user, ...userUpdateDto }));
       return user;
     } catch (e: unknown) {
       throw userUpdateError.FailedToUpdateUser({ e });

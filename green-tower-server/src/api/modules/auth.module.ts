@@ -11,6 +11,7 @@ import { AuthController } from '../controllers/auth.controller';
 import { AuthService } from '../../services/auth/auth.service';
 import { AuthConfirmEmailService } from '../../services/auth/auth-confirm-email.service';
 import { AuthLoginService } from '../../services/auth/auth-login.service';
+import { AuthRefreshService } from '../../services/auth/auth-refresh.service';
 import { AuthResendConfirmationEmailService } from '../../services/auth/auth-resend-confirmation-email.service';
 import { AuthSignupService } from '../../services/auth/auth-signup.service';
 import { EmailService } from '../../services/email/email.service';
@@ -26,6 +27,7 @@ import { UserComponent } from '../../components/user.component';
     AuthService,
     AuthLoginService,
     AuthSignupService,
+    AuthRefreshService,
     AuthConfirmEmailService,
     AuthResendConfirmationEmailService,
     EmailService,

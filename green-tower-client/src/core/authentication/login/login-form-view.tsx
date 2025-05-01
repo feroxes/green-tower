@@ -19,7 +19,6 @@ import {
   RegisterWrapper,
   FooterWrapper,
 } from './login.styles';
-import { useAlert } from '../../../hooks/hooks';
 
 export interface LoginFormInputs {
   email: string;
@@ -33,7 +32,6 @@ interface LoginFormViewProps {
 }
 
 function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
-  const alert = useAlert();
   const lsi = useLsi(Lsi);
   const commonLsi = useLsi();
   const [showPassword, setShowPassword] = useState(false);

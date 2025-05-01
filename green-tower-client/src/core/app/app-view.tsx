@@ -3,6 +3,7 @@ import { useLanguage, useLsi, useAuthentication } from '../../hooks/hooks';
 import AppRouter from '../../routes/app-router';
 
 const Authentication = lazy(() => import('../../routes/authentication'));
+const Dashboard = lazy(() => import('../../routes/dashboard'));
 
 function AppView() {
   const lsi = useLsi();
@@ -18,10 +19,10 @@ function AppView() {
   };
 
   const authenticatedRouteMap = {
-    '/': <Authentication />,
+    '/': <Dashboard />,
   };
 
-  return <AppRouter routerMap={authenticatedRouteMap} />;
+  return <AppRouter routerMap={isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap} />;
 }
 
 export default AppView;

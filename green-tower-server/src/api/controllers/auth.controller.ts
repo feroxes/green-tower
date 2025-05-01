@@ -1,5 +1,5 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Res } from '@nestjs/common';
-import { CookieOptions, Response } from 'express';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, Res } from '@nestjs/common';
+import { CookieOptions, Request, Response } from 'express';
 
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -30,6 +30,16 @@ export class AuthController {
     return {
       accessToken: result.accessToken,
     };
+  }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const refreshToken = req.cookies['refreshToken'] as string;
+
+    const { newAccessToken } = await this.authService.refresh({ refreshToken });
+    res.setHeader('New-Access-Token', 'Bearer ' + newAccessToken);
+    return { newAccessToken };
   }
 
   @Get('confirmEmail/:token')

@@ -2,6 +2,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './api/modules/app.module';
 
@@ -17,7 +18,7 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['New-Access-Token'],
   });
-
+  app.use(cookieParser());
   await app.listen(3000);
 }
 bootstrap();
