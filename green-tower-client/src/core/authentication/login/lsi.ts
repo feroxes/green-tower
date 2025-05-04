@@ -11,4 +11,12 @@ export const Lsi = {
     en: 'Register',
     uk: 'Зареєструватися',
   },
+  invalidCredentials: {
+    en: 'Invalid credentials',
+    uk: 'Не вірні облікові дані',
+  },
+  unexpectedError: {
+    en: 'Unexpected error. Please try again.',
+    uk: 'Сталася помилка. Спробуйте ще раз.',
+  },
 };

@@ -29,9 +29,10 @@ interface LoginFormViewProps {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   errors: FieldErrors<LoginFormInputs>;
   register: UseFormRegister<LoginFormInputs>;
+  isPending: boolean;
 }
 
-function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
+function LoginFormView({ errors, onSubmit, register, isPending }: LoginFormViewProps) {
   const lsi = useLsi(Lsi);
   const commonLsi = useLsi();
   const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +50,7 @@ function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
             label={commonLsi.email}
             error={Boolean(errors.email)}
             helperText={errors.email?.message ?? ''}
+            disabled={isPending}
             {...register('email')}
           />
 
@@ -61,6 +63,7 @@ function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
             label={commonLsi.password}
             error={Boolean(errors.password)}
             helperText={errors.password?.message ?? ''}
+            disabled={isPending}
             slotProps={{
               input: {
                 endAdornment: (
@@ -75,7 +78,14 @@ function LoginFormView({ errors, onSubmit, register }: LoginFormViewProps) {
             {...register('password')}
           />
 
-          <LoginButton type="submit" variant="contained" color="success" size="large" sx={{ mt: 1 }}>
+          <LoginButton
+            loading={isPending}
+            type="submit"
+            variant="contained"
+            color="success"
+            size="large"
+            sx={{ mt: 1 }}
+          >
             {commonLsi.login}
           </LoginButton>
         </form>

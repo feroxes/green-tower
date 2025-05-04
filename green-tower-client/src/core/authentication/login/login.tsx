@@ -5,17 +5,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import LoginFormView, { LoginFormInputs } from './login-form-view';
 import { ValidationLsi } from '../../../lsi/validation-lsi';
-import { useAuthentication } from '../../../hooks/hooks';
-import Calls from 'services/calls';
+import { useLogin } from '../../../hooks/hooks';
 
 function Login() {
-  const { login } = useAuthentication();
+  const { mutate: login, isPending } = useLogin();
   const validationLsi = useLsi(ValidationLsi);
 
   const validationSchema = yup
     .object({
       email: yup.string().email(validationLsi.emailFormat).required(validationLsi.required),
-      password: yup.string().required(validationLsi.required),
+      password: yup.string().required(validationLsi.required).min(8, validationLsi.minPasswordLength),
     })
     .required();
 
@@ -26,16 +25,10 @@ function Login() {
   } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) });
 
   async function onSubmit(data: LoginFormInputs, event?: React.BaseSyntheticEvent) {
-    await Calls.Auth.login(data)
-      .then((result) => {
-        login(result.data.accessToken);
-      })
-      .catch((error) => {
-        console.log('----->error<-----', error);
-      });
+    return login(data);
   }
 
-  return <LoginFormView onSubmit={handleSubmit(onSubmit)} errors={errors} register={register} />;
+  return <LoginFormView onSubmit={handleSubmit(onSubmit)} errors={errors} register={register} isPending={isPending} />;
 }
 
 export default Login;
