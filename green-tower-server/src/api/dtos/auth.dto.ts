@@ -56,13 +56,6 @@ export class ConfirmEmailDto {
   token: string;
 }
 
-export interface CookieOptions {
-  httpOnly: boolean;
-  secure: boolean;
-  sameSite: 'strict' | 'lax' | 'none';
-  maxAge: number;
-}
-
 export class AuthResponseDto {
   accessToken?: string;
   refreshToken?: string;

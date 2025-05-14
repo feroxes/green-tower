@@ -23,4 +23,8 @@ export const Lsi = {
     en: 'Password',
     uk: 'Пароль',
   },
+  confirmPassword: {
+    en: 'Confirm password',
+    uk: 'Підтвердження паролю',
+  },
 };

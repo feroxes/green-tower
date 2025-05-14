@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
+import { FormEventHandler } from 'react';
 import type { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { useLsi } from '../../../hooks/hooks';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
+import FormElements from '../../../components/form-elements/form-elements';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { Constants } from '../../../utils/constants';
 import { Lsi } from './lsi';
-import LanguageSelector from '../../../components/language-selector/language-selector';
-import {
-  ComponentWrapper,
-  FormWrapper,
-  LoginHeader,
-  LoginButton,
-  ForgotPasswordLink,
-  RegisterWrapper,
-  FooterWrapper,
-} from './login.styles';
+import { RegisterWrapper } from './login.styles';
+import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
 
 export interface LoginFormInputs {
   email: string;
@@ -26,81 +16,57 @@ export interface LoginFormInputs {
 }
 
 interface LoginFormViewProps {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
   errors: FieldErrors<LoginFormInputs>;
   register: UseFormRegister<LoginFormInputs>;
   isPending: boolean;
+  onSwitch: () => void;
 }
 
-function LoginFormView({ errors, onSubmit, register, isPending }: LoginFormViewProps) {
+function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: LoginFormViewProps) {
   const lsi = useLsi(Lsi);
   const commonLsi = useLsi();
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <ComponentWrapper>
-      <LoginHeader variant="h5">{commonLsi.login}</LoginHeader>
+      <FormHeader variant="h5">{commonLsi.login}</FormHeader>
       <FormWrapper>
         <form onSubmit={onSubmit}>
-          <TextField
-            fullWidth
-            margin="dense"
-            size="small"
-            autoComplete="email"
-            label={commonLsi.email}
+          <FormElements.Email
             error={Boolean(errors.email)}
             helperText={errors.email?.message ?? ''}
             disabled={isPending}
             {...register('email')}
           />
 
-          <TextField
-            fullWidth
-            margin="dense"
-            size="small"
-            type={showPassword ? 'text' : 'password'}
-            autoComplete="current-password"
-            label={commonLsi.password}
+          <FormElements.Password
             error={Boolean(errors.password)}
             helperText={errors.password?.message ?? ''}
             disabled={isPending}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end" size="small">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
             {...register('password')}
           />
 
-          <LoginButton
+          <Button
             loading={isPending}
             type="submit"
             variant="contained"
             color="success"
             size="large"
+            fullWidth
             sx={{ mt: 1 }}
           >
             {commonLsi.login}
-          </LoginButton>
+          </Button>
         </form>
 
         <RegisterWrapper direction="row">
           <Typography>{lsi.dontHaveAccount}</Typography>
           {Constants.space}
-          <Link>{lsi.register}</Link>
+          <Link onClick={onSwitch} sx={{ cursor: 'pointer' }}>
+            {lsi.register}
+          </Link>
         </RegisterWrapper>
       </FormWrapper>
-
-      <FooterWrapper direction="row">
-        <LanguageSelector />
-        <ForgotPasswordLink>{lsi.forgotPassword}</ForgotPasswordLink>
-      </FooterWrapper>
     </ComponentWrapper>
   );
 }

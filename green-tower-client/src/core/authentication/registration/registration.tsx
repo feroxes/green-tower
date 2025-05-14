@@ -1,0 +1,36 @@
+import RegistrationFormView, { RegistrationFormInputs } from './registration-form-view';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { Dispatch, SetStateAction } from 'react';
+import { useLsi } from '../../../hooks/common/use-lsi';
+import { getRegistrationSchema } from './validation/registration.schema';
+import { ValidationLsi } from '../../../lsi/validation-lsi';
+import { useRegistration } from '../../../hooks/auth/useRegistration';
+
+interface RegistrationProps {
+  setRegistrationEmail: Dispatch<SetStateAction<string>>;
+  onSwitch: () => void;
+}
+
+function Registration({ setRegistrationEmail, onSwitch }: RegistrationProps) {
+  const { mutate: signup, isPending } = useRegistration(onSwitch);
+  const validationLsi = useLsi(ValidationLsi);
+  const validationSchema = getRegistrationSchema(validationLsi);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegistrationFormInputs>({ resolver: yupResolver(validationSchema) });
+
+  async function onSubmit(data: RegistrationFormInputs, _?: React.BaseSyntheticEvent) {
+    signup(data);
+    setRegistrationEmail(data.email);
+  }
+
+  return (
+    <RegistrationFormView register={register} errors={errors} onSubmit={handleSubmit(onSubmit)} isPending={isPending} />
+  );
+}
+
+export default Registration;

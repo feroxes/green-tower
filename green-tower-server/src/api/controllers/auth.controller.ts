@@ -48,7 +48,7 @@ export class AuthController {
     return this.authService.confirmEmail(confirmEmailDto);
   }
 
-  @Get('resendConfirmationEmail')
+  @Post('resendConfirmationEmail')
   async resendConfirmationEmail(@Body() resendConfirmationEmailDto: ResendConfirmationEmailDto): Promise<object> {
     return this.authService.resendConfirmationEmail(resendConfirmationEmailDto);
   }

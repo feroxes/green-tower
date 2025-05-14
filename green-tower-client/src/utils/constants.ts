@@ -9,4 +9,9 @@ export const Constants = {
   localStorage: {
     language: 'language',
   },
+  errorCodes: {
+    Auth: {
+      emailNotConfirmed: 'auth/login/emailNotConfirmed',
+    },
+  },
 };

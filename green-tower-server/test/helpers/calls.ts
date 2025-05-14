@@ -54,7 +54,7 @@ export const Calls = {
       app: INestApplication,
       body: { email: string },
     ): Promise<EmptyResponseType | ErrorResponseType> {
-      return Calls.get(app, UseCases.auth.resendConfirmationEmail, body);
+      return Calls.post(app, UseCases.auth.resendConfirmationEmail, body);
     },
   },
   Farm: {
