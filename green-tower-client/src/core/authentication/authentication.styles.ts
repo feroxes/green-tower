@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 
 export const AuthenticationWrapper = styled(Stack)`
-  height: calc(100vh - 42px);
+  min-height: calc(100vh - 42px);
   align-items: center;
   padding-top: 42px;
 `;
