@@ -4,6 +4,7 @@ import AppRouter from '../../routes/app-router';
 
 const Authentication = lazy(() => import('../../routes/authentication'));
 const Dashboard = lazy(() => import('../../routes/dashboard'));
+const RegistrationConfirmation = lazy(() => import('../../routes/registration-confirmation'));
 
 function AppView() {
   const lsi = useLsi();
@@ -13,12 +14,18 @@ function AppView() {
     document.title = lsi.greenTower;
   }, [lsi]);
 
+  const commonRoutes = {
+    '/registrationConfirmation': <RegistrationConfirmation />,
+  };
+
   const notAuthenticatedRouteMap = {
     '/': <Authentication />,
+    ...commonRoutes,
   };
 
   const authenticatedRouteMap = {
     '/': <Dashboard />,
+    ...commonRoutes,
   };
 
   return <AppRouter routerMap={isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap} />;

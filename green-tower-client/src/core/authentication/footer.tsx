@@ -6,8 +6,8 @@ import LanguageSelector from '../../components/language-selector/language-select
 import { ActionType } from './authentication';
 
 interface FooterProps {
-  setAction: Dispatch<SetStateAction<ActionType>>;
-  action: ActionType;
+  setAction?: Dispatch<SetStateAction<ActionType>>;
+  action?: ActionType;
 }
 
 const actionHandlerMap = {
@@ -26,12 +26,16 @@ function Footer({ setAction, action }: FooterProps) {
   const lsi = useLsi(Lsi);
 
   function handleOnAction() {
-    setAction(actionHandlerMap[action] as ActionType);
+    if (setAction && action) {
+      setAction(actionHandlerMap[action] as ActionType);
+    }
   }
 
   function getActionLsi() {
-    const lsiKey = actionLsiMap[action];
-    return lsi[lsiKey];
+    if (action) {
+      const lsiKey = actionLsiMap[action];
+      return lsi[lsiKey];
+    }
   }
 
   return (

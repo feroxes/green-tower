@@ -13,4 +13,5 @@ export const AuthService = {
   signup: (dto: SignupDto) => apiService.post('/auth/signup', dto),
   refresh: () => apiService.post('/auth/refresh'),
   resendConfirmationEmail: (dto: ResendConfirmationEmailDto) => apiService.post('/auth/resendConfirmationEmail', dto),
+  confirmEmail: (token: string) => apiService.get(`/auth/confirmEmail/${token}`),
 };

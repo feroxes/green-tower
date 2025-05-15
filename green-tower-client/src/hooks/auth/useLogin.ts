@@ -5,14 +5,10 @@ import { Lsi } from '../../core/authentication/login/lsi';
 import { useAlert, useAuthentication, useLsi } from '../hooks';
 import { LoginFormInputs } from '../../core/authentication/login/login-form-view';
 import { Constants } from '../../utils/constants';
+import { ErrorResponse } from '../../types/types';
 
 interface AuthResponse {
   accessToken: string;
-}
-
-interface AuthErrorResponse {
-  errorCode: string;
-  message?: string;
 }
 
 export function useLogin() {
@@ -27,7 +23,7 @@ export function useLogin() {
     },
     onError: (error) => {
       const status = error.response?.status;
-      const data = error.response?.data as AuthErrorResponse;
+      const data = error.response?.data as ErrorResponse;
 
       if (status === 401) {
         if (data?.errorCode === Constants.errorCodes.Auth.emailNotConfirmed) {

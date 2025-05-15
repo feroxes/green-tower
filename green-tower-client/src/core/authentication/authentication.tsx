@@ -1,10 +1,8 @@
 import { JSX, useState } from 'react';
 import Login from './login/login';
 import Registration from './registration/registration';
-import Logo from '../../components/logo/logo';
-import Footer from './footer';
-import { AuthenticationWrapper, FormContainer } from './authentication.styles';
 import RegistrationCompletedView from './registration/registration-completed-view';
+import AuthenticationPageWrapper from '../../components/authentication-page-wrapper/authentication-page-wrapper';
 
 export type ActionType = 'login' | 'registration' | 'registrationCompleted';
 
@@ -24,19 +22,9 @@ function Authentication() {
   }
 
   return (
-    <AuthenticationWrapper>
-      <Logo displayText textPosition="bottom" />
-      <FormContainer
-        sx={{
-          p: 3,
-          bgcolor: 'background.default',
-          minHeight: action === 'login' ? '420px' : '480px',
-        }}
-      >
-        {getComponent()}
-        <Footer setAction={setAction} action={action} />
-      </FormContainer>
-    </AuthenticationWrapper>
+    <AuthenticationPageWrapper action={action} setAction={setAction}>
+      {getComponent()}
+    </AuthenticationPageWrapper>
   );
 }
 

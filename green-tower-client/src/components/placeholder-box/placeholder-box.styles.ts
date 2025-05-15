@@ -3,15 +3,15 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Config } from '../../config/config';
 
-export const PlaceholderWrapper = styled(Stack)`
+export const PlaceholderWrapper = styled(Stack)<{ color?: string; borderRadius?: string; bgColor?: string }>`
   height: 150px;
   width: 150px;
-  background-color: rgba(147, 164, 173, 0.12);
-  border-radius: 50%;
+  background-color: ${({ bgColor = 'rgba(147, 164, 173, 0.12)' }) => bgColor};
+  border-radius: ${({ borderRadius = '100px' }) => borderRadius};
   justify-content: center;
   align-items: center;
   svg {
-    color: #9aa7ae;
+    color: ${({ color = '#9aa7ae' }) => color};
   }
 `;
 

@@ -27,4 +27,8 @@ export const Lsi = {
     en: 'Confirm password',
     uk: 'Підтвердження паролю',
   },
+  unexpectedError: {
+    en: 'Unexpected error. Please try again.',
+    uk: 'Сталася помилка. Спробуйте ще раз.',
+  },
 };

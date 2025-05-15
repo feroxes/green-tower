@@ -3,11 +3,14 @@ import Stack from '@mui/material/Stack';
 import { PlaceholderWrapper, Header, SubHeader } from './placeholder-box.styles';
 
 interface PlaceholderBoxProps {
-  code: 'email';
+  code: 'email' | 'smile' | 'sadSmile';
+  color?: string;
+  borderRadius?: string;
+  bgColor?: string;
   header?: string | JSX.Element;
   subHeader?: string | JSX.Element;
 }
-function PlaceholderBox({ code, header, subHeader }: PlaceholderBoxProps) {
+function PlaceholderBox({ code, color, borderRadius, bgColor, header, subHeader }: PlaceholderBoxProps) {
   function getPlaceholder() {
     const placeholdersMap: Record<string, () => JSX.Element> = {
       email: () => (
@@ -36,13 +39,52 @@ function PlaceholderBox({ code, header, subHeader }: PlaceholderBoxProps) {
           ></path>
         </svg>
       ),
+      smile: () => (
+        <svg width="300" height="301" viewBox="0 0 300 301" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M275 151C275 220.036 219.036 276 150 276C80.9644 276 25 220.036 25 151C25 81.9644 80.9644 26 150 26C219.036 26 275 81.9644 275 151Z"
+            fill="white"
+          ></path>
+          <path
+            d="M95.836 178.853C131.058 190.175 168.942 190.175 204.164 178.853C207.319 177.839 210.698 179.575 211.712 182.73C212.726 185.884 210.991 189.264 207.836 190.278C170.226 202.367 129.774 202.367 92.1638 190.278C89.0091 189.264 87.2737 185.884 88.2877 182.73C89.3018 179.575 92.6812 177.839 95.836 178.853Z"
+            fill="currentColor"
+          ></path>
+          <path
+            d="M125.599 147.419C118.98 147.75 113.345 142.653 113.014 136.034L112.014 116.034C111.683 109.414 116.781 103.78 123.4 103.449C130.019 103.118 135.654 108.216 135.985 114.835L136.985 134.835C137.315 141.454 132.218 147.088 125.599 147.419Z"
+            fill="currentColor"
+          ></path>
+          <path
+            d="M188.985 116.034C189.315 109.414 184.218 103.78 177.599 103.449C170.98 103.118 165.345 108.216 165.014 114.835L164.014 134.835C163.684 141.454 168.781 147.088 175.4 147.419C182.019 147.75 187.654 142.653 187.985 136.034L188.985 116.034Z"
+            fill="currentColor"
+          ></path>
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M275 151C275 220.036 219.036 276 150 276C80.9644 276 25 220.036 25 151C25 81.9644 80.9644 26 150 26C219.036 26 275 81.9644 275 151ZM267 151C267 215.617 214.617 268 150 268C85.3827 268 33 215.617 33 151C33 86.3827 85.3827 34 150 34C214.617 34 267 86.3827 267 151Z"
+            fill="currentColor"
+          ></path>
+        </svg>
+      ),
+      sadSmile: () => (
+        <svg width="300" height="301" viewBox="0 0 300 301" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="151" r="125" fill="white"></circle>
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M267 151C267 215.617 214.617 268 150 268C85.3827 268 33 215.617 33 151C33 86.3827 85.3827 34 150 34C214.617 34 267 86.3827 267 151ZM275 151C275 220.036 219.036 276 150 276C80.9644 276 25 220.036 25 151C25 81.9644 80.9644 26 150 26C219.036 26 275 81.9644 275 151ZM95.836 200.278C131.058 188.957 168.942 188.957 204.164 200.278C207.319 201.292 210.698 199.556 211.712 196.402C212.726 193.247 210.991 189.868 207.836 188.854C170.226 176.765 129.774 176.765 92.1638 188.854C89.0091 189.868 87.2737 193.247 88.2877 196.402C89.3018 199.556 92.6812 201.292 95.836 200.278ZM125.599 103.449C132.218 103.78 137.315 109.414 136.985 116.034L135.985 136.034C135.654 142.653 130.019 147.75 123.4 147.419C116.781 147.088 111.683 141.454 112.014 134.835L113.014 114.835C113.345 108.216 118.98 103.118 125.599 103.449ZM165.014 136.034C165.345 142.653 170.98 147.75 177.599 147.419C184.218 147.088 189.315 141.454 188.985 134.835L187.985 114.835C187.654 108.216 182.019 103.118 175.4 103.449C168.781 103.78 163.684 109.414 164.014 116.034L165.014 136.034Z"
+            fill="currentColor"
+          ></path>
+        </svg>
+      ),
     };
     return placeholdersMap[code]();
   }
 
   return (
     <Stack sx={{ alignItems: 'center' }}>
-      <PlaceholderWrapper>{getPlaceholder()}</PlaceholderWrapper>
+      <PlaceholderWrapper color={color} borderRadius={borderRadius} bgColor={bgColor}>
+        {getPlaceholder()}
+      </PlaceholderWrapper>
       {header && <Header>{header}</Header>}
       {subHeader && <SubHeader variant="subtitle2">{subHeader}</SubHeader>}
     </Stack>

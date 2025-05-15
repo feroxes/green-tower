@@ -5,22 +5,8 @@ import { Config } from '../../config/config';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 
-export const AuthenticationWrapper = styled(Stack)`
-  min-height: calc(100vh - 42px);
-  align-items: center;
-  padding-top: 42px;
-`;
-
 export const ComponentWrapper = styled(Stack)`
   height: 100%;
-`;
-
-export const FormContainer = styled(Stack)`
-  width: 340px;
-  margin: 16px;
-  box-shadow: 0 2px 4px 0 #00000080;
-  border-radius: 12px;
-  overflow: hidden;
 `;
 
 export const FormWrapper = styled(Box)`
