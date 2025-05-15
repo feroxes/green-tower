@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  install-lint-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.PASSWORD }}
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install server dependencies
+        run: |
+          cd green-tower-server
+          npm ci
+
+      - name: 📦 Install client dependencies
+        run: |
+          cd green-tower-client
+          npm ci
+
+      - name: 📝 Create .env.test from secrets
+        run: |
+          mkdir -p green-tower-server/.env
+          cat <<EOF > green-tower-server/.env/.env.test
+          DB_NAME=${{ secrets.DB_NAME }}
+          HOST=${{ secrets.HOST }}
+          PORT=${{ secrets.PORT }}
+          USERNAME=${{ secrets.USERNAME }}
+          PASSWORD=${{ secrets.PASSWORD }}
+          AUTO_LOAD_ENTITIES=${{ secrets.AUTO_LOAD_ENTITIES }}
+          SYNCHRONIZE=${{ secrets.SYNCHRONIZE }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          SMTP_HOST=${{ secrets.SMTP_HOST }}
+          SMTP_PORT=${{ secrets.SMTP_PORT }}
+          SMTP_SECURE=${{ secrets.SMTP_SECURE }}
+          SMTP_USER=${{ secrets.SMTP_USER }}
+          SMTP_PASS=${{ secrets.SMTP_PASS }}
+          SMTP_FROM=${{ secrets.SMTP_FROM }}
+          APP_URL=${{ secrets.APP_URL }}
+          EOF
+
+      - name: 🧪 Run backend tests
+        run: |
+          cd green-tower-server
+          npm run test
+
+      - name: 🧼 Run frontend linter
+        run: |
+          cd green-tower-client
+          npm run lint
