@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import ButtonWithTimer from '../../../components/button-with-timer/button-with-timer';
-import { useLsi, useAlert } from '../../../hooks/hooks';
+import { useLsi, useAlert, useLanguage } from '../../../hooks/hooks';
 import { Lsi } from './lsi';
 import Calls from '../../../services/calls';
 import { Constants } from '../../../utils/constants';
@@ -15,11 +15,12 @@ interface RegistrationCompletedViewProps {
 
 function RegistrationCompletedView({ registrationEmail }: RegistrationCompletedViewProps) {
   const lsi = useLsi(Lsi);
+  const { language } = useLanguage();
   const { addAlert } = useAlert();
 
   async function handleOnResendEmailClick() {
     try {
-      await Calls.Auth.resendConfirmationEmail({ email: registrationEmail });
+      await Calls.Auth.resendConfirmationEmail({ email: registrationEmail, language });
       addAlert(lsi.resendSuccessfully);
     } catch (e: unknown) {
       if (e instanceof Error) {

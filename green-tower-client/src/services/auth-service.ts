@@ -1,9 +1,12 @@
 import { apiService } from './api-service';
 import { LoginFormInputs } from '../core/authentication/login/login-form-view';
 import { RegistrationFormInputs } from '../core/authentication/registration/registration-form-view';
+import { SupportedLanguages } from '../types/types';
 
-type SignupDto = Omit<RegistrationFormInputs, 'confirmPassword'>;
-type ResendConfirmationEmailDto = { email: string };
+export type SignupDto = Omit<RegistrationFormInputs, 'confirmPassword'> & {
+  language: SupportedLanguages;
+};
+type ResendConfirmationEmailDto = { email: string; language: string };
 
 export const AuthService = {
   login: (dto: LoginFormInputs) => apiService.post<{ accessToken: string }>('/auth/login', dto),

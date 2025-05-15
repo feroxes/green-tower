@@ -7,3 +7,5 @@ export interface SortOptions {
   field: string;
   order: SortDirectionType.ASC | SortDirectionType.DESC;
 }
+
+export type SupportedLanguages = 'en' | 'uk';

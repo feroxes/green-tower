@@ -6,6 +6,7 @@ import { useLsi } from '../../../hooks/common/use-lsi';
 import { getRegistrationSchema } from './validation/registration.schema';
 import { ValidationLsi } from '../../../lsi/validation-lsi';
 import { useRegistration } from '../../../hooks/auth/useRegistration';
+import { useLanguage } from '../../../hooks/hooks';
 
 interface RegistrationProps {
   setRegistrationEmail: Dispatch<SetStateAction<string>>;
@@ -16,6 +17,7 @@ function Registration({ setRegistrationEmail, onSwitch }: RegistrationProps) {
   const { mutate: signup, isPending } = useRegistration(onSwitch);
   const validationLsi = useLsi(ValidationLsi);
   const validationSchema = getRegistrationSchema(validationLsi);
+  const { language } = useLanguage();
 
   const {
     register,
@@ -24,7 +26,7 @@ function Registration({ setRegistrationEmail, onSwitch }: RegistrationProps) {
   } = useForm<RegistrationFormInputs>({ resolver: yupResolver(validationSchema) });
 
   async function onSubmit(data: RegistrationFormInputs, _?: React.BaseSyntheticEvent) {
-    signup(data);
+    signup({ ...data, language });
     setRegistrationEmail(data.email);
   }
 

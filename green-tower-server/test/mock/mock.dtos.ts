@@ -27,6 +27,7 @@ export const mockDto = {
       lastName: 'Cortes',
       email: 'karmen@example.com',
       password: 'karmen123',
+      language: 'uk',
       role,
     } as UserCreateCmdDto;
   },

@@ -53,7 +53,11 @@ export class AuthResendConfirmationEmailService {
     }
 
     try {
-      await this.emailService.sendEmailConfirmation(user.email, user.emailConfirmationToken);
+      await this.emailService.sendEmailConfirmation(
+        user.email,
+        resendConfirmationEmailDto.language,
+        user.emailConfirmationToken,
+      );
     } catch (e: unknown) {
       throw registerError.FailedToSendConfirmationEmail({ e });
     }

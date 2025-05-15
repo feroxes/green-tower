@@ -30,7 +30,7 @@ export class UserCreateService {
     const { user } = await this.userComponent.create(userCreateDto, farm, useCase);
 
     try {
-      await this.emailService.sendEmailConfirmation(user.email, user.emailConfirmationToken!);
+      await this.emailService.sendEmailConfirmation(user.email, userCreateDto.language, user.emailConfirmationToken!);
     } catch (e: unknown) {
       throw userCreateError.FailedToSendConfirmationEmail({ e });
     }

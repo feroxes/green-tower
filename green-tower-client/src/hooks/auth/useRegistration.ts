@@ -3,9 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import Calls from 'services/calls';
 import { Lsi } from '../../core/authentication/login/lsi';
 import { useAlert, useLsi } from '../hooks';
-import { RegistrationFormInputs } from '../../core/authentication/registration/registration-form-view';
-
-type SignupDto = Omit<RegistrationFormInputs, 'confirmPassword'>;
+import { SignupDto } from '../../services/auth-service';
 
 export function useRegistration(onSuccess: () => void) {
   const lsi = useLsi(Lsi);

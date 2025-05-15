@@ -1,5 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
+import { SupportedLanguages } from '../types/common.types';
+
 export class RegisterDto {
   @IsString()
   @IsNotEmpty()
@@ -29,6 +31,11 @@ export class RegisterDto {
   @MinLength(2)
   @MaxLength(50)
   farmName: string;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(2)
+  language: SupportedLanguages = 'en';
 }
 
 export class LoginDto {
@@ -65,4 +72,9 @@ export class ResendConfirmationEmailDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(2)
+  language: SupportedLanguages = 'en';
 }

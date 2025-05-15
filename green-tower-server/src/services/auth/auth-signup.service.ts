@@ -31,6 +31,8 @@ export class AuthSignupService {
     const createUserDto = { ...registerDto, role: UserRole.OWNER };
     // @ts-ignore - no need here
     delete createUserDto.farmName;
+    // @ts-ignore - no need here
+    delete createUserDto.language;
     const { user } = await this.userComponent.create(createUserDto, farm, 'auth/register/');
 
     farm.owner = user;
@@ -51,7 +53,7 @@ export class AuthSignupService {
     }
 
     try {
-      await this.emailService.sendEmailConfirmation(user.email, user.emailConfirmationToken!);
+      await this.emailService.sendEmailConfirmation(user.email, registerDto.language, user.emailConfirmationToken!);
     } catch (e: unknown) {
       throw registerError.FailedToSendConfirmationEmail({ e });
     }

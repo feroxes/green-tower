@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as ejs from 'ejs';
 import * as nodemailer from 'nodemailer';
 
+import { SupportedLanguages } from '../../api/types/common.types';
+
 import { AuthConstants } from '../../utils/constants';
+import { defaultParameters } from './templates/default-parameters';
+import { defaultTemplate } from './templates/default-template';
+import { registrationConfirmationTemplate } from './templates/registration-confirmation-template';
 
 @Injectable()
 export class EmailService {
@@ -20,20 +26,27 @@ export class EmailService {
     });
   }
 
-  async sendEmailConfirmation(email: string, token: string): Promise<void> {
-    const confirmationUrl = `${this.configService.get('APP_URL')}/auth/confirmEmail/${token}`;
+  async sendEmailConfirmation(email: string, language: SupportedLanguages, token: string): Promise<void> {
+    const confirmationLink = `${this.configService.get('APP_URL')}/registrationConfirmation?token=${token}`;
+
+    const options = {
+      title: registrationConfirmationTemplate.title[language],
+      body: ejs.render(registrationConfirmationTemplate.body[language], {
+        greenTowerUrl: defaultParameters.greenTowerUrl,
+        confirmationLink,
+        confirmationLinkTtl: AuthConstants.EMAIL_CONFIRMATION_EXPIRES_HOURS,
+      }),
+      footer: defaultTemplate.footer[language],
+      greenTowerLogoUrl: 'https://i.postimg.cc/zDL0D3Hc/logo.png', //TODO move to AWS bucket
+    };
+
+    const html = ejs.render(defaultTemplate.layout, options);
 
     const mailOptions = {
-      from: this.configService.get('SMTP_FROM') as string,
+      from: defaultParameters.from,
       to: email,
-      subject: 'Confirm your email address',
-      html: `
-        <h1>Welcome to Green Tower!</h1>
-        <p>Please confirm your email address by clicking the link below:</p>
-        <a href="${confirmationUrl}">Confirmation link</a>
-        <p>This link will expire in ${AuthConstants.EMAIL_CONFIRMATION_EXPIRES_HOURS} hours.</p>
-        <p>If you didn't create an account, you can safely ignore this email.</p>
-      `,
+      subject: registrationConfirmationTemplate.subject[language],
+      html,
     };
     await this.transporter.sendMail(mailOptions);
   }

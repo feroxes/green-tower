@@ -2,6 +2,8 @@ import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, M
 
 import { UserRole } from '../../entities/user.entity';
 
+import { SupportedLanguages } from '../types/common.types';
+
 export class UserCreateDto {
   @IsString()
   @IsNotEmpty()
@@ -56,6 +58,11 @@ export class UserCreateCmdDto {
 
   @IsEnum(UserRole, { message: 'Role must be either admin or user' })
   role: UserRole.ADMIN | UserRole.USER;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(2)
+  language: SupportedLanguages = 'en';
 }
 
 export class UserUpdateDto {
