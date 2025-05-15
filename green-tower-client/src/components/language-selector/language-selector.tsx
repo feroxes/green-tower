@@ -1,13 +1,15 @@
-import React from 'react';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { SelectChangeEvent } from '@mui/material';
-import { SupportedLanguages } from '../../types/types';
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+
 import { useLanguage } from '../../hooks/common/use-language';
+
 import ukFlag from '../../assets/flags/ukraine.png';
 import enFlag from '../../assets/flags/united-kingdom.png';
+import { SupportedLanguages } from '../../types/types';
 import { Constants } from '../../utils/constants';
 
 const languageList = [
@@ -30,7 +32,8 @@ const LanguageSelector: React.FC = () => {
       variant="standard"
       disableUnderline
       renderValue={(value) => {
-        const sel = languageList.find((l) => l.code === value)!;
+        const sel = languageList.find((l) => l.code === value);
+        if (!sel) return null;
         return (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Box component="img" src={sel.icon} alt={sel.code} sx={{ width: 24, height: 24 }} />

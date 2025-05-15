@@ -1,6 +1,6 @@
 export const LocalStorage = {
   getItem<T>(storage: string): T | null {
-    let storageItem = window.localStorage.getItem(storage) as string;
+    const storageItem = window.localStorage.getItem(storage) as string;
     try {
       return JSON.parse(storageItem) || null;
     } catch (e) {

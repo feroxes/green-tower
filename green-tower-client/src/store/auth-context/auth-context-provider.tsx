@@ -1,8 +1,9 @@
-import { FC, ReactNode, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { FC, ReactNode, useEffect,useState } from 'react';
+
+import Calls from '../../services/calls';
 import { AuthContext } from './auth-context';
 import { setAccessTokenMemory } from './auth-store';
-import Calls from '../../services/calls';
 
 type AuthRefreshDto = {
   newAccessToken: string;

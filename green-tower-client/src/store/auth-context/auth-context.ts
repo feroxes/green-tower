@@ -8,6 +8,6 @@ interface AuthContextValue {
 
 export const AuthContext = createContext<AuthContextValue | undefined>({
   isAuthenticated: false,
-  login: (token: string) => {},
+  login: (_token: string) => {},
   logout: () => {},
 });

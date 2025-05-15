@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../spinner/spinner';
 import { ReactNode } from 'react';
+
+import Spinner from '../spinner/spinner';
 
 interface DataStateResolverProps<T> {
   query: ReturnType<typeof useQuery<T>>;

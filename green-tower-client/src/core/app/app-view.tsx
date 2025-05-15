@@ -1,10 +1,14 @@
 import React, { lazy, useEffect } from 'react';
-import { useLsi, useAuthentication } from '../../hooks/hooks';
+
+import { useAuthentication,useLsi } from '../../hooks/hooks';
+
 import AppRouter from '../../routes/app-router';
 
 const Authentication = lazy(() => import('../../routes/authentication'));
 const Dashboard = lazy(() => import('../../routes/dashboard'));
-const RegistrationConfirmation = lazy(() => import('../../routes/registration-confirmation'));
+const RegistrationConfirmation = lazy(
+  () => import('../../routes/registration-confirmation'),
+);
 
 function AppView() {
   const lsi = useLsi();
@@ -28,7 +32,13 @@ function AppView() {
     ...commonRoutes,
   };
 
-  return <AppRouter routerMap={isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap} />;
+  return (
+    <AppRouter
+      routerMap={
+        isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap
+      }
+    />
+  );
 }
 
 export default AppView;

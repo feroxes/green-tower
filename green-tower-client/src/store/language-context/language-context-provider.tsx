@@ -1,8 +1,9 @@
 import { FC, ReactNode, useState } from 'react';
-import { LanguageContext } from './language-context';
+
+import { SupportedLanguages } from '../../types/types';
 import { Constants } from '../../utils/constants';
 import { LocalStorage } from '../../utils/local-storage';
-import { SupportedLanguages } from '../../types/types';
+import { LanguageContext } from './language-context';
 
 export const LanguageProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState(() => {

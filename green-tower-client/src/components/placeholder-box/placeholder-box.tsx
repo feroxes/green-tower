@@ -1,6 +1,7 @@
-import { JSX } from 'react';
 import Stack from '@mui/material/Stack';
-import { PlaceholderWrapper, Header, SubHeader } from './placeholder-box.styles';
+import { JSX } from 'react';
+
+import { Header, PlaceholderWrapper, SubHeader } from './placeholder-box.styles';
 
 interface PlaceholderBoxProps {
   code: 'email' | 'smile' | 'sadSmile';

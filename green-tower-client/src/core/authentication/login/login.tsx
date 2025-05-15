@@ -1,11 +1,12 @@
-import React from 'react';
-import { useLsi } from '../../../hooks/hooks';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+import { useLogin,useLsi  } from '../../../hooks/hooks';
+
+import { ValidationLsi } from '../../../lsi/validation-lsi';
 import LoginFormView, { LoginFormInputs } from './login-form-view';
 import { getLoginSchema } from './validation/login.schema';
-import { ValidationLsi } from '../../../lsi/validation-lsi';
-import { useLogin } from '../../../hooks/hooks';
 
 interface LoginProps {
   onSwitch: () => void;

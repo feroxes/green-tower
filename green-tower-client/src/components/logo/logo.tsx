@@ -1,9 +1,12 @@
-import { useLsi } from '../../hooks/hooks';
-import { Constants } from '../../utils/constants';
-import { Config } from '../../config/config';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
 import { ComponentWrapper, LogoWrapper } from './logo.styles';
+
+import { useLsi } from '../../hooks/hooks';
+
+import { Config } from '../../config/config';
+import { Constants } from '../../utils/constants';
 
 type LogoPropTypes = {
   logoSize?: number;

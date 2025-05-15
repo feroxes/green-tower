@@ -1,5 +1,5 @@
-import { AuthService } from './auth-service';
 import { apiService } from './api-service';
+import { AuthService } from './auth-service';
 
 const Calls = {
   Auth: AuthService,

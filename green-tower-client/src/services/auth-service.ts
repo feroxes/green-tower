@@ -1,7 +1,7 @@
-import { apiService } from './api-service';
 import { LoginFormInputs } from '../core/authentication/login/login-form-view';
 import { RegistrationFormInputs } from '../core/authentication/registration/registration-form-view';
 import { SupportedLanguages } from '../types/types';
+import { apiService } from './api-service';
 
 export type SignupDto = Omit<RegistrationFormInputs, 'confirmPassword'> & {
   language: SupportedLanguages;

@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
 import { createTheme, ThemeProvider as THemeProvider } from '@mui/material/styles';
+import { FC, ReactNode } from 'react';
 
 const theme = createTheme({
   typography: {

@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import BackgroundProvider from '../components/background-provider/background-provider';
-import RegistrationConfirmation from '../core/registration-confirmation/registration-confirmation';
 import { useSearchParams } from 'react-router-dom';
+
 import AuthenticationPageWrapper from '../components/authentication-page-wrapper/authentication-page-wrapper';
+import BackgroundProvider from '../components/background-provider/background-provider';
 import DataStateResolver from '../components/data-state-resolver/data-state-resolver';
+
+import RegistrationConfirmation from '../core/registration-confirmation/registration-confirmation';
 import Calls from '../services/calls';
 
 function RegistrationConfirmationRoute() {

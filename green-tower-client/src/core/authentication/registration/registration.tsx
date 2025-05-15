@@ -1,12 +1,14 @@
-import RegistrationFormView, { RegistrationFormInputs } from './registration-form-view';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { Dispatch, SetStateAction } from 'react';
-import { useLsi } from '../../../hooks/common/use-lsi';
-import { getRegistrationSchema } from './validation/registration.schema';
-import { ValidationLsi } from '../../../lsi/validation-lsi';
+import { useForm } from 'react-hook-form';
+
 import { useRegistration } from '../../../hooks/auth/useRegistration';
+import { useLsi } from '../../../hooks/common/use-lsi';
 import { useLanguage } from '../../../hooks/hooks';
+
+import { ValidationLsi } from '../../../lsi/validation-lsi';
+import RegistrationFormView, { RegistrationFormInputs } from './registration-form-view';
+import { getRegistrationSchema } from './validation/registration.schema';
 
 interface RegistrationProps {
   setRegistrationEmail: Dispatch<SetStateAction<string>>;

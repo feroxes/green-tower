@@ -1,13 +1,17 @@
-import { ComponentWrapper } from '../authentication.styles';
-import PlaceholderBox from '../../../components/placeholder-box/placeholder-box';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
+import { ComponentWrapper } from '../authentication.styles';
+
 import ButtonWithTimer from '../../../components/button-with-timer/button-with-timer';
-import { useLsi, useAlert, useLanguage } from '../../../hooks/hooks';
-import { Lsi } from './lsi';
+import PlaceholderBox from '../../../components/placeholder-box/placeholder-box';
+
+import { useAlert, useLanguage,useLsi } from '../../../hooks/hooks';
+
 import Calls from '../../../services/calls';
 import { Constants } from '../../../utils/constants';
+import { Lsi } from './lsi';
 
 interface RegistrationCompletedViewProps {
   registrationEmail: string;

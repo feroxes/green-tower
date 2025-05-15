@@ -1,11 +1,13 @@
-import type { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import Calls from 'services/calls';
-import { Lsi } from '../../core/authentication/login/lsi';
+import type { AxiosError } from 'axios';
+
 import { useAlert, useAuthentication, useLsi } from '../hooks';
+
 import { LoginFormInputs } from '../../core/authentication/login/login-form-view';
-import { Constants } from '../../utils/constants';
+import { Lsi } from '../../core/authentication/login/lsi';
+import Calls from '../../services/calls';
 import { ErrorResponse } from '../../types/types';
+import { Constants } from '../../utils/constants';
 
 interface AuthResponse {
   accessToken: string;

@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+
 import type { ValidationLsiType } from '../../../../lsi/validation-lsi';
 
 export function getRegistrationSchema(validationLsi: ValidationLsiType) {

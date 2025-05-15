@@ -1,9 +1,10 @@
-import { styled } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { Config } from '../../config/config';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+
+import { Config } from '../../config/config';
 
 export const ComponentWrapper = styled(Stack)`
   height: 100%;

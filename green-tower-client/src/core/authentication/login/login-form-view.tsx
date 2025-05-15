@@ -1,14 +1,18 @@
-import { FormEventHandler } from 'react';
-import type { UseFormRegister, FieldErrors } from 'react-hook-form';
-import { useLsi } from '../../../hooks/hooks';
-import FormElements from '../../../components/form-elements/form-elements';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import { FormEventHandler } from 'react';
+import type { FieldErrors,UseFormRegister } from 'react-hook-form';
+
+import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
+import { RegisterWrapper } from './login.styles';
+
+import FormElements from '../../../components/form-elements/form-elements';
+
+import { useLsi } from '../../../hooks/hooks';
+
 import { Constants } from '../../../utils/constants';
 import { Lsi } from './lsi';
-import { RegisterWrapper } from './login.styles';
-import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
 
 export interface LoginFormInputs {
   email: string;

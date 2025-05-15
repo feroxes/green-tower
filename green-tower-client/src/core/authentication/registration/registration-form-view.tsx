@@ -1,18 +1,23 @@
-import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
-import { RegistrationSubHeader } from './registration.styles';
-import { useLsi } from '../../../hooks/common/use-lsi';
-import { Lsi } from './lsi';
-import FormElements from '../../../components/form-elements/form-elements';
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import React from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
-import Button from '@mui/material/Button';
+
+import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
+import { RegistrationSubHeader } from './registration.styles';
+
+import FormElements from '../../../components/form-elements/form-elements';
+
+import { useLsi } from '../../../hooks/common/use-lsi';
+
+import { Lsi } from './lsi';
 
 export interface RegistrationFormInputs {
   email: string;
   password: string;
   confirmPassword: string;
   farmName: string;
+
   firstName: string;
   lastName: string;
 }

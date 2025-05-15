@@ -1,5 +1,6 @@
-import { styled, keyframes } from '@mui/material';
+import { keyframes,styled } from '@mui/material';
 import Box from '@mui/material/Box';
+
 import Logo from '../logo/logo';
 
 const RADIUS = 0;

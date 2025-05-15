@@ -1,9 +1,13 @@
 import { Dispatch, SetStateAction } from 'react';
-import { FooterWrapper, FooterLink } from './authentication.styles';
-import { useLsi } from '../../hooks/common/use-lsi';
-import { Lsi } from './lsi';
+
+import { FooterLink,FooterWrapper } from './authentication.styles';
+
 import LanguageSelector from '../../components/language-selector/language-selector';
+
+import { useLsi } from '../../hooks/common/use-lsi';
+
 import { ActionType } from './authentication';
+import { Lsi } from './lsi';
 
 interface FooterProps {
   setAction?: Dispatch<SetStateAction<ActionType>>;

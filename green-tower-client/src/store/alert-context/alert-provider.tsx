@@ -1,5 +1,6 @@
-import React, { useState, ReactNode } from 'react';
-import { Box, Alert as MuiAlert, AlertColor } from '@mui/material';
+import { Alert as MuiAlert, AlertColor,Box } from '@mui/material';
+import React, { ReactNode,useState } from 'react';
+
 import { AlertContext } from './alert-context';
 
 export type Alert = {
@@ -12,7 +13,7 @@ export type Alert = {
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const addAlert = (message: string, severity: AlertColor = 'info', duration: number = 5000) => {
+  const addAlert = (message: string, severity: AlertColor = 'info', duration = 5000) => {
     const key = Date.now() + Math.random();
     setAlerts((prev) => [...prev, { key, message, severity, duration }]);
     setTimeout(() => {

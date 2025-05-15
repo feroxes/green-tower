@@ -1,15 +1,16 @@
 import { useContext } from 'react';
+
+import { Lsi } from '../../lsi/lsi';
 import { LanguageContext } from '../../store/language-context/language-context';
 import { Constants } from '../../utils/constants';
-import { Lsi } from '../../lsi/lsi';
 
 type LsiMap = Record<string, string>;
-type LsiFn = (...args: any[]) => LsiMap;
+type LsiFn = (...args: never[]) => LsiMap;
 type LsiInput<T> = {
   [K in keyof T]: T[K] extends LsiFn ? (...args: Parameters<T[K]>) => string : string;
 };
 
-export function useLsi<T extends Record<string, LsiMap | LsiFn>>(lsi: T = Lsi as any): LsiInput<T> {
+export function useLsi<T extends Record<string, LsiMap | LsiFn>>(lsi: T = Lsi as never): LsiInput<T> {
   const { language } = useContext(LanguageContext);
   const defaultLang = Constants.lsi.defaultLanguage;
 
@@ -18,12 +19,12 @@ export function useLsi<T extends Record<string, LsiMap | LsiFn>>(lsi: T = Lsi as
   for (const key in lsi) {
     const entry = lsi[key];
     if (typeof entry === 'function') {
-      result[key] = ((...args: any[]) => {
+      result[key] = ((...args: never[]) => {
         const map = (entry as LsiFn)(...args);
         return map[language] ?? map[defaultLang] ?? '';
-      }) as any;
+      }) as never;
     } else {
-      result[key] = (entry[language] ?? entry[defaultLang] ?? '') as any;
+      result[key] = (entry[language] ?? entry[defaultLang] ?? '') as never;
     }
   }
 

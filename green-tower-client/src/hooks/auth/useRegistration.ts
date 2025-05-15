@@ -1,9 +1,11 @@
-import type { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import Calls from 'services/calls';
-import { Lsi } from '../../core/authentication/login/lsi';
+import type { AxiosError } from 'axios';
+
 import { useAlert, useLsi } from '../hooks';
+
+import { Lsi } from '../../core/authentication/login/lsi';
 import { SignupDto } from '../../services/auth-service';
+import Calls from '../../services/calls';
 
 export function useRegistration(onSuccess: () => void) {
   const lsi = useLsi(Lsi);

@@ -1,12 +1,15 @@
-import PlaceholderBox from '../../components/placeholder-box/placeholder-box';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { Lsi } from './lsi';
-import { useNavigate } from 'react-router-dom';
-import { useLsi } from '../../hooks/hooks';
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+import PlaceholderBox from '../../components/placeholder-box/placeholder-box';
+
+import { useLsi } from '../../hooks/hooks';
+
 import { ErrorHelper } from '../../utils/error-helper';
+import { Lsi } from './lsi';
 
 interface RegistrationConfirmationProps {
   query: ReturnType<typeof useQuery>;
