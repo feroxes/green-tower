@@ -10,10 +10,6 @@ jobs:
   install-lint-test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        shell: bash
-
     steps:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
@@ -33,6 +29,27 @@ jobs:
         run: |
           cd green-tower-client
           npm ci
+
+      - name: 📝 Create .env.test from secrets
+        run: |
+          cd green-tower-server
+          cat <<EOF > .env.test
+          DB_NAME=${{ secrets.DB_NAME }}
+          HOST=${{ secrets.HOST }}
+          PORT=${{ secrets.PORT }}
+          USERNAME=${{ secrets.USERNAME }}
+          PASSWORD=${{ secrets.PASSWORD }}
+          AUTO_LOAD_ENTITIES=${{ secrets.AUTO_LOAD_ENTITIES }}
+          SYNCHRONIZE=${{ secrets.SYNCHRONIZE }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          SMTP_HOST=${{ secrets.SMTP_HOST }}
+          SMTP_PORT=${{ secrets.SMTP_PORT }}
+          SMTP_SECURE=${{ secrets.SMTP_SECURE }}
+          SMTP_USER=${{ secrets.SMTP_USER }}
+          SMTP_PASS=${{ secrets.SMTP_PASS }}
+          SMTP_FROM=${{ secrets.SMTP_FROM }}
+          APP_URL=${{ secrets.APP_URL }}
+          EOF
 
       - name: 🧪 Run backend tests
         run: |
