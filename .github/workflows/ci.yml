@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  install-lint-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install server dependencies
+        run: |
+          cd green-tower-server
+          npm ci
+
+      - name: 📦 Install client dependencies
+        run: |
+          cd green-tower-client
+          npm ci
+
+      - name: 🧪 Run backend tests
+        run: |
+          cd green-tower-server
+          npm run test
+
+      - name: 🧼 Run frontend linter
+        run: |
+          cd green-tower-client
+          npm run lint
