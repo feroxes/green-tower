@@ -46,6 +46,7 @@ jobs:
 
       - name: 📝 Create .env.test from secrets
         run: |
+          mkdir -p green-tower-server/.env
           cd green-tower-server
           cat <<EOF > .env.test
           DB_NAME=${{ secrets.DB_NAME }}
