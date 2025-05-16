@@ -47,6 +47,12 @@ export const Calls = {
     async login(app: INestApplication, body = mockDto.authLoginDto): Promise<LoginResponseType | ErrorResponseType> {
       return Calls.post(app, UseCases.auth.login, body);
     },
+    async logout(app: INestApplication, accessToken: string): Promise<EmptyResponseType | ErrorResponseType> {
+      return Calls.post(app, UseCases.auth.logout, {}, accessToken);
+    },
+    async refresh(app: INestApplication, accessToken: string): Promise<EmptyResponseType | ErrorResponseType> {
+      return Calls.post(app, UseCases.auth.refresh, {}, accessToken);
+    },
     async confirmEmail(app: INestApplication, body: { token: string }): Promise<EmptyResponseType | ErrorResponseType> {
       return Calls.get(app, `${UseCases.auth.confirmEmail}/${body.token}`, body);
     },

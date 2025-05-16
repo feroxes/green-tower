@@ -4,6 +4,8 @@ export const UseCases = {
     login: '/auth/login',
     confirmEmail: '/auth/confirmEmail',
     resendConfirmationEmail: '/auth/resendConfirmationEmail',
+    logout: '/auth/logout',
+    refresh: '/auth/refresh',
   },
   farm: {
     get: '/farm/get',

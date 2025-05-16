@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as cookieParser from 'cookie-parser';
 import { DataSource } from 'typeorm';
 
 import { AppModule } from '../src/api/modules/app.module';
@@ -16,6 +17,7 @@ export interface TestModuleOptions {
 export async function init(): Promise<{ module: TestingModule; app: INestApplication }> {
   const module = await createTestModule();
   const app = module.createNestApplication();
+  app.use(cookieParser());
   await app.init();
   return { module, app };
 }

@@ -62,7 +62,11 @@ export class TestHelper {
     const refreshTokenHeader = loginResult.headers['set-cookie'] as string[];
 
     if (refreshTokenHeader) {
-      this.refreshToken = refreshTokenHeader[0].split('refreshToken=')[1];
+      const cookieStr = refreshTokenHeader[0];
+      const match = cookieStr.match(/refreshToken=([^;]+)/);
+      if (match) {
+        this.refreshToken = match[1];
+      }
     }
 
     const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
@@ -113,6 +117,10 @@ export class TestHelper {
 
   get getAccessToken(): string {
     return this.accessToken;
+  }
+
+  get getRefreshToken(): string {
+    return this.refreshToken;
   }
 
   get getAccessTokenWithWrongFarm(): string {

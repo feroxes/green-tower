@@ -42,7 +42,9 @@ export class RefreshTokenMiddleware implements NestMiddleware {
         req['user'] = this.jwtService.verify(newAccessToken);
 
         req.headers.authorization = `Bearer ${newAccessToken}`;
-        res.setHeader('New-Access-Token', 'Bearer ' + newAccessToken);
+        if (req.baseUrl !== '/auth/logout') {
+          res.setHeader('New-Access-Token', 'Bearer ' + newAccessToken);
+        }
 
         return next();
       } else {
