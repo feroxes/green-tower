@@ -2,7 +2,7 @@
 dist/
 node_modules/
 build/
-test/coverage
+**/test/coverage
 
 # Logs
 logs
@@ -17,7 +17,6 @@ lerna-debug.log*
 .DS_Store
 
 # Tests
-/test/coverage
 /.nyc_output
 
 # IDEs and editors
