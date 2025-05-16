@@ -1,4 +1,5 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import type { RouteInfo } from '@nestjs/common/interfaces';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -17,6 +18,14 @@ import { CleanupService } from '../../services/cleanup/cleanup.service';
 import { TokenService } from '../../services/token/token.service';
 
 import { RefreshTokenMiddleware } from '../../middleware/refresh-token.middleware';
+
+const excludedAuthRoutes: RouteInfo[] = [
+  { path: '/auth/login', method: RequestMethod.ALL },
+  { path: '/auth/signup', method: RequestMethod.ALL },
+  { path: '/auth/refresh', method: RequestMethod.ALL },
+  { path: '/auth/confirmEmail/*', method: RequestMethod.ALL },
+  { path: '/auth/resendConfirmationEmail', method: RequestMethod.ALL },
+];
 
 @Module({
   imports: [
@@ -53,6 +62,9 @@ import { RefreshTokenMiddleware } from '../../middleware/refresh-token.middlewar
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RefreshTokenMiddleware).exclude('/auth/(.*)').forRoutes('*');
+    consumer
+      .apply(RefreshTokenMiddleware)
+      .exclude(...excludedAuthRoutes)
+      .forRoutes('*');
   }
 }

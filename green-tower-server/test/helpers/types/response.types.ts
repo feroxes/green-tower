@@ -28,6 +28,7 @@ export type GuardErrorResponseType = {
 
 export type EmptyResponseType = {
   body: object;
+  headers: object;
 };
 
 export type ObjectResponseType<T> = {

@@ -51,6 +51,11 @@ export class LoginDto {
   password: string;
 }
 
+export class LogoutDto {
+  @IsString()
+  refreshToken: string;
+}
+
 export class RefreshDto {
   @IsString()
   @IsNotEmpty()
