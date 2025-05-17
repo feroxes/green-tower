@@ -4,6 +4,7 @@ import { Response } from 'supertest';
 
 import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
+import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
@@ -150,6 +151,15 @@ export const Calls = {
       body: PlantDeleteDto,
     ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.plant.delete, body, accessToken);
+    },
+  },
+  Planting: {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body = mockDto.plantingCreateDto,
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.planting.create, body, accessToken);
     },
   },
 };

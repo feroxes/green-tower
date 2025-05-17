@@ -25,4 +25,7 @@ export const UseCases = {
     list: '/plant/list',
     delete: '/plant/delete',
   },
+  planting: {
+    create: '/planting/create',
+  },
 };

@@ -12,6 +12,7 @@ import { AuthModule } from './auth.module';
 import { FarmModule } from './farm.module';
 import { JwtGlobalModule } from './jwt.module';
 import { PlantModule } from './plant.module';
+import { PlantingModule } from './planting.module';
 import { UserModule } from './user.module';
 
 import { CleanupService } from '../../services/cleanup/cleanup.service';
@@ -56,6 +57,7 @@ const excludedAuthRoutes: RouteInfo[] = [
     AuthModule,
     UserModule,
     PlantModule,
+    PlantingModule,
   ],
   controllers: [],
   providers: [TokenService, CleanupService],

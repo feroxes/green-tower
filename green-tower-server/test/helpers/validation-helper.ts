@@ -1,5 +1,6 @@
 import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
+import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
 import { mockDto } from '../mock/mock.dtos';
@@ -82,6 +83,7 @@ export const ValidationHelper = {
       expect(plant).toBeDefined();
       expect(plant.createdBy).toBeDefined();
       expect(plant.farm).toBeDefined();
+      expect(plant.sellPricePerGram).toBeDefined();
       expect(plant).not.toBeNull();
       expect(plant.name).toBe(mockPlantCreateDto.name);
       expect(plant.description).toBe(mockPlantCreateDto.description);
@@ -94,6 +96,7 @@ export const ValidationHelper = {
       expect(plant.shouldBePressed).toBe(mockPlantCreateDto.shouldBePressed);
       expect(plant.seedsGramPerPlate).toBe(mockPlantCreateDto.seedsGramPerPlate);
       expect(plant.expectedHarvestGramsPerPlate).toBe(mockPlantCreateDto.expectedHarvestGramsPerPlate);
+      expect(plant.sellPricePerPlate).toBe(mockPlantCreateDto.sellPricePerPlate);
     },
     validatePlantUpdate(plant: Plant, mockPlantUpdateDto = mockDto.plantUpdateDto) {
       expect(plant).toBeDefined();
@@ -105,6 +108,19 @@ export const ValidationHelper = {
     validatePlantGet(plant: Plant) {
       expect(plant).toBeDefined();
       expect(plant).not.toBeNull();
+    },
+  },
+  planting: {
+    validatePlantingCreation(planting: Planting, mockPlantingCreateDto = mockDto.plantingCreateDto) {
+      expect(planting).toBeDefined();
+      expect(planting.createdBy).toBeDefined();
+      expect(planting.farm).toBeDefined();
+      expect(planting.plant).toBeDefined();
+      expect(planting.state).toBeDefined();
+      expect(planting.state).toBe(PlantingState.GROWING);
+      expect(planting.notes).toBe(mockPlantingCreateDto.notes);
+      expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
+      expect(planting.amountOfGramsOfSeeds).toBe(mockPlantingCreateDto.amountOfGramsOfSeeds);
     },
   },
 };

@@ -5,12 +5,14 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
+import { Planting } from './planting.entity';
 import { User } from './user.entity';
 
 export enum PlantType {
@@ -61,6 +63,12 @@ export class Plant {
   @Column()
   expectedHarvestGramsPerPlate: number;
 
+  @Column({ type: 'numeric', precision: 10, scale: 6 })
+  sellPricePerGram: number;
+
+  @Column({ type: 'numeric', precision: 10, scale: 6 })
+  sellPricePerPlate: number;
+
   @ManyToOne(() => Farm, (farm) => farm.plants)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;
@@ -68,6 +76,9 @@ export class Plant {
   @ManyToOne(() => User, (user) => user.plants)
   @JoinColumn({ name: 'createdById' })
   createdBy: User;
+
+  @OneToMany(() => Planting, (planting) => planting.plant)
+  plantings: Planting[];
 
   @VersionColumn()
   version: number;

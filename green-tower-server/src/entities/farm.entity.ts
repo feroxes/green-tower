@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 
 import { Plant } from './plant.entity';
+import { Planting } from './planting.entity';
 import { User } from './user.entity';
 
 import { FarmConstants } from '../utils/constants';
@@ -32,6 +33,9 @@ export class Farm {
 
   @OneToMany(() => Plant, (user: Plant) => user.farm)
   plants: Plant[];
+
+  @OneToMany(() => Planting, (planting: Planting) => planting.farm)
+  plantings: Planting[];
 
   @VersionColumn()
   version: number;

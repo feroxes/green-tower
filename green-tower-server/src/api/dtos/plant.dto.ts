@@ -52,6 +52,7 @@ export class PlantCreateDto {
 
   @IsNumber()
   @Min(0)
+  @IsNotEmpty()
   hoursToSoak: number;
 
   @IsNumber()
@@ -63,11 +64,18 @@ export class PlantCreateDto {
 
   @IsNumber()
   @Min(1)
+  @IsNotEmpty()
   seedsGramPerPlate: number;
 
   @IsNumber()
   @Min(1)
+  @IsNotEmpty()
   expectedHarvestGramsPerPlate: number;
+
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  sellPricePerPlate: number;
 }
 export class PlantUpdateDto {
   @IsUUID()
@@ -120,6 +128,10 @@ export class PlantUpdateDto {
   @IsNumber()
   @Min(1)
   expectedHarvestGramsPerPlate: number;
+
+  @IsNumber()
+  @Min(1)
+  sellPricePerPlate: number;
 }
 
 export class PlantGetDto {

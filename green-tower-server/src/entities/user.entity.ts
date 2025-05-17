@@ -13,6 +13,7 @@ import {
 
 import { Farm } from './farm.entity';
 import { Plant } from './plant.entity';
+import { Planting } from './planting.entity';
 
 export enum UserRole {
   OWNER = 'owner',
@@ -67,6 +68,9 @@ export class User {
 
   @OneToMany(() => Plant, (plant) => plant.createdBy)
   plants: Plant[];
+
+  @OneToMany(() => Planting, (planting) => planting.createdBy)
+  plantings: Planting[];
 
   @VersionColumn()
   version: number;
