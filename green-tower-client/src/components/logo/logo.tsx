@@ -27,10 +27,10 @@ function Logo({
   const lsi = useLsi();
 
   return (
-    <ComponentWrapper {...rest}>
+    <ComponentWrapper {...rest} direction={textPosition === 'right' ? 'row' : 'column'}>
       {displayLogo && <LogoWrapper size={logoSize} />}
       {displayText && (
-        <Stack direction="row" sx={{ marginTop: '8px' }}>
+        <Stack direction="row" sx={{ mt: textPosition === 'right' ? 0 : 1, ml: textPosition === 'right' ? 1 : 0 }}>
           <Typography color={Config.colors.green} sx={{ fontSize, fontWeight: 'bold' }}>
             {lsi.green}
           </Typography>

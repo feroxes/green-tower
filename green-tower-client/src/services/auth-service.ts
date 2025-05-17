@@ -11,6 +11,7 @@ type ResendConfirmationEmailDto = { email: string; language: string };
 export const AuthService = {
   login: (dto: LoginFormInputs) => apiService.post<{ accessToken: string }>('/auth/login', dto),
   signup: (dto: SignupDto) => apiService.post('/auth/signup', dto),
+  logout: () => apiService.post('/auth/logout'),
   refresh: () => apiService.post('/auth/refresh'),
   resendConfirmationEmail: (dto: ResendConfirmationEmailDto) => apiService.post('/auth/resendConfirmationEmail', dto),
   confirmEmail: (token: string) => apiService.get(`/auth/confirmEmail/${token}`),

@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useRegistration } from '../../../hooks/auth/useRegistration';
+import { useRegistration } from '../../../hooks/auth/use-registration';
 import { useLsi } from '../../../hooks/common/use-lsi';
 import { useLanguage } from '../../../hooks/hooks';
 

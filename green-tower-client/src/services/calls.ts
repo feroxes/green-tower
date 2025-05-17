@@ -1,11 +1,11 @@
-import { apiService } from './api-service';
 import { AuthService } from './auth-service';
+import { FarmService } from './farm-service';
+import { UserService } from './user-service';
 
 const Calls = {
   Auth: AuthService,
-  User: {
-    get: () => apiService.get<{ accessToken: string }>('/user/get'),
-  },
+  User: UserService,
+  Farm: FarmService,
 };
 
 export default Calls;
