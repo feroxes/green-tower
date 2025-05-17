@@ -1,4 +1,4 @@
-import { useLogin } from './auth/useLogin';
+import { useLogin } from './auth/use-login';
 import { useAlert } from './common/use-alert';
 import { useAuthentication } from './common/use-authentication';
 import { useLanguage } from './common/use-language';

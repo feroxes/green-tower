@@ -4,12 +4,10 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
 import { Farm } from '../entities/farm.entity';
-import { Plant } from '../entities/plant.entity';
 import { User } from '../entities/user.entity';
 
 import { TokenService } from '../services/token/token.service';
 
-import { PlantListFiltersDto, PlantListSortersDto } from '../api/dtos/plant.dto';
 import { UserCreateDto } from '../api/dtos/user.dto';
 
 import { UserCheckExistenceComponentError, UserCreateComponentError } from '../api/errors/user-component.errors';
@@ -78,7 +76,7 @@ export class UserComponent {
 
   async checkUserExistence(id: string, farmId: string, errorCode: string): Promise<User> {
     const Errors = new UserCheckExistenceComponentError(errorCode);
-    const user = await this.userRepository.findOne({ where: { id, farm: { id: farmId } } });
+    const user = await this.userRepository.findOne({ where: { id, farm: { id: farmId } }, relations: ['farm'] });
 
     if (!user) {
       throw Errors.UserNotFound({ id });
