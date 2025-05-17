@@ -41,9 +41,9 @@ export class PlantingCreateService {
       plant,
     };
 
-    let planting: Planting;
+    let planting = this.plantingRepository.create(_plantingCreateDto);
     try {
-      planting = await this.plantingRepository.save(_plantingCreateDto);
+      planting = await this.plantingRepository.save(planting);
     } catch (e: unknown) {
       throw plantingCreateError.FailedToCreatePlanting({ e });
     }

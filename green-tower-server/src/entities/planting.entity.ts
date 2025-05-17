@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -32,8 +33,8 @@ export class Planting {
   })
   state: PlantingState;
 
-  @Column()
-  notes: string;
+  @Column({ length: 2048, nullable: true, type: 'varchar' })
+  notes?: string | null;
 
   @Column()
   amountOfPlates: number;
@@ -41,6 +42,7 @@ export class Planting {
   @Column()
   amountOfGramsOfSeeds: number;
 
+  @Exclude()
   @ManyToOne(() => Farm, (farm) => farm.plantings)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;

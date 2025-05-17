@@ -62,6 +62,7 @@ export class User {
   @Exclude()
   refreshToken: string | null;
 
+  @Exclude()
   @ManyToOne(() => Farm, (farm) => farm.users)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;

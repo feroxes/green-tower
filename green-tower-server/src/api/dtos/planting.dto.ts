@@ -1,21 +1,10 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MaxLength,
-  Min,
-  MinLength,
-  ValidateIf,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MaxLength, Min, MinLength } from 'class-validator';
 
 export class PlantingCreateDto {
   @IsUUID()
   @IsNotEmpty()
   plantId: string;
 
-  @ValidateIf((obj, value) => value === null || typeof value === 'string')
   @IsOptional()
   @IsString()
   @MinLength(3)
