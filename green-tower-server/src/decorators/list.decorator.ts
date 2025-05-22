@@ -12,7 +12,7 @@ export interface ListOptions<T extends ObjectLiteral> {
   defaultSort?: SortOptions;
 }
 
-function createListMetaDto(partial: Partial<ListMetaDto> = {}): ListMetaDto {
+export function createListMetaDto(partial: Partial<ListMetaDto> = {}): ListMetaDto {
   const dto = new ListMetaDto();
   dto.page = partial.page ?? 0;
   dto.size = partial.size ?? 20;

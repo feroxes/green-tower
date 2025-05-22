@@ -94,7 +94,7 @@ export class PlantingListDto {
   @ValidateNested()
   @IsOptional()
   @Type(() => ListMetaDto)
-  meta: ListMetaDto;
+  meta?: ListMetaDto;
 
   @ValidateNested()
   @IsOptional()

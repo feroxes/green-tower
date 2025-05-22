@@ -8,7 +8,7 @@ import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
-import { PlantingGetDto, PlantingUpdateDto, PlantingDeleteDto } from '../../src/api/dtos/planting.dto';
+import { PlantingDeleteDto, PlantingGetDto, PlantingListDto, PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { UserUpdateDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
@@ -182,6 +182,13 @@ export const Calls = {
       body: PlantingDeleteDto,
     ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.planting.delete, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingListDto,
+    ): Promise<ListResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.planting.list, body, accessToken);
     },
   },
 };

@@ -11,6 +11,7 @@ import { PlantingComponentError } from '../api/errors/planting-component.errors'
 import { ExecutorType } from '../api/types/auth.types';
 
 import { ListMetaDto, ListResponseType } from '../api/types/dto-types';
+import { createListMetaDto } from '../decorators/list.decorator';
 
 @Injectable()
 export class PlantingComponent {
@@ -39,17 +40,18 @@ export class PlantingComponent {
 
   async list(
     executor: ExecutorType,
-    meta: ListMetaDto,
+    meta?: ListMetaDto,
     filters?: PlantingListFiltersDto,
     sorters?: PlantingListSortersDto,
   ): Promise<ListResponseType<Planting>> {
+    const _meta = createListMetaDto(meta);
     const queryBuilder = this.plantingRepository
       .createQueryBuilder('planting')
       .leftJoinAndSelect('planting.plant', 'plant')
       .leftJoinAndSelect('planting.createdBy', 'createdBy')
       .leftJoinAndSelect('planting.farm', 'farm')
       .where('planting.farm.id = :farmId', { farmId: executor.farmId });
-
+    console.log('----->filters<-----', filters);
     if (filters?.state) {
       queryBuilder.andWhere('planting.state = :state', { state: filters.state });
     }
@@ -84,16 +86,16 @@ export class PlantingComponent {
 
     queryBuilder.addOrderBy('planting.createdAt', 'DESC');
 
-    const skip = meta.page * meta.size;
-    queryBuilder.skip(skip).take(meta.size);
+    const skip = _meta.page * _meta.size;
+    queryBuilder.skip(skip).take(_meta.size);
 
     const [itemList, total] = await queryBuilder.getManyAndCount();
 
     return {
       itemList,
       meta: {
-        page: meta.page,
-        size: meta.size,
+        page: _meta.page,
+        size: _meta.size,
         total,
       },
     };

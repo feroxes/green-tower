@@ -30,5 +30,6 @@ export const UseCases = {
     update: '/planting/update',
     get: '/planting/get',
     delete: '/planting/delete',
+    list: '/planting/list',
   },
-};
+} as const;
