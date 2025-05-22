@@ -7,3 +7,9 @@ export const AuthConstants = {
   ACCESS_TOKEN_EXPIRATION: '15m' as const,
   REFRESH_TOKEN_EXPIRATION: '7d' as const,
 };
+
+export const ErrorCodes = {
+  DB: {
+    foreignKeyViolation: '23503',
+  },
+};

@@ -24,6 +24,7 @@ export class PlantingCreateDto {
 
 export class PlantingUpdateDto {
   @IsUUID()
+  @IsNotEmpty()
   id: string;
 
   @IsOptional()
@@ -45,4 +46,10 @@ export class PlantingUpdateDto {
   @IsNumber()
   @Min(1)
   amountOfGramsOfSeeds?: number;
+}
+
+export class PlantingGetDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
 }

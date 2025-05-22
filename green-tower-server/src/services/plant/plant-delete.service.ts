@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Constants } from 'green-tower-client/src/utils/constants';
 import { Repository } from 'typeorm';
 
 import { Plant } from '../../entities/plant.entity';
@@ -14,6 +13,8 @@ import { PlantDeleteDto } from '../../api/dtos/plant.dto';
 import { plantDeleteError } from '../../api/errors/plant.errors';
 
 import { ExecutorType } from '../../api/types/auth.types';
+
+import { ErrorCodes } from '../../utils/constants';
 
 @Injectable()
 export class PlantDeleteService {
@@ -41,7 +42,7 @@ export class PlantDeleteService {
     } catch (e: unknown) {
       if (e instanceof Error && 'code' in e) {
         const error = e as { code: string; message: string };
-        if (error.code === Constants.errorCodes.DB.foreignKeyViolation) {
+        if (error.code === ErrorCodes.DB.foreignKeyViolation) {
           await this.plantRepository.save({ ...plant, isDeleted: true });
         }
       } else throw plantDeleteError.FailedToDeletePlant({ e });

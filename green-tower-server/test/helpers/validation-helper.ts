@@ -132,5 +132,9 @@ export const ValidationHelper = {
         expect(mockPlantingUpdateDto[key]).toBe(planting[key]);
       }
     },
+    validatePlantingGet(planting: Planting) {
+      expect(planting).toBeDefined();
+      expect(planting).not.toBeNull();
+    },
   },
 };
