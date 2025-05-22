@@ -46,8 +46,8 @@ export class Plant {
   })
   type: PlantType;
 
-  @Column({ nullable: true, type: 'int' })
-  expectedHoursToHarvest?: number | null;
+  @Column()
+  expectedHoursToHarvest: number;
 
   @Column({ nullable: true, type: 'int' })
   hoursToSoak?: number | null;

@@ -17,6 +17,7 @@ import { User } from './user.entity';
 
 export enum PlantingState {
   GROWING = 'growing',
+  READY = 'ready',
   HARVESTED = 'harvested',
   DEAD = 'dead',
 }
@@ -57,6 +58,9 @@ export class Planting {
 
   @VersionColumn()
   version: number;
+
+  @Column({ nullable: true, type: 'date' })
+  harvestTs: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

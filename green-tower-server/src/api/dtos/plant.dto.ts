@@ -31,42 +31,42 @@ export class PlantCreateDto {
   @IsString()
   @MinLength(3)
   @MaxLength(2024)
-  description?: string | null;
+  description?: string;
 
   @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(2024)
-  notes?: string | null;
+  notes?: string;
 
   @IsOptional()
   @IsUrl()
   @MinLength(3)
   @MaxLength(512)
-  imageUrl?: string | null;
+  imageUrl?: string;
 
   @IsEnum(PlantType)
   @IsNotEmpty()
   type: PlantType;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   @Min(1)
-  expectedHoursToHarvest?: number | null;
+  expectedHoursToHarvest: number;
 
   @IsOptional()
   @IsNumber()
   @Min(0)
-  hoursToSoak?: number | null;
+  hoursToSoak?: number;
 
   @IsOptional()
   @IsNumber()
   @Min(1)
-  hoursToMoveToLight?: number | null;
+  hoursToMoveToLight?: number;
 
   @IsOptional()
   @IsBoolean()
-  shouldBePressed?: boolean | null;
+  shouldBePressed?: boolean;
 
   @IsNumber()
   @Min(1)
@@ -120,7 +120,7 @@ export class PlantUpdateDto {
   @IsOptional()
   @IsNumber()
   @Min(1)
-  expectedHoursToHarvest?: number | null;
+  expectedHoursToHarvest?: number;
 
   @IsOptional()
   @IsNumber()

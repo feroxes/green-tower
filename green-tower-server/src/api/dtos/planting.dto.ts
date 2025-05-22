@@ -1,4 +1,22 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MaxLength, Min, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+  Min,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
+
+import { PlantingState } from '../../entities/planting.entity';
+
+import { SortDirectionType } from '../types/common.types';
+
+import { ListMetaDto } from '../types/dto-types';
 
 export class PlantingCreateDto {
   @IsUUID()
@@ -58,4 +76,33 @@ export class PlantingDeleteDto {
   @IsUUID()
   @IsNotEmpty()
   id: string;
+}
+
+export class PlantingListFiltersDto {
+  @IsEnum(PlantingState)
+  @IsOptional()
+  state?: PlantingState;
+}
+
+export class PlantingListSortersDto {
+  @IsEnum(SortDirectionType)
+  @IsOptional()
+  harvestTs?: SortDirectionType.ASC | SortDirectionType.DESC;
+}
+
+export class PlantingListDto {
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => ListMetaDto)
+  meta: ListMetaDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => PlantingListFiltersDto)
+  filters?: PlantingListFiltersDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => PlantingListSortersDto)
+  sorters?: PlantingListSortersDto;
 }

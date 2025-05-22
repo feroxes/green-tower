@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Whole server implementation is located inside green-tower-server/src folder.
+The sctructure of the project is as follow:
+Controllers located in green-tower-server/src/api/controllers
+Dtos located in green-tower-server/src/api/dtos
+Errors located in green-tower-server/src/api/errors
+Modules located in green-tower-server/src/api/modules
+Types located in green-tower-server/src/api/types
+Some reusable code which has access to repo located in green-tower-server/src/components
+Decorators located in green-tower-server/src/decorators
+Entities located in green-tower-server/src/entities
+Guards located in green-tower-server/src/guards
+Services located in green-tower-server/src/services. Each folder inside represent separate entity and contain related to it services.
+Helpers located in green-tower-server/src/utils
+
+When you are creating some new file, always follow the project structure and always use proper location. If you don't know where to put new file, or there is no proper folder for new file - just ask.
+
+
+Everything related to test are located in green-tower-server/test folder.
