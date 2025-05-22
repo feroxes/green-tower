@@ -14,6 +14,7 @@ import { PlantingService } from '../../services/planting/planting.service';
 import { PlantingCreateService } from '../../services/planting/planting-create.service';
 import { PlantingUGetService } from '../../services/planting/planting-get.service';
 import { PlantingUpdateService } from '../../services/planting/planting-update.service';
+import { PlantingDeleteService } from '../../services/planting/planting-delete.service';
 import { TokenService } from '../../services/token/token.service';
 
 import { FarmComponent } from '../../components/farm.component';
@@ -29,6 +30,7 @@ import { UserComponent } from '../../components/user.component';
     PlantingCreateService,
     PlantingUpdateService,
     PlantingUGetService,
+    PlantingDeleteService,
     JwtStrategy,
     FarmComponent,
     UserComponent,

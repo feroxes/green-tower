@@ -53,3 +53,9 @@ export class PlantingGetDto {
   @IsNotEmpty()
   id: string;
 }
+
+export class PlantingDeleteDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+}

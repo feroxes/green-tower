@@ -4,10 +4,7 @@ import { TestingModule } from '@nestjs/testing';
 import { Planting } from '../../src/entities/planting.entity';
 
 import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
-import { mockDto } from '../mock/mock.dtos';
 
-import { PlantComponentError } from '../../src/api/errors/plant-component.errors';
-import { plantingUpdateError } from '../../src/api/errors/planting.errors';
 import { PlantingComponentError } from '../../src/api/errors/planting-component.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 

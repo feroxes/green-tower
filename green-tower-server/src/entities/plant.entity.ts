@@ -98,6 +98,7 @@ export class Plant {
   @OneToMany(() => Planting, (planting) => planting.plant)
   plantings: Planting[];
 
+  @Exclude()
   @Column({ default: false })
   isDeleted: boolean;
 

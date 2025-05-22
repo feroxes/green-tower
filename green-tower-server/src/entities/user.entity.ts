@@ -73,6 +73,7 @@ export class User {
   @OneToMany(() => Planting, (planting) => planting.createdBy)
   plantings: Planting[];
 
+  @Exclude()
   @Column({ default: false })
   isDeleted: boolean;
 

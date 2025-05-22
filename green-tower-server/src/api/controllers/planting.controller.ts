@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 import { PlantingService } from '../../services/planting/planting.service';
 
-import { PlantingCreateDto, PlantingGetDto, PlantingUpdateDto } from '../dtos/planting.dto';
+import { PlantingCreateDto, PlantingGetDto, PlantingUpdateDto, PlantingDeleteDto } from '../dtos/planting.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -32,5 +32,11 @@ export class PlantingController {
   @UseGuards(AuthorizedGuard)
   async get(@Body() plantingGetDto: PlantingGetDto, @Executor() executor: ExecutorType) {
     return this.plantingService.get(plantingGetDto, executor);
+  }
+
+  @Post('delete')
+  @UseGuards(AuthorizedGuard)
+  async delete(@Body() plantingDeleteDto: PlantingDeleteDto, @Executor() executor: ExecutorType) {
+    return this.plantingService.delete(plantingDeleteDto, executor);
   }
 }

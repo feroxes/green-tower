@@ -12,6 +12,7 @@ class PlantingCreateError extends BaseError {
     'Failed to create a Planting',
   );
 }
+
 class PlantingUpdateError extends BaseError {
   constructor() {
     super('planting/update/');
@@ -23,5 +24,17 @@ class PlantingUpdateError extends BaseError {
   );
 }
 
+class PlantingDeleteError extends BaseError {
+  constructor() {
+    super('planting/delete/');
+  }
+  readonly FailedToDeletePlanting = this.createError(
+    InternalServerErrorException,
+    'failedToDeletePlanting',
+    'Failed to delete a Planting',
+  );
+}
+
 export const plantingCreateError = new PlantingCreateError();
 export const plantingUpdateError = new PlantingUpdateError();
+export const plantingDeleteError = new PlantingDeleteError();
