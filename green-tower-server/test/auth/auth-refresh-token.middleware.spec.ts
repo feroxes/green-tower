@@ -52,7 +52,7 @@ describe('AuthRefreshTokenMiddleware', () => {
       farmId: testHelper.getOwner.farm.id,
     };
     accessToken = jwtService.sign(payload);
-    farm = await testHelper.getFarm();
+    farm = await testHelper.loadFarm();
   });
 
   describe(useCase, () => {

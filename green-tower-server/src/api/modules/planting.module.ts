@@ -12,10 +12,12 @@ import { PlantingController } from '../controllers/planting.controller';
 
 import { PlantingService } from '../../services/planting/planting.service';
 import { PlantingCreateService } from '../../services/planting/planting-create.service';
+import { PlantingUpdateService } from '../../services/planting/planting-update.service';
 import { TokenService } from '../../services/token/token.service';
 
 import { FarmComponent } from '../../components/farm.component';
 import { PlantComponent } from '../../components/plant.component';
+import { PlantingComponent } from '../../components/planting.component';
 import { UserComponent } from '../../components/user.component';
 
 @Module({
@@ -24,10 +26,12 @@ import { UserComponent } from '../../components/user.component';
   providers: [
     PlantingService,
     PlantingCreateService,
+    PlantingUpdateService,
     JwtStrategy,
     FarmComponent,
     UserComponent,
     PlantComponent,
+    PlantingComponent,
     TokenService,
   ],
   exports: [PlantingService],

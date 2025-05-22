@@ -48,12 +48,12 @@ describe('PlantingCreate', () => {
       const res = (await Calls.Planting.create(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
       ValidationHelper.planting.validatePlantingCreation(res.body);
 
-      const farm = await testHelper.getFarm();
-      const user = await testHelper.getUser();
-      expect(farm.plantings.length).toBe(1);
-      expect(farm.plantings[0].id).toBe(res.body.id);
-      expect(user.plantings.length).toBe(1);
-      expect(user.plantings[0].id).toBe(res.body.id);
+      const farm = await testHelper.loadFarm();
+      const user = await testHelper.loadUser();
+      expect(farm.plantings.length).toBe(2);
+      expect(farm.plantings[1].id).toBe(res.body.id);
+      expect(user.plantings.length).toBe(2);
+      expect(user.plantings[1].id).toBe(res.body.id);
     });
 
     it(`${UseCases.planting.create} - user not found`, async () => {

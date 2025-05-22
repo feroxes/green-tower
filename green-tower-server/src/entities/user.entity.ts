@@ -73,6 +73,9 @@ export class User {
   @OneToMany(() => Planting, (planting) => planting.createdBy)
   plantings: Planting[];
 
+  @Column({ default: false })
+  isDeleted: boolean;
+
   @VersionColumn()
   version: number;
 

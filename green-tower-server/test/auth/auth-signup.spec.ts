@@ -37,8 +37,8 @@ describe('AuthSignup', () => {
 
   describe(UseCases.auth.signUp, () => {
     it(`${UseCases.auth.signUp} - HDS`, async () => {
-      const user = await testHelper.getUser();
-      const farm = await testHelper.getFarm();
+      const user = await testHelper.loadUser();
+      const farm = await testHelper.loadFarm();
       ValidationHelper.farm.validateFarm(farm);
       ValidationHelper.user.validateUserRegistration(user, farm);
     });

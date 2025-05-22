@@ -12,5 +12,16 @@ class PlantingCreateError extends BaseError {
     'Failed to create a Planting',
   );
 }
+class PlantingUpdateError extends BaseError {
+  constructor() {
+    super('planting/update/');
+  }
+  readonly FailedToUpdatePlanting = this.createError(
+    InternalServerErrorException,
+    'failedToUpdatePlanting',
+    'Failed to update a Planting',
+  );
+}
 
 export const plantingCreateError = new PlantingCreateError();
+export const plantingUpdateError = new PlantingUpdateError();

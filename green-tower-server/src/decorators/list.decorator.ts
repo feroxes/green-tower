@@ -39,6 +39,10 @@ export function List<T extends ObjectLiteral>(options: ListOptions<T>) {
       const queryBuilder = repository.createQueryBuilder(entityName);
 
       queryBuilder.andWhere(`${entityName}.farmId = :farmId`, { farmId: executor.farmId });
+      const hasIsDeleted = repository.metadata.columns.some((col) => col.propertyName === 'isDeleted');
+      if (hasIsDeleted) {
+        queryBuilder.andWhere(`${entityName}.isDeleted = false`);
+      }
 
       if (filters) {
         Object.entries(filters).forEach(([key, value]) => {

@@ -13,5 +13,8 @@ export const Constants = {
     Auth: {
       emailNotConfirmed: 'auth/login/emailNotConfirmed',
     },
+    DB: {
+      foreignKeyViolation: '23503',
+    },
   },
 };

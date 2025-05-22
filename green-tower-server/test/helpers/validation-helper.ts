@@ -3,6 +3,8 @@ import { Plant } from '../../src/entities/plant.entity';
 import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
 
 import { ErrorResponse, GuardError } from './types/response.types';
@@ -97,8 +99,9 @@ export const ValidationHelper = {
       expect(plant.seedsGramPerPlate).toBe(mockPlantCreateDto.seedsGramPerPlate);
       expect(plant.expectedHarvestGramsPerPlate).toBe(mockPlantCreateDto.expectedHarvestGramsPerPlate);
       expect(plant.sellPricePerPlate).toBe(mockPlantCreateDto.sellPricePerPlate);
+      expect(plant.isDeleted).toBe(false);
     },
-    validatePlantUpdate(plant: Plant, mockPlantUpdateDto = mockDto.plantUpdateDto) {
+    validatePlantUpdate(plant: Plant, mockPlantUpdateDto: PlantUpdateDto) {
       expect(plant).toBeDefined();
       expect(plant).not.toBeNull();
       for (const key in mockPlantUpdateDto) {
@@ -121,6 +124,13 @@ export const ValidationHelper = {
       expect(planting.notes).toBe(mockPlantingCreateDto.notes);
       expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
       expect(planting.amountOfGramsOfSeeds).toBe(mockPlantingCreateDto.amountOfGramsOfSeeds);
+    },
+    validatePlantingUpdate(planting: Planting, mockPlantingUpdateDto: PlantingUpdateDto) {
+      expect(planting).toBeDefined();
+      expect(planting).not.toBeNull();
+      for (const key in mockPlantingUpdateDto) {
+        expect(mockPlantingUpdateDto[key]).toBe(planting[key]);
+      }
     },
   },
 };

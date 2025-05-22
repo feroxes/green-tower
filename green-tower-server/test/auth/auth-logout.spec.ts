@@ -35,7 +35,7 @@ describe('AuthLogout', () => {
         .set('Cookie', `refreshToken=${testHelper.getRefreshToken}`)
         .send();
 
-      const user = await testHelper.getUser();
+      const user = await testHelper.loadUser();
       const cookies = res.headers['set-cookie'] as unknown as [string];
       const refreshCookie = cookies.find((c) => c.startsWith('refreshToken='));
 

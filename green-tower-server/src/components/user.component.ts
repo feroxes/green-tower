@@ -76,7 +76,10 @@ export class UserComponent {
 
   async checkUserExistence(id: string, farmId: string, errorCode: string): Promise<User> {
     const Errors = new UserCheckExistenceComponentError(errorCode);
-    const user = await this.userRepository.findOne({ where: { id, farm: { id: farmId } }, relations: ['farm'] });
+    const user = await this.userRepository.findOne({
+      where: { id, farm: { id: farmId }, isDeleted: false },
+      relations: ['farm'],
+    });
 
     if (!user) {
       throw Errors.UserNotFound({ id });

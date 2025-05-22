@@ -64,8 +64,14 @@ export const mockDto = {
     sellPricePerPlate: 100,
   },
   plantingCreateDto: {
+    plantId: '',
     notes: 'Some notes',
     amountOfPlates: 10,
     amountOfGramsOfSeeds: 200,
+  },
+  plantingUpdateDto: {
+    notes: null,
+    amountOfPlates: 12,
+    amountOfGramsOfSeeds: 300,
   },
 };

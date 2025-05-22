@@ -21,3 +21,28 @@ export class PlantingCreateDto {
   @IsNotEmpty()
   amountOfGramsOfSeeds: number;
 }
+
+export class PlantingUpdateDto {
+  @IsUUID()
+  id: string;
+
+  @IsOptional()
+  @IsUUID()
+  plantId?: string | null;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(2024)
+  notes?: string | null;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  amountOfPlates?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  amountOfGramsOfSeeds?: number;
+}

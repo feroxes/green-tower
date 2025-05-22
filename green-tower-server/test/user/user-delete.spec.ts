@@ -38,7 +38,7 @@ describe('UserDelete', () => {
       const { user } = await testHelper.createUser();
       await Calls.User.delete(app, testHelper.getAccessToken, { id: user.id });
 
-      const farm = await testHelper.getFarm();
+      const farm = await testHelper.loadFarm();
       expect(farm.users.length).toBe(1);
     });
 
@@ -46,7 +46,7 @@ describe('UserDelete', () => {
       const { user } = await testHelper.createUser();
       await Calls.User.delete(app, testHelper.getAccessToken, { id: user.id });
 
-      const farm = await testHelper.getFarm();
+      const farm = await testHelper.loadFarm();
       expect(farm.users.length).toBe(1);
     });
 

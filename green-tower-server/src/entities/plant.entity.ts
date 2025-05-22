@@ -98,6 +98,9 @@ export class Plant {
   @OneToMany(() => Planting, (planting) => planting.plant)
   plantings: Planting[];
 
+  @Column({ default: false })
+  isDeleted: boolean;
+
   @VersionColumn()
   version: number;
 
