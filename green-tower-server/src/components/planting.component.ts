@@ -21,10 +21,10 @@ export class PlantingComponent {
     private plantingRepository: Repository<Planting>,
   ) {}
 
-  getHarvestTs(plant: Plant): Date {
-    const harvestTs = new Date();
-    harvestTs.setHours(harvestTs.getHours() + plant.expectedHoursToHarvest);
-    return harvestTs;
+  getExpectedHarvestTs(plant: Plant): Date {
+    const expectedHarvestTs = new Date();
+    expectedHarvestTs.setHours(expectedHarvestTs.getHours() + plant.expectedHoursToHarvest);
+    return expectedHarvestTs;
   }
 
   async checkPlantingExistence(
@@ -89,7 +89,7 @@ export class PlantingComponent {
 
     queryBuilder.addOrderBy('expected_harvest_time', 'ASC');
 
-    queryBuilder.addOrderBy('planting.harvestTs', 'ASC');
+    queryBuilder.addOrderBy('planting.expectedHarvestTs', 'ASC');
 
     queryBuilder.addOrderBy('planting.createdAt', 'DESC');
 

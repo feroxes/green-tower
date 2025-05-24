@@ -3,10 +3,18 @@ import { Injectable } from '@nestjs/common';
 import { PlantingCreateService } from './planting-create.service';
 import { PlantingDeleteService } from './planting-delete.service';
 import { PlantingUGetService } from './planting-get.service';
-import { PlantingUpdateService } from './planting-update.service';
 import { PlantingListService } from './planting-list.service';
+import { PlantingSetStateService } from './planting-set-state.service';
+import { PlantingUpdateService } from './planting-update.service';
 
-import { PlantingCreateDto, PlantingDeleteDto, PlantingGetDto, PlantingUpdateDto, PlantingListDto } from '../../api/dtos/planting.dto';
+import {
+  PlantingCreateDto,
+  PlantingDeleteDto,
+  PlantingGetDto,
+  PlantingListDto,
+  PlantingSetStateDto,
+  PlantingUpdateDto,
+} from '../../api/dtos/planting.dto';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -18,6 +26,7 @@ export class PlantingService {
     private plantingGetService: PlantingUGetService,
     private plantingDeleteService: PlantingDeleteService,
     private plantingListService: PlantingListService,
+    private plantingSetStateService: PlantingSetStateService,
   ) {}
 
   async create(plantingCreateDto: PlantingCreateDto, executor: ExecutorType) {
@@ -38,5 +47,9 @@ export class PlantingService {
 
   async list(plantingListDto: PlantingListDto, executor: ExecutorType) {
     return this.plantingListService.list(plantingListDto, executor);
+  }
+
+  async setState(plantingSetStateDto: PlantingSetStateDto, executor: ExecutorType) {
+    return this.plantingSetStateService.setState(plantingSetStateDto, executor);
   }
 }

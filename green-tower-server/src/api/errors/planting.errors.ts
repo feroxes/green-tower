@@ -1,4 +1,4 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException } from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -40,6 +40,28 @@ class PlantingDeleteError extends BaseError {
   );
 }
 
+class PlantingSetStateError extends BaseError {
+  constructor() {
+    super('planting/setState/');
+  }
+  readonly PlantingIsInFinalState = this.createError(
+    ConflictException,
+    'plantingIsInFinalState',
+    'Planting is in final state',
+  );
+  readonly CannotSetGrowingState = this.createError(
+    ConflictException,
+    'cannotSetGrowingState',
+    'Cannot set growing state - harvest time has been reached',
+  );
+  readonly FailedToSetPlantingState = this.createError(
+    InternalServerErrorException,
+    'failedToSetPlantingState',
+    'Failed to set planting state',
+  );
+}
+
 export const plantingCreateError = new PlantingCreateError();
 export const plantingUpdateError = new PlantingUpdateError();
 export const plantingDeleteError = new PlantingDeleteError();
+export const plantingSetStateError = new PlantingSetStateError();

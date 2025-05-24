@@ -52,7 +52,7 @@ describe('PlantingUpdate', () => {
       ValidationHelper.planting.validatePlantingUpdate(res.body, dto);
     });
 
-    it(`${UseCases.planting.update} - harvestTs update on plant change`, async () => {
+    it(`${UseCases.planting.update} - expectedHarvestTs update on plant change`, async () => {
       const newPlant = (await Calls.Plant.create(app, testHelper.getAccessToken)) as ObjectResponseType<Plant>;
       const updateDto = {
         ...dto,
@@ -69,8 +69,8 @@ describe('PlantingUpdate', () => {
       const expectedHarvestTs = new Date();
       expectedHarvestTs.setHours(expectedHarvestTs.getHours() + newPlant.body.expectedHoursToHarvest);
 
-      expect(planting.harvestTs).toBeDefined();
-      expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+      expect(planting.expectedHarvestTs).toBeDefined();
+      expect(new Date(planting.expectedHarvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
     });
 
     it(`${UseCases.planting.update} - user not found`, async () => {

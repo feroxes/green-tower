@@ -5,7 +5,14 @@ import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 import { PlantingService } from '../../services/planting/planting.service';
 
-import { PlantingCreateDto, PlantingGetDto, PlantingUpdateDto, PlantingDeleteDto, PlantingListDto } from '../dtos/planting.dto';
+import {
+  PlantingCreateDto,
+  PlantingDeleteDto,
+  PlantingGetDto,
+  PlantingListDto,
+  PlantingSetStateDto,
+  PlantingUpdateDto,
+} from '../dtos/planting.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -44,5 +51,11 @@ export class PlantingController {
   @UseGuards(AuthorizedGuard)
   async list(@Body() plantingListDto: PlantingListDto, @Executor() executor: ExecutorType) {
     return this.plantingService.list(plantingListDto, executor);
+  }
+
+  @Post('/setState')
+  @UseGuards(AuthorizedGuard)
+  async setState(@Body() plantingSetStateDto: PlantingSetStateDto, @Executor() executor: ExecutorType) {
+    return this.plantingService.setState(plantingSetStateDto, executor);
   }
 }

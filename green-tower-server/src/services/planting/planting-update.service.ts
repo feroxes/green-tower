@@ -49,7 +49,7 @@ export class PlantingUpdateService {
     const updateData = { ...planting, ...plantingUpdateDto, plant };
 
     if (plantingUpdateDto.plantId) {
-      updateData.harvestTs = this.plantingComponent.getHarvestTs(plant);
+      updateData.expectedHarvestTs = this.plantingComponent.getExpectedHarvestTs(plant);
     }
 
     try {

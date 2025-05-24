@@ -124,10 +124,10 @@ export const ValidationHelper = {
       expect(planting.notes).toBe(mockPlantingCreateDto.notes);
       expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
       expect(planting.amountOfGramsOfSeeds).toBe(mockPlantingCreateDto.amountOfGramsOfSeeds);
-      expect(planting.harvestTs).toBeDefined();
+      expect(planting.expectedHarvestTs).toBeDefined();
       const expectedHarvestTs = new Date();
       expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
-      expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+      expect(new Date(planting.expectedHarvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
     },
     validatePlantingUpdate(planting: Planting, mockPlantingUpdateDto: PlantingUpdateDto) {
       expect(planting).toBeDefined();
@@ -136,7 +136,7 @@ export const ValidationHelper = {
         if (key === 'plantId') {
           const expectedHarvestTs = new Date();
           expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
-          expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+          expect(new Date(planting.expectedHarvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
         } else {
           expect(mockPlantingUpdateDto[key]).toBe(planting[key]);
         }
@@ -145,7 +145,16 @@ export const ValidationHelper = {
     validatePlantingGet(planting: Planting) {
       expect(planting).toBeDefined();
       expect(planting).not.toBeNull();
-      expect(planting.harvestTs).toBeDefined();
+      expect(planting.expectedHarvestTs).toBeDefined();
+    },
+    validatePlantingState(planting: Planting, expectedState: PlantingState): void {
+      expect(planting.state).toBe(expectedState);
+      if (planting.state === PlantingState.HARVESTED) {
+        expect(planting.harvestTs).toBeDefined();
+      }
+      if (planting.state === PlantingState.DEAD) {
+        expect(planting.deadTs).toBeDefined();
+      }
     },
   },
 };

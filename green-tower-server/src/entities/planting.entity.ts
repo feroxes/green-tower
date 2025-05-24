@@ -22,6 +22,8 @@ export enum PlantingState {
   DEAD = 'dead',
 }
 
+export const PlantingFinalStates = [PlantingState.HARVESTED, PlantingState.DEAD] as PlantingState[];
+
 @Entity()
 @Index('IDX_PLANTING_CREATED_AT', ['createdAt'])
 export class Planting {
@@ -59,8 +61,14 @@ export class Planting {
   @VersionColumn()
   version: number;
 
-  @Column({ nullable: true, type: 'date' })
-  harvestTs: Date;
+  @Column({ type: 'timestamptz' })
+  expectedHarvestTs: Date;
+
+  @Column({ nullable: true, type: 'timestamptz' })
+  harvestTs?: Date;
+
+  @Column({ nullable: true, type: 'timestamptz' })
+  deadTs?: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -41,7 +41,7 @@ export class PlantingCreateService {
       createdBy: user,
       farm,
       plant,
-      harvestTs: this.plantingComponent.getHarvestTs(plant),
+      expectedHarvestTs: this.plantingComponent.getExpectedHarvestTs(plant),
     };
 
     let planting = this.plantingRepository.create(_plantingCreateDto);

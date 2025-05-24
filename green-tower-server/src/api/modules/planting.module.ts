@@ -12,10 +12,11 @@ import { PlantingController } from '../controllers/planting.controller';
 
 import { PlantingService } from '../../services/planting/planting.service';
 import { PlantingCreateService } from '../../services/planting/planting-create.service';
-import { PlantingUGetService } from '../../services/planting/planting-get.service';
-import { PlantingUpdateService } from '../../services/planting/planting-update.service';
 import { PlantingDeleteService } from '../../services/planting/planting-delete.service';
+import { PlantingUGetService } from '../../services/planting/planting-get.service';
 import { PlantingListService } from '../../services/planting/planting-list.service';
+import { PlantingSetStateService } from '../../services/planting/planting-set-state.service';
+import { PlantingUpdateService } from '../../services/planting/planting-update.service';
 import { TokenService } from '../../services/token/token.service';
 
 import { FarmComponent } from '../../components/farm.component';
@@ -33,6 +34,7 @@ import { UserComponent } from '../../components/user.component';
     PlantingUGetService,
     PlantingDeleteService,
     PlantingListService,
+    PlantingSetStateService,
     JwtStrategy,
     FarmComponent,
     UserComponent,

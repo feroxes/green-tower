@@ -106,3 +106,13 @@ export class PlantingListDto {
   @Type(() => PlantingListSortersDto)
   sorters?: PlantingListSortersDto;
 }
+
+export class PlantingSetStateDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @IsEnum(PlantingState)
+  @IsNotEmpty()
+  state: PlantingState;
+}

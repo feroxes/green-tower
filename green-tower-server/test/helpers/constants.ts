@@ -31,5 +31,6 @@ export const UseCases = {
     get: '/planting/get',
     delete: '/planting/delete',
     list: '/planting/list',
+    setState: '/planting/setState',
   },
 } as const;
