@@ -56,6 +56,17 @@ describe('PlantingCreate', () => {
       expect(user.plantings[1].id).toBe(res.body.id);
     });
 
+    it(`${UseCases.planting.create} - harvestTs calculation`, async () => {
+      const res = (await Calls.Planting.create(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
+      const planting = res.body;
+
+      const expectedHarvestTs = new Date();
+      expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
+
+      expect(planting.harvestTs).toBeDefined();
+      expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+    });
+
     it(`${UseCases.planting.create} - user not found`, async () => {
       const userCheckExistenceComponentError = new UserCheckExistenceComponentError('planting/create/');
       const expectedError = userCheckExistenceComponentError.UserNotFound();

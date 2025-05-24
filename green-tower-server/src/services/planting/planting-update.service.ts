@@ -42,10 +42,16 @@ export class PlantingUpdateService {
       useCase,
     );
 
+    const updateData = { ...planting, ...plantingUpdateDto, plant };
+
+    if (plantingUpdateDto.plantId) {
+      const harvestTs = new Date();
+      harvestTs.setHours(harvestTs.getHours() + plant.expectedHoursToHarvest);
+      updateData.harvestTs = harvestTs;
+    }
+
     try {
-      planting = await this.plantingRepository.save(
-        this.plantingRepository.create({ ...planting, ...plantingUpdateDto, plant }),
-      );
+      planting = await this.plantingRepository.save(this.plantingRepository.create(updateData));
     } catch (e: unknown) {
       throw plantingUpdateError.FailedToUpdatePlanting({ e });
     }

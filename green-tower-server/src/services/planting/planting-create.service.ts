@@ -33,12 +33,16 @@ export class PlantingCreateService {
       useCase,
     );
 
+    const harvestTs = new Date();
+    harvestTs.setHours(harvestTs.getHours() + plant.expectedHoursToHarvest);
+
     const _plantingCreateDto = {
       ...plantingCreateDto,
       state: PlantingState.GROWING,
       createdBy: user,
       farm,
       plant,
+      harvestTs,
     };
 
     let planting = this.plantingRepository.create(_plantingCreateDto);

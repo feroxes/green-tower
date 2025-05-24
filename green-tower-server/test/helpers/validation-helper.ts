@@ -124,17 +124,28 @@ export const ValidationHelper = {
       expect(planting.notes).toBe(mockPlantingCreateDto.notes);
       expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
       expect(planting.amountOfGramsOfSeeds).toBe(mockPlantingCreateDto.amountOfGramsOfSeeds);
+      expect(planting.harvestTs).toBeDefined();
+      const expectedHarvestTs = new Date();
+      expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
+      expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
     },
     validatePlantingUpdate(planting: Planting, mockPlantingUpdateDto: PlantingUpdateDto) {
       expect(planting).toBeDefined();
       expect(planting).not.toBeNull();
       for (const key in mockPlantingUpdateDto) {
-        expect(mockPlantingUpdateDto[key]).toBe(planting[key]);
+        if (key === 'plantId') {
+          const expectedHarvestTs = new Date();
+          expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
+          expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+        } else {
+          expect(mockPlantingUpdateDto[key]).toBe(planting[key]);
+        }
       }
     },
     validatePlantingGet(planting: Planting) {
       expect(planting).toBeDefined();
       expect(planting).not.toBeNull();
+      expect(planting.harvestTs).toBeDefined();
     },
   },
 };

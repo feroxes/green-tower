@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
+import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 
 import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
@@ -49,6 +50,27 @@ describe('PlantingUpdate', () => {
     it(`${UseCases.planting.update} - HDS`, async () => {
       const res = (await Calls.Planting.update(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
       ValidationHelper.planting.validatePlantingUpdate(res.body, dto);
+    });
+
+    it(`${UseCases.planting.update} - harvestTs update on plant change`, async () => {
+      const newPlant = (await Calls.Plant.create(app, testHelper.getAccessToken)) as ObjectResponseType<Plant>;
+      const updateDto = {
+        ...dto,
+        plantId: newPlant.body.id,
+      };
+
+      const res = (await Calls.Planting.update(
+        app,
+        testHelper.getAccessToken,
+        updateDto,
+      )) as ObjectResponseType<Planting>;
+      const planting = res.body;
+
+      const expectedHarvestTs = new Date();
+      expectedHarvestTs.setHours(expectedHarvestTs.getHours() + newPlant.body.expectedHoursToHarvest);
+
+      expect(planting.harvestTs).toBeDefined();
+      expect(new Date(planting.harvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
     });
 
     it(`${UseCases.planting.update} - user not found`, async () => {
