@@ -2,15 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Planting, PlantingState } from '../entities/planting.entity';
 import { Plant } from '../entities/plant.entity';
+import { Planting, PlantingState } from '../entities/planting.entity';
 
 import { PlantingListFiltersDto, PlantingListSortersDto } from '../api/dtos/planting.dto';
 
 import { PlantingComponentError } from '../api/errors/planting-component.errors';
 
 import { ExecutorType } from '../api/types/auth.types';
-import { SortDirectionType } from '../api/types/common.types';
 
 import { ListMetaDto, ListResponseType } from '../api/types/dto-types';
 import { createListMetaDto } from '../decorators/list.decorator';

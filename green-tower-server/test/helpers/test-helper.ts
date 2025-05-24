@@ -130,6 +130,10 @@ export class TestHelper {
     return this.plant;
   }
 
+  get getPlanting(): Planting {
+    return this.planting;
+  }
+
   get getAccessToken(): string {
     return this.accessToken;
   }

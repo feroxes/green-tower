@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
 import { Plant } from '../../src/entities/plant.entity';
-import { Planting } from '../../src/entities/planting.entity';
+import { Planting, PlantingState } from '../../src/entities/planting.entity';
 
 import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
@@ -90,6 +90,15 @@ describe('PlantingUpdate', () => {
         id: testHelper.getRandomId(),
       })) as ErrorResponseType;
 
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
+
+    it(`${UseCases.planting.update} - planting is not in GROWING state`, async () => {
+      const nonGrowingPlanting = { ...testHelper.getPlanting, state: PlantingState.HARVESTED };
+      await testHelper.plantingRepository.save(nonGrowingPlanting);
+
+      const res = (await Calls.Planting.update(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
+      const expectedError = plantingUpdateError.PlantingIsNotInProperState({ state: PlantingState.HARVESTED });
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 

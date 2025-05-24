@@ -22,6 +22,11 @@ class PlantingUpdateError extends BaseError {
     'failedToUpdatePlanting',
     'Failed to update a Planting',
   );
+  readonly PlantingIsNotInProperState = this.createError(
+    InternalServerErrorException,
+    'plantingIsNotInProperState',
+    'Planting is not in proper state.',
+  );
 }
 
 class PlantingDeleteError extends BaseError {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Planting } from '../../entities/planting.entity';
+import { Planting, PlantingState } from '../../entities/planting.entity';
 
 import { FarmComponent } from '../../components/farm.component';
 import { PlantComponent } from '../../components/plant.component';
@@ -36,6 +36,10 @@ export class PlantingUpdateService {
       { id: plantingUpdateDto.id, farm: { id: executor.farmId } },
       useCase,
     );
+
+    if (planting.state !== PlantingState.GROWING) {
+      throw plantingUpdateError.PlantingIsNotInProperState({ state: planting.state });
+    }
 
     const plant = await this.plantComponent.checkPlantExistence(
       { id: plantingUpdateDto.plantId || planting.plant.id, farm: { id: executor.farmId } },
