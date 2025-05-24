@@ -45,9 +45,7 @@ export class PlantingUpdateService {
     const updateData = { ...planting, ...plantingUpdateDto, plant };
 
     if (plantingUpdateDto.plantId) {
-      const harvestTs = new Date();
-      harvestTs.setHours(harvestTs.getHours() + plant.expectedHoursToHarvest);
-      updateData.harvestTs = harvestTs;
+      updateData.harvestTs = this.plantingComponent.getHarvestTs(plant);
     }
 
     try {

@@ -6,6 +6,7 @@ import { Planting, PlantingState } from '../../entities/planting.entity';
 
 import { FarmComponent } from '../../components/farm.component';
 import { PlantComponent } from '../../components/plant.component';
+import { PlantingComponent } from '../../components/planting.component';
 import { UserComponent } from '../../components/user.component';
 
 import { PlantingCreateDto } from '../../api/dtos/planting.dto';
@@ -22,6 +23,7 @@ export class PlantingCreateService {
     private userComponent: UserComponent,
     private farmComponent: FarmComponent,
     private plantComponent: PlantComponent,
+    private plantingComponent: PlantingComponent,
   ) {}
 
   async create(plantingCreateDto: PlantingCreateDto, executor: ExecutorType): Promise<Planting> {
@@ -33,16 +35,13 @@ export class PlantingCreateService {
       useCase,
     );
 
-    const harvestTs = new Date();
-    harvestTs.setHours(harvestTs.getHours() + plant.expectedHoursToHarvest);
-
     const _plantingCreateDto = {
       ...plantingCreateDto,
       state: PlantingState.GROWING,
       createdBy: user,
       farm,
       plant,
-      harvestTs,
+      harvestTs: this.plantingComponent.getHarvestTs(plant),
     };
 
     let planting = this.plantingRepository.create(_plantingCreateDto);
