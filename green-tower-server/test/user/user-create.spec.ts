@@ -42,7 +42,7 @@ describe('UserCreate', () => {
   describe(UseCases.user.create, () => {
     it(`${UseCases.user.create} - HDS`, async () => {
       const res = (await Calls.User.create(app, testHelper.getAccessToken)) as ObjectResponseType<User>;
-      const farm = await testHelper.getFarm();
+      const farm = await testHelper.loadFarm();
 
       ValidationHelper.user.validateUserCreation(res.body);
 

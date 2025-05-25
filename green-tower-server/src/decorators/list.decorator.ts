@@ -12,7 +12,7 @@ export interface ListOptions<T extends ObjectLiteral> {
   defaultSort?: SortOptions;
 }
 
-function createListMetaDto(partial: Partial<ListMetaDto> = {}): ListMetaDto {
+export function createListMetaDto(partial: Partial<ListMetaDto> = {}): ListMetaDto {
   const dto = new ListMetaDto();
   dto.page = partial.page ?? 0;
   dto.size = partial.size ?? 20;
@@ -39,6 +39,10 @@ export function List<T extends ObjectLiteral>(options: ListOptions<T>) {
       const queryBuilder = repository.createQueryBuilder(entityName);
 
       queryBuilder.andWhere(`${entityName}.farmId = :farmId`, { farmId: executor.farmId });
+      const hasIsDeleted = repository.metadata.columns.some((col) => col.propertyName === 'isDeleted');
+      if (hasIsDeleted) {
+        queryBuilder.andWhere(`${entityName}.isDeleted = false`);
+      }
 
       if (filters) {
         Object.entries(filters).forEach(([key, value]) => {

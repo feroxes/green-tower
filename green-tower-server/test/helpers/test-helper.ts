@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 
 import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
+import { Planting } from '../../src/entities/planting.entity';
 import { UserRole } from '../../src/entities/user.entity';
 import { User } from '../../src/entities/user.entity';
 
@@ -33,6 +34,8 @@ export class TestHelper {
   farmRepository: Repository<Farm>;
   plant: Plant;
   plantRepository: Repository<Plant>;
+  planting: Planting;
+  plantingRepository: Repository<Planting>;
   private jwtService: JwtService;
 
   constructor(
@@ -51,6 +54,7 @@ export class TestHelper {
     this.userRepository = this.module.get<Repository<User>>(getRepositoryToken(User));
     this.farmRepository = this.module.get<Repository<Farm>>(getRepositoryToken(Farm));
     this.plantRepository = this.module.get<Repository<Plant>>(getRepositoryToken(Plant));
+    this.plantingRepository = this.module.get<Repository<Planting>>(getRepositoryToken(Planting));
     await Calls.Auth.signUp(this.app);
 
     const ownerDataObject = await this.userRepository.findOne({ where: { email: mockDto.authRegisterDto.email } });
@@ -71,6 +75,11 @@ export class TestHelper {
 
     const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
 
+    const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
+      ...mockDto.plantingCreateDto,
+      plantId: plant.body.id,
+    })) as ObjectResponseType<Planting>;
+
     this.owner = (await this.userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },
       relations: ['farm'],
@@ -85,6 +94,8 @@ export class TestHelper {
       where: { id: plant.body.id },
       relations: ['createdBy'],
     })) as Plant;
+
+    this.planting = (await this.plantingRepository.findOne({ where: { id: planting.body.id } })) as Planting;
   }
 
   async createUser(
@@ -115,6 +126,14 @@ export class TestHelper {
     return this.owner;
   }
 
+  get getPlant(): Plant {
+    return this.plant;
+  }
+
+  get getPlanting(): Planting {
+    return this.planting;
+  }
+
   get getAccessToken(): string {
     return this.accessToken;
   }
@@ -128,14 +147,14 @@ export class TestHelper {
       sub: this.owner.id,
       email: this.owner.email,
       role: UserRole.OWNER,
-      farmId: crypto.randomUUID(),
+      farmId: this.getRandomId(),
     };
     return this.generateToken(payload);
   }
 
   get getAccessTokenWithWrongOwner(): string {
     const payload = {
-      sub: crypto.randomUUID(),
+      sub: this.getRandomId(),
       email: this.owner.email,
       role: UserRole.OWNER,
       farmId: this.farm.id,
@@ -147,21 +166,33 @@ export class TestHelper {
     return this.jwtService.sign(payload);
   }
 
-  async getFarm(): Promise<Farm> {
+  async loadFarm(): Promise<Farm> {
     const farm = await this.farmRepository.findOne({
       where: { id: this.owner.farm.id },
-      relations: ['users', 'plants'],
+      relations: ['users', 'plants', 'plantings'],
     });
 
     return farm!;
   }
 
-  async getUser(id?: string): Promise<User> {
+  async loadUser(id?: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id: id || this.owner.id },
-      relations: ['farm', 'plants'],
+      relations: ['farm', 'plants', 'plantings'],
     });
 
     return user!;
+  }
+
+  async loadPlanting(): Promise<Planting> {
+    const planting = await this.plantingRepository.findOne({
+      where: { id: this.planting.id },
+    });
+
+    return planting!;
+  }
+
+  getRandomId() {
+    return crypto.randomUUID();
   }
 }

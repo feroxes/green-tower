@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -5,12 +6,14 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
+import { Planting } from './planting.entity';
 import { User } from './user.entity';
 
 export enum PlantType {
@@ -27,14 +30,14 @@ export class Plant {
   @Column({ length: 120 })
   name: string;
 
-  @Column({ length: 2048 })
-  description: string;
+  @Column({ length: 2048, nullable: true, type: 'varchar' })
+  description?: string | null;
 
-  @Column({ length: 2048 })
-  notes: string;
+  @Column({ length: 2048, nullable: true, type: 'varchar' })
+  notes?: string | null;
 
-  @Column({ length: 512 })
-  imageUrl: string;
+  @Column({ length: 512, nullable: true, type: 'varchar' })
+  imageUrl?: string | null;
 
   @Column({
     type: 'enum',
@@ -46,14 +49,14 @@ export class Plant {
   @Column()
   expectedHoursToHarvest: number;
 
-  @Column()
-  hoursToSoak: number;
+  @Column({ nullable: true, type: 'int' })
+  hoursToSoak?: number | null;
 
-  @Column()
-  hoursToMoveToLight: number;
+  @Column({ nullable: true, type: 'int' })
+  hoursToMoveToLight?: number | null;
 
-  @Column()
-  shouldBePressed: boolean;
+  @Column({ nullable: true, type: 'boolean' })
+  shouldBePressed?: boolean | null;
 
   @Column()
   seedsGramPerPlate: number;
@@ -61,6 +64,29 @@ export class Plant {
   @Column()
   expectedHarvestGramsPerPlate: number;
 
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  sellPricePerGram: number;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  sellPricePerPlate: number;
+
+  @Exclude()
   @ManyToOne(() => Farm, (farm) => farm.plants)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;
@@ -68,6 +94,13 @@ export class Plant {
   @ManyToOne(() => User, (user) => user.plants)
   @JoinColumn({ name: 'createdById' })
   createdBy: User;
+
+  @OneToMany(() => Planting, (planting) => planting.plant)
+  plantings: Planting[];
+
+  @Exclude()
+  @Column({ default: false })
+  isDeleted: boolean;
 
   @VersionColumn()
   version: number;

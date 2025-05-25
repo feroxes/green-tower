@@ -4,9 +4,17 @@ import { Response } from 'supertest';
 
 import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
+import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import {
+  PlantingDeleteDto,
+  PlantingGetDto,
+  PlantingListDto,
+  PlantingSetStateDto,
+  PlantingUpdateDto,
+} from '../../src/api/dtos/planting.dto';
 import { UserUpdateDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
 
@@ -150,6 +158,50 @@ export const Calls = {
       body: PlantDeleteDto,
     ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.plant.delete, body, accessToken);
+    },
+  },
+  Planting: {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body = mockDto.plantingCreateDto,
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.planting.create, body, accessToken);
+    },
+    async update(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingUpdateDto,
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.planting.update, body, accessToken);
+    },
+    async get(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingGetDto,
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.planting.get, body, accessToken);
+    },
+    async delete(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingDeleteDto,
+    ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.planting.delete, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingListDto,
+    ): Promise<ListResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.planting.list, body, accessToken);
+    },
+    setState: async (
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingSetStateDto,
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> => {
+      return Calls.post(app, UseCases.planting.setState, body, accessToken);
     },
   },
 };

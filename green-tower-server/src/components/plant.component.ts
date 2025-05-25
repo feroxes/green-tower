@@ -28,7 +28,7 @@ export class PlantComponent {
   ): Promise<Plant> {
     const Errors = new PlantComponentError(errorCode);
     const plant = await this.plantRepository.findOne({
-      where: filter,
+      where: { ...filter, isDeleted: false },
       relations: ['farm', 'createdBy'],
       ...(params && { ...params }),
     });

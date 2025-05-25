@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import React from 'react';
 
 import { useLanguage } from '../../hooks/common/use-language';
 
@@ -17,12 +16,32 @@ const languageList = [
   { code: SupportedLanguages.UK, icon: ukFlag, value: 'Українська' },
 ];
 
-const LanguageSelector: React.FC = () => {
+interface LanguageSelectorProps {
+  displayLanguageName?: boolean;
+}
+
+function LanguageSelector({ displayLanguageName = true }: LanguageSelectorProps) {
   const { language, setLanguage } = useLanguage();
 
   const handleChange = (e: SelectChangeEvent<string>) => {
     setLanguage(e.target.value as SupportedLanguages);
   };
+
+  function getRenderValue(value: SupportedLanguages) {
+    const sel = languageList.find((l) => l.code === value);
+    if (!sel) return null;
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Box component="img" src={sel.icon} alt={sel.code} sx={{ width: 24, height: 24 }} />
+        {displayLanguageName && (
+          <>
+            {Constants.space}
+            <Typography variant="subtitle2">{sel.value}</Typography>
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
     <Select
@@ -31,17 +50,7 @@ const LanguageSelector: React.FC = () => {
       size="small"
       variant="standard"
       disableUnderline
-      renderValue={(value) => {
-        const sel = languageList.find((l) => l.code === value);
-        if (!sel) return null;
-        return (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Box component="img" src={sel.icon} alt={sel.code} sx={{ width: 24, height: 24 }} />
-            {Constants.space}
-            <Typography variant="subtitle2">{sel.value}</Typography>
-          </div>
-        );
-      }}
+      renderValue={getRenderValue}
       sx={{
         height: 24,
         display: 'flex',
@@ -49,6 +58,7 @@ const LanguageSelector: React.FC = () => {
         alignItems: 'center',
         '& .MuiSelect-select': {
           display: 'flex',
+          pb: 0,
         },
       }}
       IconComponent={() => null}
@@ -62,6 +72,6 @@ const LanguageSelector: React.FC = () => {
       ))}
     </Select>
   );
-};
+}
 
 export default LanguageSelector;

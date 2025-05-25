@@ -1,7 +1,10 @@
 import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
+import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
 
 import { ErrorResponse, GuardError } from './types/response.types';
@@ -82,6 +85,7 @@ export const ValidationHelper = {
       expect(plant).toBeDefined();
       expect(plant.createdBy).toBeDefined();
       expect(plant.farm).toBeDefined();
+      expect(plant.sellPricePerGram).toBeDefined();
       expect(plant).not.toBeNull();
       expect(plant.name).toBe(mockPlantCreateDto.name);
       expect(plant.description).toBe(mockPlantCreateDto.description);
@@ -94,8 +98,10 @@ export const ValidationHelper = {
       expect(plant.shouldBePressed).toBe(mockPlantCreateDto.shouldBePressed);
       expect(plant.seedsGramPerPlate).toBe(mockPlantCreateDto.seedsGramPerPlate);
       expect(plant.expectedHarvestGramsPerPlate).toBe(mockPlantCreateDto.expectedHarvestGramsPerPlate);
+      expect(plant.sellPricePerPlate).toBe(mockPlantCreateDto.sellPricePerPlate);
+      expect(plant.isDeleted).toBe(false);
     },
-    validatePlantUpdate(plant: Plant, mockPlantUpdateDto = mockDto.plantUpdateDto) {
+    validatePlantUpdate(plant: Plant, mockPlantUpdateDto: PlantUpdateDto) {
       expect(plant).toBeDefined();
       expect(plant).not.toBeNull();
       for (const key in mockPlantUpdateDto) {
@@ -105,6 +111,50 @@ export const ValidationHelper = {
     validatePlantGet(plant: Plant) {
       expect(plant).toBeDefined();
       expect(plant).not.toBeNull();
+    },
+  },
+  planting: {
+    validatePlantingCreation(planting: Planting, mockPlantingCreateDto = mockDto.plantingCreateDto) {
+      expect(planting).toBeDefined();
+      expect(planting.createdBy).toBeDefined();
+      expect(planting.farm).toBeDefined();
+      expect(planting.plant).toBeDefined();
+      expect(planting.state).toBeDefined();
+      expect(planting.state).toBe(PlantingState.GROWING);
+      expect(planting.notes).toBe(mockPlantingCreateDto.notes);
+      expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
+      expect(planting.amountOfGramsOfSeeds).toBe(mockPlantingCreateDto.amountOfGramsOfSeeds);
+      expect(planting.expectedHarvestTs).toBeDefined();
+      const expectedHarvestTs = new Date();
+      expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
+      expect(new Date(planting.expectedHarvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+    },
+    validatePlantingUpdate(planting: Planting, mockPlantingUpdateDto: PlantingUpdateDto) {
+      expect(planting).toBeDefined();
+      expect(planting).not.toBeNull();
+      for (const key in mockPlantingUpdateDto) {
+        if (key === 'plantId') {
+          const expectedHarvestTs = new Date();
+          expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
+          expect(new Date(planting.expectedHarvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);
+        } else {
+          expect(mockPlantingUpdateDto[key]).toBe(planting[key]);
+        }
+      }
+    },
+    validatePlantingGet(planting: Planting) {
+      expect(planting).toBeDefined();
+      expect(planting).not.toBeNull();
+      expect(planting.expectedHarvestTs).toBeDefined();
+    },
+    validatePlantingState(planting: Planting, expectedState: PlantingState): void {
+      expect(planting.state).toBe(expectedState);
+      if (planting.state === PlantingState.HARVESTED) {
+        expect(planting.harvestTs).toBeDefined();
+      }
+      if (planting.state === PlantingState.DEAD) {
+        expect(planting.deadTs).toBeDefined();
+      }
     },
   },
 };

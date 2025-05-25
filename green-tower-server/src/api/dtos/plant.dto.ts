@@ -27,99 +27,129 @@ export class PlantCreateDto {
   @MaxLength(120)
   name: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(2024)
-  description: string;
+  description?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(2024)
-  notes: string;
+  notes?: string;
 
+  @IsOptional()
   @IsUrl()
   @MinLength(3)
   @MaxLength(512)
-  imageUrl: string;
+  imageUrl?: string;
 
   @IsEnum(PlantType)
   @IsNotEmpty()
-  type: PlantType.MICROGREEN | PlantType.COMMON;
+  type: PlantType;
 
+  @IsNotEmpty()
   @IsNumber()
   @Min(1)
   expectedHoursToHarvest: number;
 
+  @IsOptional()
   @IsNumber()
   @Min(0)
-  hoursToSoak: number;
+  hoursToSoak?: number;
 
+  @IsOptional()
   @IsNumber()
   @Min(1)
-  hoursToMoveToLight: number;
+  hoursToMoveToLight?: number;
 
+  @IsOptional()
   @IsBoolean()
-  shouldBePressed: boolean;
+  shouldBePressed?: boolean;
 
   @IsNumber()
   @Min(1)
+  @IsNotEmpty()
   seedsGramPerPlate: number;
 
   @IsNumber()
   @Min(1)
+  @IsNotEmpty()
   expectedHarvestGramsPerPlate: number;
+
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  sellPricePerPlate: number;
 }
+
 export class PlantUpdateDto {
   @IsUUID()
   @IsNotEmpty()
   id: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(120)
-  name: string;
+  name?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(2024)
-  description: string;
+  description?: string | null;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(2024)
-  notes: string;
+  notes?: string | null;
 
+  @IsOptional()
   @IsUrl()
   @MinLength(3)
   @MaxLength(512)
-  imageUrl: string;
+  imageUrl?: string | null;
 
+  @IsOptional()
   @IsEnum(PlantType)
-  @IsNotEmpty()
-  type: PlantType.MICROGREEN | PlantType.COMMON;
+  type?: PlantType;
 
+  @IsOptional()
   @IsNumber()
   @Min(1)
-  expectedHoursToHarvest: number;
+  expectedHoursToHarvest?: number;
 
+  @IsOptional()
   @IsNumber()
   @Min(0)
-  hoursToSoak: number;
+  hoursToSoak?: number | null;
 
+  @IsOptional()
   @IsNumber()
   @Min(1)
-  hoursToMoveToLight: number;
+  hoursToMoveToLight?: number | null;
 
+  @IsOptional()
   @IsBoolean()
-  shouldBePressed: boolean;
+  shouldBePressed?: boolean | null;
 
+  @IsOptional()
   @IsNumber()
   @Min(1)
-  seedsGramPerPlate: number;
+  seedsGramPerPlate?: number;
 
+  @IsOptional()
   @IsNumber()
   @Min(1)
-  expectedHarvestGramsPerPlate: number;
+  expectedHarvestGramsPerPlate?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  sellPricePerPlate?: number;
 }
 
 export class PlantGetDto {

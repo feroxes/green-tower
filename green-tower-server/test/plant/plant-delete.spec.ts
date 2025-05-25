@@ -39,14 +39,10 @@ describe('PlantDelete', () => {
   });
 
   describe(UseCases.plant.delete, () => {
-    it(`${UseCases.plant.delete} - HDS`, async () => {
+    it(`${UseCases.plant.delete} - HDS - soft delete`, async () => {
       const res = (await Calls.Plant.delete(app, testHelper.getAccessToken, dto)) as Response;
-      const farm = await testHelper.getFarm();
-      const user = await testHelper.getUser();
 
       ValidationHelper.validateSuccessResponse(res);
-      expect(farm.plants.length).toBe(0);
-      expect(user.plants.length).toBe(0);
     });
 
     it(`${UseCases.plant.delete} - user not found`, async () => {

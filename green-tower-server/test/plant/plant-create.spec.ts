@@ -46,8 +46,8 @@ describe('PlantCreate', () => {
       const res = (await Calls.Plant.create(app, testHelper.getAccessToken)) as ObjectResponseType<Plant>;
       ValidationHelper.plant.validatePlantCreation(res.body);
 
-      const farm = await testHelper.getFarm();
-      const user = await testHelper.getUser();
+      const farm = await testHelper.loadFarm();
+      const user = await testHelper.loadUser();
       expect(farm.plants.length).toBe(2);
       expect(farm.plants[1].id).toBe(res.body.id);
       expect(user.plants.length).toBe(2);

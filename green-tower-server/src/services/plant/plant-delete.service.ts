@@ -14,6 +14,8 @@ import { plantDeleteError } from '../../api/errors/plant.errors';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
+import { ErrorCodes } from '../../utils/constants';
+
 @Injectable()
 export class PlantDeleteService {
   constructor(
@@ -38,7 +40,12 @@ export class PlantDeleteService {
     try {
       await this.plantRepository.remove(plant);
     } catch (e: unknown) {
-      throw plantDeleteError.FailedToDeletePlant({ e });
+      if (e instanceof Error && 'code' in e) {
+        const error = e as { code: string; message: string };
+        if (error.code === ErrorCodes.DB.foreignKeyViolation) {
+          await this.plantRepository.save({ ...plant, isDeleted: true });
+        }
+      } else throw plantDeleteError.FailedToDeletePlant({ e });
     }
 
     return {};

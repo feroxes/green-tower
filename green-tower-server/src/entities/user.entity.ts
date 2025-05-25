@@ -13,6 +13,7 @@ import {
 
 import { Farm } from './farm.entity';
 import { Plant } from './plant.entity';
+import { Planting } from './planting.entity';
 
 export enum UserRole {
   OWNER = 'owner',
@@ -61,12 +62,20 @@ export class User {
   @Exclude()
   refreshToken: string | null;
 
+  @Exclude()
   @ManyToOne(() => Farm, (farm) => farm.users)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;
 
   @OneToMany(() => Plant, (plant) => plant.createdBy)
   plants: Plant[];
+
+  @OneToMany(() => Planting, (planting) => planting.createdBy)
+  plantings: Planting[];
+
+  @Exclude()
+  @Column({ default: false })
+  isDeleted: boolean;
 
   @VersionColumn()
   version: number;

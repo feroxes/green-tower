@@ -47,6 +47,7 @@ export const mockDto = {
     shouldBePressed: false,
     seedsGramPerPlate: 7,
     expectedHarvestGramsPerPlate: 24,
+    sellPricePerPlate: 200,
   },
   plantUpdateDto: {
     name: 'Updated Microgreen plant',
@@ -60,5 +61,17 @@ export const mockDto = {
     shouldBePressed: true,
     seedsGramPerPlate: 2,
     expectedHarvestGramsPerPlate: 14,
+    sellPricePerPlate: 100,
+  },
+  plantingCreateDto: {
+    plantId: '',
+    notes: 'Some notes',
+    amountOfPlates: 10,
+    amountOfGramsOfSeeds: 200,
+  },
+  plantingUpdateDto: {
+    notes: null,
+    amountOfPlates: 12,
+    amountOfGramsOfSeeds: 300,
   },
 };
