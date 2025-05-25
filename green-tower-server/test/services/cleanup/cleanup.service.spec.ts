@@ -13,7 +13,7 @@ import { mockDto } from '../../mock/mock.dtos';
 import { Calls } from '../../helpers/calls';
 import { clearDatabase, closeDatabaseConnection, init } from '../../test.config';
 
-describe('AuthLogin', () => {
+describe('AuthCleanup', () => {
   let app: INestApplication;
   let module: TestingModule;
   let userRepository: Repository<User>;

@@ -184,6 +184,14 @@ export class TestHelper {
     return user!;
   }
 
+  async loadPlanting(): Promise<Planting> {
+    const planting = await this.plantingRepository.findOne({
+      where: { id: this.planting.id },
+    });
+
+    return planting!;
+  }
+
   getRandomId() {
     return crypto.randomUUID();
   }
