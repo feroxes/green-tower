@@ -38,12 +38,16 @@ export class PlantUpdateService {
     const expectedHarvestGramsPerPlate =
       plantUpdateDto.expectedHarvestGramsPerPlate || plant.expectedHarvestGramsPerPlate;
     const sellPricePerPlate = plantUpdateDto.sellPricePerPlate || plant.sellPricePerPlate;
+    const seedsGramPerPlate = plantUpdateDto.seedsGramPerPlate || plant.seedsGramPerPlate;
+
     const sellPricePerGram = expectedHarvestGramsPerPlate / sellPricePerPlate;
+    const expectedHarvestGramsPerGramOfSeeds = expectedHarvestGramsPerPlate / seedsGramPerPlate;
 
     const _plantUpdateDto = {
       ...plant,
       ...plantUpdateDto,
       sellPricePerGram: parseFloat(sellPricePerGram.toFixed(6)),
+      expectedHarvestGramsPerGramOfSeeds: parseFloat(expectedHarvestGramsPerGramOfSeeds.toFixed(6)),
     };
 
     try {

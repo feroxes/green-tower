@@ -35,6 +35,8 @@ export class PlantingCreateService {
       useCase,
     );
 
+    const expectedHarvestGrams = plantingCreateDto.amountOfGramsOfSeeds * plant.expectedHarvestGramsPerGramOfSeeds;
+
     const _plantingCreateDto = {
       ...plantingCreateDto,
       state: PlantingState.GROWING,
@@ -42,6 +44,7 @@ export class PlantingCreateService {
       farm,
       plant,
       expectedHarvestTs: this.plantingComponent.getExpectedHarvestTs(plant),
+      expectedHarvestGrams: parseFloat(expectedHarvestGrams.toFixed(6)),
     };
 
     let planting = this.plantingRepository.create(_plantingCreateDto);

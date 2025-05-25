@@ -24,6 +24,11 @@ export enum PlantingState {
 
 export const PlantingFinalStates = [PlantingState.HARVESTED, PlantingState.DEAD] as PlantingState[];
 
+export enum PlantingType {
+  CUT = 'cut',
+  PLATE = 'plate',
+}
+
 @Entity()
 @Index('IDX_PLANTING_CREATED_AT', ['createdAt'])
 export class Planting {
@@ -36,11 +41,17 @@ export class Planting {
   })
   state: PlantingState;
 
+  @Column({
+    type: 'enum',
+    enum: PlantingType,
+  })
+  type: PlantingType;
+
   @Column({ length: 2048, nullable: true, type: 'varchar' })
   notes?: string | null;
 
-  @Column()
-  amountOfPlates: number;
+  @Column({ nullable: true, type: 'integer' })
+  amountOfPlates?: number;
 
   @Column()
   amountOfGramsOfSeeds: number;
@@ -63,6 +74,17 @@ export class Planting {
 
   @Column({ type: 'timestamptz' })
   expectedHarvestTs: Date;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  expectedHarvestGrams: number;
 
   @Column({ nullable: true, type: 'timestamptz' })
   harvestTs?: Date;

@@ -73,6 +73,17 @@ export class Plant {
       from: (value: string) => parseFloat(value),
     },
   })
+  expectedHarvestGramsPerGramOfSeeds: number;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
   sellPricePerGram: number;
 
   @Column({

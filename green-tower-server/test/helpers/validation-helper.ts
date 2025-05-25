@@ -1,6 +1,6 @@
 import { Farm } from '../../src/entities/farm.entity';
 import { Plant } from '../../src/entities/plant.entity';
-import { Planting, PlantingState } from '../../src/entities/planting.entity';
+import { Planting, PlantingState, PlantingType } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
 import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
@@ -86,6 +86,7 @@ export const ValidationHelper = {
       expect(plant.createdBy).toBeDefined();
       expect(plant.farm).toBeDefined();
       expect(plant.sellPricePerGram).toBeDefined();
+      expect(plant.expectedHarvestGramsPerGramOfSeeds).toBeDefined();
       expect(plant).not.toBeNull();
       expect(plant.name).toBe(mockPlantCreateDto.name);
       expect(plant.description).toBe(mockPlantCreateDto.description);
@@ -120,11 +121,17 @@ export const ValidationHelper = {
       expect(planting.farm).toBeDefined();
       expect(planting.plant).toBeDefined();
       expect(planting.state).toBeDefined();
+      expect(planting.type).toBeDefined();
+      expect(planting.expectedHarvestTs).toBeDefined();
+      expect(planting.expectedHarvestGrams).toBeDefined();
       expect(planting.state).toBe(PlantingState.GROWING);
       expect(planting.notes).toBe(mockPlantingCreateDto.notes);
-      expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
+      expect(planting.type).toBe(mockPlantingCreateDto.type);
+      if (planting.type === PlantingType.PLATE) {
+        expect(planting.amountOfPlates).toBeDefined();
+        expect(planting.amountOfPlates).toBe(mockPlantingCreateDto.amountOfPlates);
+      }
       expect(planting.amountOfGramsOfSeeds).toBe(mockPlantingCreateDto.amountOfGramsOfSeeds);
-      expect(planting.expectedHarvestTs).toBeDefined();
       const expectedHarvestTs = new Date();
       expectedHarvestTs.setHours(expectedHarvestTs.getHours() + planting.plant.expectedHoursToHarvest);
       expect(new Date(planting.expectedHarvestTs).getTime()).toBeCloseTo(expectedHarvestTs.getTime(), -2);

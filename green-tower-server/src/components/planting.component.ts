@@ -5,7 +5,12 @@ import { Repository } from 'typeorm';
 import { Plant } from '../entities/plant.entity';
 import { Planting, PlantingState } from '../entities/planting.entity';
 
-import { PlantingListFiltersDto, PlantingListSortersDto } from '../api/dtos/planting.dto';
+import {
+  PlantingCreateDto,
+  PlantingListFiltersDto,
+  PlantingListSortersDto,
+  PlantingUpdateDto,
+} from '../api/dtos/planting.dto';
 
 import { PlantingComponentError } from '../api/errors/planting-component.errors';
 

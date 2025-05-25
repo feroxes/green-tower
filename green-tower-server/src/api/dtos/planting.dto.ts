@@ -9,10 +9,11 @@ import {
   MaxLength,
   Min,
   MinLength,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 
-import { PlantingState } from '../../entities/planting.entity';
+import { Planting, PlantingState, PlantingType } from '../../entities/planting.entity';
 
 import { SortDirectionType } from '../types/common.types';
 
@@ -29,6 +30,7 @@ export class PlantingCreateDto {
   @MaxLength(2024)
   notes: string;
 
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
   @IsNumber()
   @Min(1)
   @IsNotEmpty()
@@ -38,6 +40,10 @@ export class PlantingCreateDto {
   @Min(1)
   @IsNotEmpty()
   amountOfGramsOfSeeds: number;
+
+  @IsEnum(PlantingType)
+  @IsNotEmpty()
+  type: PlantingType;
 }
 
 export class PlantingUpdateDto {
@@ -55,7 +61,8 @@ export class PlantingUpdateDto {
   @MaxLength(2024)
   notes?: string | null;
 
-  @IsOptional()
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
+  @IsNotEmpty()
   @IsNumber()
   @Min(1)
   amountOfPlates?: number;
@@ -64,6 +71,10 @@ export class PlantingUpdateDto {
   @IsNumber()
   @Min(1)
   amountOfGramsOfSeeds?: number;
+
+  @IsEnum(PlantingType)
+  @IsNotEmpty()
+  type?: PlantingType;
 }
 
 export class PlantingGetDto {
