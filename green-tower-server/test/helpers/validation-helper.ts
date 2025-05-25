@@ -86,6 +86,7 @@ export const ValidationHelper = {
       expect(plant.createdBy).toBeDefined();
       expect(plant.farm).toBeDefined();
       expect(plant.sellPricePerGram).toBeDefined();
+      expect(plant.expectedHarvestGramsPerGramOfSeeds).toBeDefined();
       expect(plant).not.toBeNull();
       expect(plant.name).toBe(mockPlantCreateDto.name);
       expect(plant.description).toBe(mockPlantCreateDto.description);

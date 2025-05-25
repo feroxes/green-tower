@@ -29,10 +29,13 @@ export class PlantCreateService {
     const farm = await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
     const sellPricePerGram = plantCreateDto.expectedHarvestGramsPerPlate / plantCreateDto.sellPricePerPlate;
+    const expectedHarvestGramsPerGramOfSeeds =
+      plantCreateDto.expectedHarvestGramsPerPlate / plantCreateDto.seedsGramPerPlate;
 
     const _plantCreateDto = {
       ...plantCreateDto,
       sellPricePerGram: parseFloat(sellPricePerGram.toFixed(6)),
+      expectedHarvestGramsPerGramOfSeeds: parseFloat(expectedHarvestGramsPerGramOfSeeds.toFixed(6)),
       createdBy: user,
       farm,
     };
