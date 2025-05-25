@@ -1,4 +1,5 @@
 import { PlantType } from '../../src/entities/plant.entity';
+import { PlantingType } from '../../src/entities/planting.entity';
 import { UserRole } from '../../src/entities/user.entity';
 
 import { LoginDto, RegisterDto } from '../../src/api/dtos/auth.dto';
@@ -68,6 +69,7 @@ export const mockDto = {
     notes: 'Some notes',
     amountOfPlates: 10,
     amountOfGramsOfSeeds: 200,
+    type: PlantingType.PLATE,
   },
   plantingUpdateDto: {
     notes: null,

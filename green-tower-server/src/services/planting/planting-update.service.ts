@@ -52,8 +52,13 @@ export class PlantingUpdateService {
       updateData.expectedHarvestTs = this.plantingComponent.getExpectedHarvestTs(plant);
     }
 
+    const amountOfGramsOfSeeds = plantingUpdateDto.amountOfGramsOfSeeds || planting.amountOfGramsOfSeeds;
+    const expectedHarvestGrams = amountOfGramsOfSeeds * plant.expectedHarvestGramsPerGramOfSeeds;
+
     try {
-      planting = await this.plantingRepository.save(this.plantingRepository.create(updateData));
+      planting = await this.plantingRepository.save(
+        this.plantingRepository.create({ ...updateData, expectedHarvestGrams }),
+      );
     } catch (e: unknown) {
       throw plantingUpdateError.FailedToUpdatePlanting({ e });
     }
