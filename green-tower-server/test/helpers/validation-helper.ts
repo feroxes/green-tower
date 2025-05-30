@@ -4,7 +4,7 @@ import { Plant } from '../../src/entities/plant.entity';
 import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
-import { HarvestEntryCreateCutDto } from '../../src/api/dtos/harvest-entry.dto';
+import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto } from '../../src/api/dtos/harvest-entry.dto';
 import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
@@ -168,10 +168,19 @@ export const ValidationHelper = {
     },
   },
   harvestEntry: {
-    validateHarvestEntryCutCreation(harvestEntry: HarvestEntry, dto: HarvestEntryCreateCutDto) {
+    validateHarvestEntryCreation(
+      harvestEntry: HarvestEntry,
+      dto: HarvestEntryCreateCutDto | HarvestEntryCreatePlateDto,
+    ) {
       expect(harvestEntry).toBeDefined();
       expect(harvestEntry).not.toBeNull();
-      expect(harvestEntry.harvestGram).toBe(dto.harvestGram);
+      if (!(dto instanceof HarvestEntryCreateCutDto) && dto.amountOfPlates) {
+        let gramPerPlate = dto.harvestGram / dto.amountOfPlates;
+        gramPerPlate = parseFloat(gramPerPlate.toFixed(6));
+        expect(harvestEntry.harvestGram).toBe(gramPerPlate);
+      } else {
+        expect(harvestEntry.harvestGram).toBe(dto.harvestGram);
+      }
       expect(harvestEntry.plant).toBeDefined();
       if (dto.plantingId) {
         expect(harvestEntry.planting).toBeDefined();
@@ -179,6 +188,14 @@ export const ValidationHelper = {
       } else {
         expect(harvestEntry.isManualCreate).toBe(true);
       }
+    },
+    validateHarvestEntryPlatesCreation(
+      harvestEntryList: { itemList: HarvestEntry[] },
+      dto: HarvestEntryCreatePlateDto,
+    ) {
+      harvestEntryList.itemList.forEach((item) => {
+        ValidationHelper.harvestEntry.validateHarvestEntryCreation(item, dto);
+      });
     },
   },
 };

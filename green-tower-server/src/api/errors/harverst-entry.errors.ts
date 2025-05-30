@@ -7,6 +7,8 @@ class HarvestEntryCreateCutError extends BaseError {
     super('harvestEntry/createCut/');
   }
 
+  readonly InvalidDto = this.createError(ConflictException, 'invalidDto', 'PlantingId is not allowed.');
+
   readonly PlantingIsNotInProperState = this.createError(
     ConflictException,
     'plantingIsNotInProperState',
@@ -24,6 +26,7 @@ class HarvestEntryCreatePlateError extends BaseError {
   constructor() {
     super('harvestEntry/createPlate/');
   }
+  readonly InvalidDto = this.createError(ConflictException, 'invalidDto', 'PlantingId is not allowed.');
 
   readonly PlantingIsNotInProperState = this.createError(
     ConflictException,

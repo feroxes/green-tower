@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PlantingCreateService } from './planting-create.service';
 import { PlantingDeleteService } from './planting-delete.service';
 import { PlantingUGetService } from './planting-get.service';
+import { PlantingHarvestService } from './planting-harvest.service';
 import { PlantingListService } from './planting-list.service';
 import { PlantingSetStateService } from './planting-set-state.service';
 import { PlantingUpdateService } from './planting-update.service';
@@ -11,6 +12,7 @@ import {
   PlantingCreateDto,
   PlantingDeleteDto,
   PlantingGetDto,
+  PlantingHarvestDto,
   PlantingListDto,
   PlantingSetStateDto,
   PlantingUpdateDto,
@@ -27,6 +29,7 @@ export class PlantingService {
     private plantingDeleteService: PlantingDeleteService,
     private plantingListService: PlantingListService,
     private plantingSetStateService: PlantingSetStateService,
+    private plantingHarvestService: PlantingHarvestService,
   ) {}
 
   async create(plantingCreateDto: PlantingCreateDto, executor: ExecutorType) {
@@ -51,5 +54,9 @@ export class PlantingService {
 
   async setState(plantingSetStateDto: PlantingSetStateDto, executor: ExecutorType) {
     return this.plantingSetStateService.setState(plantingSetStateDto, executor);
+  }
+
+  async harvest(plantingHarvestDto: PlantingHarvestDto, executor: ExecutorType) {
+    return this.plantingHarvestService.harvest(plantingHarvestDto, executor);
   }
 }

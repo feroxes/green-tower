@@ -79,7 +79,11 @@ export const mockDto = {
   },
   harvestEntryCreateCutDto: {
     harvestGram: 200,
-    plantingId: '',
+    plantId: '',
+  },
+  harvestEntryCreatePlateDto: {
+    harvestGram: 200,
+    amountOfPlates: 20,
     plantId: '',
   },
 };

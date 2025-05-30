@@ -30,13 +30,21 @@ export class HarvestEntryCreateCutService {
     private plantingComponent: PlantingComponent,
   ) {}
 
-  async createCut(harvestEntryCreateCutDto: HarvestEntryCreateCutDto, executor: ExecutorType): Promise<HarvestEntry> {
+  async createCut(
+    harvestEntryCreateCutDto: HarvestEntryCreateCutDto,
+    executor: ExecutorType,
+    isInternalCall = false,
+  ): Promise<HarvestEntry> {
     const useCase = 'harvestEntry/createCut';
     const { plantingId, plantId, harvestGram } = harvestEntryCreateCutDto;
 
     await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
 
     const farm = await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
+
+    if (plantingId && !isInternalCall) {
+      throw harvestEntryCreateCutError.InvalidDto();
+    }
 
     let planting: Planting | undefined;
     let plant: Plant | undefined;
@@ -46,12 +54,13 @@ export class HarvestEntryCreateCutService {
         { id: plantingId, farm: { id: executor.farmId } },
         useCase,
       );
-      if (planting.state !== PlantingState.HARVESTED) {
+
+      if (planting.state === PlantingState.HARVESTED) {
         throw harvestEntryCreateCutError.PlantingIsNotInProperState({
           state: planting.state,
-          expectedState: PlantingState.HARVESTED,
         });
       }
+
       plant = planting.plant;
     } else {
       plant = await this.plantComponent.checkPlantExistence(

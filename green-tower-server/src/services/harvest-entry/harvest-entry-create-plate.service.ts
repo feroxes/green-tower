@@ -13,7 +13,7 @@ import { UserComponent } from '../../components/user.component';
 
 import { HarvestEntryCreatePlateDto } from '../../api/dtos/harvest-entry.dto';
 
-import { harvestEntryCreatePlateError } from '../../api/errors/harverst-entry.errors';
+import { harvestEntryCreateCutError, harvestEntryCreatePlateError } from '../../api/errors/harverst-entry.errors';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -33,13 +33,17 @@ export class HarvestEntryCreatePlateService {
   async createPlate(
     harvestEntryCreatePlateDto: HarvestEntryCreatePlateDto,
     executor: ExecutorType,
+    isInternalCall = false,
   ): Promise<{ itemList: HarvestEntry[]; meta: { total: number } }> {
     const useCase = 'harvestEntry/createPlate';
     const { plantingId, plantId, harvestGram, amountOfPlates } = harvestEntryCreatePlateDto;
 
     await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
-
     const farm = await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
+
+    if (plantingId && !isInternalCall) {
+      throw harvestEntryCreatePlateError.InvalidDto();
+    }
 
     let planting: Planting | undefined;
     let plant: Plant | undefined;
@@ -49,12 +53,13 @@ export class HarvestEntryCreatePlateService {
         { id: plantingId, farm: { id: executor.farmId } },
         useCase,
       );
-      if (planting.state !== PlantingState.HARVESTED) {
+
+      if (planting.state === PlantingState.HARVESTED) {
         throw harvestEntryCreatePlateError.PlantingIsNotInProperState({
           state: planting.state,
-          expectedState: PlantingState.HARVESTED,
         });
       }
+
       plant = planting.plant;
     } else {
       plant = await this.plantComponent.checkPlantExistence(
@@ -63,7 +68,8 @@ export class HarvestEntryCreatePlateService {
       );
     }
 
-    const gramPerPlate = harvestGram / amountOfPlates;
+    let gramPerPlate = harvestGram / amountOfPlates;
+    gramPerPlate = parseFloat(gramPerPlate.toFixed(6));
 
     const dto = {
       type: PlantingType.PLATE,

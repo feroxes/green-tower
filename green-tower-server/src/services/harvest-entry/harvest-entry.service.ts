@@ -14,11 +14,19 @@ export class HarvestEntryService {
     private readonly harvestEntryCreatePlateService: HarvestEntryCreatePlateService,
   ) {}
 
-  async createCut(harvestEntryCreateCutDto: HarvestEntryCreateCutDto, executor: ExecutorType) {
-    return this.harvestEntryCreateCutService.createCut(harvestEntryCreateCutDto, executor);
+  async createCut(
+    harvestEntryCreateCutDto: HarvestEntryCreateCutDto,
+    executor: ExecutorType,
+    isInternalCall?: boolean,
+  ) {
+    return this.harvestEntryCreateCutService.createCut(harvestEntryCreateCutDto, executor, isInternalCall);
   }
 
-  async createPlate(harvestEntryCreatePlateDto: HarvestEntryCreatePlateDto, executor: ExecutorType) {
-    return this.harvestEntryCreatePlateService.createPlate(harvestEntryCreatePlateDto, executor);
+  async createPlate(
+    harvestEntryCreatePlateDto: HarvestEntryCreatePlateDto,
+    executor: ExecutorType,
+    isInternalCall?: boolean,
+  ) {
+    return this.harvestEntryCreatePlateService.createPlate(harvestEntryCreatePlateDto, executor, isInternalCall);
   }
 }

@@ -129,3 +129,24 @@ export class PlantingSetStateDto {
   @IsNotEmpty()
   state: PlantingState;
 }
+
+export class PlantingHarvestDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @IsEnum(PlantingType)
+  @IsNotEmpty()
+  type: PlantingType;
+
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  harvestGram: number;
+
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  amountOfPlates?: number;
+}
