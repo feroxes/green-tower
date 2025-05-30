@@ -33,4 +33,7 @@ export const UseCases = {
     list: '/planting/list',
     setState: '/planting/setState',
   },
+  harvestEntry: {
+    createCut: '/harvestEntry/createCut',
+  },
 } as const;

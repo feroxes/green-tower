@@ -10,6 +10,7 @@ import {
   VersionColumn,
 } from 'typeorm';
 
+import { HarvestEntry } from './harvest-entry.entity';
 import { Plant } from './plant.entity';
 import { Planting } from './planting.entity';
 import { User } from './user.entity';
@@ -36,6 +37,9 @@ export class Farm {
 
   @OneToMany(() => Planting, (planting: Planting) => planting.farm)
   plantings: Planting[];
+
+  @OneToMany(() => HarvestEntry, (harvestEntry: HarvestEntry) => harvestEntry.farm)
+  harvestEntries: HarvestEntry[];
 
   @VersionColumn()
   version: number;

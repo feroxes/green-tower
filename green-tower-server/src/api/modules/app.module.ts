@@ -5,12 +5,14 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Farm } from '../../entities/farm.entity';
+import { HarvestEntry } from '../../entities/harvest-entry.entity';
 import { Plant } from '../../entities/plant.entity';
 import { Planting } from '../../entities/planting.entity';
 import { User } from '../../entities/user.entity';
 
 import { AuthModule } from './auth.module';
 import { FarmModule } from './farm.module';
+import { HarvestEntryModule } from './harvest-entry.module';
 import { JwtGlobalModule } from './jwt.module';
 import { PlantModule } from './plant.module';
 import { PlantingModule } from './planting.module';
@@ -32,7 +34,7 @@ const excludedAuthRoutes: RouteInfo[] = [
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Farm, Plant, Planting]),
+    TypeOrmModule.forFeature([User, Farm, Plant, Planting, HarvestEntry]),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env/.env.${process.env.NODE_ENV}`,
@@ -60,6 +62,7 @@ const excludedAuthRoutes: RouteInfo[] = [
     UserModule,
     PlantModule,
     PlantingModule,
+    HarvestEntryModule,
   ],
   controllers: [],
   providers: [TokenService, CleanupService, PlantingAutoSetStateService],

@@ -13,10 +13,11 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { Planting, PlantingState, PlantingType } from '../../entities/planting.entity';
+import { Planting, PlantingState } from '../../entities/planting.entity';
 
 import { SortDirectionType } from '../types/common.types';
 
+import { PlantingType } from '../../entities/enums/planting-type.enum';
 import { ListMetaDto } from '../types/dto-types';
 
 export class PlantingCreateDto {

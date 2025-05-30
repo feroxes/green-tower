@@ -1,9 +1,10 @@
 import { PlantType } from '../../src/entities/plant.entity';
-import { PlantingType } from '../../src/entities/planting.entity';
 import { UserRole } from '../../src/entities/user.entity';
 
 import { LoginDto, RegisterDto } from '../../src/api/dtos/auth.dto';
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
+
+import { PlantingType } from '../../src/entities/enums/planting-type.enum';
 
 const commonValues = {
   email: 'john@example.com',
@@ -75,5 +76,10 @@ export const mockDto = {
     notes: null,
     amountOfPlates: 12,
     amountOfGramsOfSeeds: 300,
+  },
+  harvestEntryCreateCutDto: {
+    harvestGram: 200,
+    plantingId: '',
+    plantId: '',
   },
 };

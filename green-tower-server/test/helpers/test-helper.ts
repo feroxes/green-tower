@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Farm } from '../../src/entities/farm.entity';
+import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { UserRole } from '../../src/entities/user.entity';
@@ -36,6 +37,8 @@ export class TestHelper {
   plantRepository: Repository<Plant>;
   planting: Planting;
   plantingRepository: Repository<Planting>;
+  harvestEntry: HarvestEntry;
+  harvestEntryRepository: Repository<HarvestEntry>;
   private jwtService: JwtService;
 
   constructor(
@@ -55,6 +58,7 @@ export class TestHelper {
     this.farmRepository = this.module.get<Repository<Farm>>(getRepositoryToken(Farm));
     this.plantRepository = this.module.get<Repository<Plant>>(getRepositoryToken(Plant));
     this.plantingRepository = this.module.get<Repository<Planting>>(getRepositoryToken(Planting));
+    this.harvestEntryRepository = this.module.get<Repository<HarvestEntry>>(getRepositoryToken(HarvestEntry));
     await Calls.Auth.signUp(this.app);
 
     const ownerDataObject = await this.userRepository.findOne({ where: { email: mockDto.authRegisterDto.email } });
@@ -169,7 +173,7 @@ export class TestHelper {
   async loadFarm(): Promise<Farm> {
     const farm = await this.farmRepository.findOne({
       where: { id: this.owner.farm.id },
-      relations: ['users', 'plants', 'plantings'],
+      relations: ['users', 'plants', 'plantings', 'harvestEntries'],
     });
 
     return farm!;

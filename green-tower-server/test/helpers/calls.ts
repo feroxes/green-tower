@@ -3,10 +3,12 @@ import * as request from 'supertest';
 import { Response } from 'supertest';
 
 import { Farm } from '../../src/entities/farm.entity';
+import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { HarvestEntryCreateCutDto } from '../../src/api/dtos/harvest-entry.dto';
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import {
   PlantingDeleteDto,
@@ -202,6 +204,15 @@ export const Calls = {
       body: PlantingSetStateDto,
     ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> => {
       return Calls.post(app, UseCases.planting.setState, body, accessToken);
+    },
+  },
+  HarvestEntry: {
+    async createCut(
+      app: INestApplication,
+      accessToken: string,
+      body: HarvestEntryCreateCutDto,
+    ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.harvestEntry.createCut, body, accessToken);
     },
   },
 };
