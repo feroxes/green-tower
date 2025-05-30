@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -43,6 +44,7 @@ export class HarvestEntry {
 
   @ManyToOne(() => Farm)
   @JoinColumn({ name: 'farmId' })
+  @Exclude()
   farm: Farm;
 
   @ManyToOne(() => Planting, (planting) => planting.harvestEntries, { nullable: true })

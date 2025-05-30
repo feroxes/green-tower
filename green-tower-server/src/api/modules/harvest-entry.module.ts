@@ -13,6 +13,7 @@ import { HarvestEntryController } from '../controllers/harvest-entry.controller'
 
 import { HarvestEntryService } from '../../services/harvest-entry/harvest-entry.service';
 import { HarvestEntryCreateCutService } from '../../services/harvest-entry/harvest-entry-create-cut.service';
+import { HarvestEntryCreatePlateService } from '../../services/harvest-entry/harvest-entry-create-plate.service';
 import { TokenService } from '../../services/token/token.service';
 
 import { FarmComponent } from '../../components/farm.component';
@@ -26,6 +27,7 @@ import { UserComponent } from '../../components/user.component';
   providers: [
     HarvestEntryService,
     HarvestEntryCreateCutService,
+    HarvestEntryCreatePlateService,
     JwtStrategy,
     FarmComponent,
     UserComponent,

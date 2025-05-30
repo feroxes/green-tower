@@ -4,7 +4,7 @@ import { AuthorizedGuard } from '../../guards/authorized.guard';
 
 import { HarvestEntryService } from '../../services/harvest-entry/harvest-entry.service';
 
-import { HarvestEntryCreateCutDto } from '../dtos/harvest-entry.dto';
+import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto } from '../dtos/harvest-entry.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -18,5 +18,14 @@ export class HarvestEntryController {
   @UseGuards(AuthorizedGuard)
   async createCut(@Body() harvestEntryCreateCutDto: HarvestEntryCreateCutDto, @Executor() executor: ExecutorType) {
     return this.harvestEntryService.createCut(harvestEntryCreateCutDto, executor);
+  }
+
+  @Post('createPlate')
+  @UseGuards(AuthorizedGuard)
+  async createPlate(
+    @Body() harvestEntryCreatePlateDto: HarvestEntryCreatePlateDto,
+    @Executor() executor: ExecutorType,
+  ) {
+    return this.harvestEntryService.createPlate(harvestEntryCreatePlateDto, executor);
   }
 }

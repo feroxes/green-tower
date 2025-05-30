@@ -49,10 +49,6 @@ export class PlantingSetStateService {
 
     planting.state = plantingSetStateDto.state;
 
-    if (planting.state === PlantingState.HARVESTED) {
-      planting.harvestTs = new Date();
-    }
-
     if (planting.state === PlantingState.DEAD) {
       planting.deadTs = new Date();
     }

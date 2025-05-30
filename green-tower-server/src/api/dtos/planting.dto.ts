@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsEnum,
+  IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -124,7 +125,7 @@ export class PlantingSetStateDto {
   @IsNotEmpty()
   id: string;
 
-  @IsEnum(PlantingState)
+  @IsIn([PlantingState.GROWING, PlantingState.READY, PlantingState.DEAD])
   @IsNotEmpty()
   state: PlantingState;
 }

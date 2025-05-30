@@ -20,4 +20,23 @@ class HarvestEntryCreateCutError extends BaseError {
   );
 }
 
+class HarvestEntryCreatePlateError extends BaseError {
+  constructor() {
+    super('harvestEntry/createPlate/');
+  }
+
+  readonly PlantingIsNotInProperState = this.createError(
+    ConflictException,
+    'plantingIsNotInProperState',
+    'Planting is not in proper state.',
+  );
+
+  readonly FailedToCreateHarvestEntry = this.createError(
+    InternalServerErrorException,
+    'failedToCreateHarvestEntry',
+    'Failed to create a Harvest Entry.',
+  );
+}
+
 export const harvestEntryCreateCutError = new HarvestEntryCreateCutError();
+export const harvestEntryCreatePlateError = new HarvestEntryCreatePlateError();
