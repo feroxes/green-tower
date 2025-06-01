@@ -2,8 +2,13 @@ import { Injectable } from '@nestjs/common';
 
 import { HarvestEntryCreateCutService } from './harvest-entry-create-cut.service';
 import { HarvestEntryCreatePlateService } from './harvest-entry-create-plate.service';
+import { HarvestEntryCutPlateService } from './harvest-entry-cut-plate.service';
 
-import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto } from '../../api/dtos/harvest-entry.dto';
+import {
+  HarvestEntryCreateCutDto,
+  HarvestEntryCreatePlateDto,
+  HarvestEntryCutPlateDto,
+} from '../../api/dtos/harvest-entry.dto';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -12,6 +17,7 @@ export class HarvestEntryService {
   constructor(
     private readonly harvestEntryCreateCutService: HarvestEntryCreateCutService,
     private readonly harvestEntryCreatePlateService: HarvestEntryCreatePlateService,
+    private readonly harvestEntryCutPlateService: HarvestEntryCutPlateService,
   ) {}
 
   async createCut(
@@ -28,5 +34,9 @@ export class HarvestEntryService {
     isInternalCall?: boolean,
   ) {
     return this.harvestEntryCreatePlateService.createPlate(harvestEntryCreatePlateDto, executor, isInternalCall);
+  }
+
+  async cutPlate(harvestEntryCutPlateDto: HarvestEntryCutPlateDto, executor: ExecutorType) {
+    return this.harvestEntryCutPlateService.cutPlate(harvestEntryCutPlateDto, executor);
   }
 }

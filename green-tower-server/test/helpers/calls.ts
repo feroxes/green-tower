@@ -8,7 +8,11 @@ import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
-import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto } from '../../src/api/dtos/harvest-entry.dto';
+import {
+  HarvestEntryCreateCutDto,
+  HarvestEntryCreatePlateDto,
+  HarvestEntryCutPlateDto,
+} from '../../src/api/dtos/harvest-entry.dto';
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import {
   PlantingDeleteDto,
@@ -228,6 +232,13 @@ export const Calls = {
       body: HarvestEntryCreatePlateDto,
     ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.harvestEntry.createPlate, body, accessToken);
+    },
+    async cutPlate(
+      app: INestApplication,
+      accessToken: string,
+      body: HarvestEntryCutPlateDto,
+    ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.harvestEntry.cutPlate, body, accessToken);
     },
   },
 };

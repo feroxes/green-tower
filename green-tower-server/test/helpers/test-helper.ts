@@ -17,6 +17,7 @@ import { mockDto } from '../mock/mock.dtos';
 
 import { LoginResponseType, ObjectResponseType } from './types/response.types';
 
+import { PlantingType } from '../../src/entities/enums/planting-type.enum';
 import { Calls } from './calls';
 
 type PayloadType = {
@@ -194,6 +195,24 @@ export class TestHelper {
     });
 
     return planting!;
+  }
+
+  async createHarvestEntry(): Promise<HarvestEntry> {
+    const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
+      ...mockDto.plantingCreateDto,
+      plantId: this.getPlant.id,
+    })) as ObjectResponseType<Planting>;
+
+    await Calls.Planting.harvest(this.app, this.getAccessToken, {
+      id: planting.body.id,
+      type: PlantingType.PLATE,
+      harvestGram: 200,
+      amountOfPlates: mockDto.plantingCreateDto.amountOfPlates,
+    });
+
+    return (await this.harvestEntryRepository.findOne({
+      where: { planting: { id: planting.body.id } },
+    })) as HarvestEntry;
   }
 
   getRandomId() {

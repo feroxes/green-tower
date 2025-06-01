@@ -71,9 +71,6 @@ export class Planting {
   @OneToMany(() => HarvestEntry, (harvestEntry: HarvestEntry) => harvestEntry.planting)
   harvestEntries: HarvestEntry[];
 
-  @VersionColumn()
-  version: number;
-
   @Column({ type: 'timestamptz' })
   expectedHarvestTs: Date;
 
@@ -93,6 +90,13 @@ export class Planting {
 
   @Column({ nullable: true, type: 'timestamptz' })
   deadTs?: Date;
+
+  @Exclude()
+  @Column({ default: false })
+  isDeleted: boolean;
+
+  @VersionColumn()
+  version: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

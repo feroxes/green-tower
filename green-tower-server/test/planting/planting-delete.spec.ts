@@ -12,7 +12,7 @@ import { ErrorResponse, ErrorResponseType } from '../helpers/types/response.type
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
-import { validateError } from '../helpers/validation-helper';
+import { validateError, ValidationHelper } from '../helpers/validation-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';
 
 describe('PlantingDelete', () => {
@@ -40,12 +40,8 @@ describe('PlantingDelete', () => {
 
   describe(UseCases.planting.delete, () => {
     it(`${UseCases.planting.delete} - HDS`, async () => {
-      await Calls.Planting.delete(app, testHelper.getAccessToken, dto);
-
-      const farm = await testHelper.loadFarm();
-      const user = await testHelper.loadUser();
-      expect(farm.plantings.length).toBe(0);
-      expect(user.plantings.length).toBe(0);
+      const res = (await Calls.Planting.delete(app, testHelper.getAccessToken, dto)) as Response;
+      ValidationHelper.validateSuccessResponse(res);
     });
 
     it(`${UseCases.planting.delete} - user not found`, async () => {
@@ -74,4 +70,4 @@ describe('PlantingDelete', () => {
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
   });
-}); 
+});

@@ -14,6 +14,7 @@ import { PlantingController } from '../controllers/planting.controller';
 import { HarvestEntryService } from '../../services/harvest-entry/harvest-entry.service';
 import { HarvestEntryCreateCutService } from '../../services/harvest-entry/harvest-entry-create-cut.service';
 import { HarvestEntryCreatePlateService } from '../../services/harvest-entry/harvest-entry-create-plate.service';
+import { HarvestEntryCutPlateService } from '../../services/harvest-entry/harvest-entry-cut-plate.service';
 import { PlantingService } from '../../services/planting/planting.service';
 import { PlantingCreateService } from '../../services/planting/planting-create.service';
 import { PlantingDeleteService } from '../../services/planting/planting-delete.service';
@@ -25,6 +26,7 @@ import { PlantingUpdateService } from '../../services/planting/planting-update.s
 import { TokenService } from '../../services/token/token.service';
 
 import { FarmComponent } from '../../components/farm.component';
+import { HarvestEntryComponent } from '../../components/harvest-entry.component';
 import { PlantComponent } from '../../components/plant.component';
 import { PlantingComponent } from '../../components/planting.component';
 import { UserComponent } from '../../components/user.component';
@@ -36,6 +38,7 @@ import { UserComponent } from '../../components/user.component';
     HarvestEntryService,
     HarvestEntryCreateCutService,
     HarvestEntryCreatePlateService,
+    HarvestEntryCutPlateService,
     PlantingService,
     PlantingCreateService,
     PlantingUpdateService,
@@ -49,6 +52,7 @@ import { UserComponent } from '../../components/user.component';
     UserComponent,
     PlantComponent,
     PlantingComponent,
+    HarvestEntryComponent,
     TokenService,
   ],
   exports: [PlantingService],

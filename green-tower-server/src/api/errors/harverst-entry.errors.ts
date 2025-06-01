@@ -1,4 +1,9 @@
-import { ConflictException, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -41,5 +46,26 @@ class HarvestEntryCreatePlateError extends BaseError {
   );
 }
 
+class HarvestEntryCutPlateError extends BaseError {
+  constructor() {
+    super('harvestEntry/cutPlate/');
+  }
+
+  readonly InvalidHarvestEntryType = this.createError(
+    BadRequestException,
+    'invalidHarvestEntryType',
+    'HarvestEntry type must be PLATE to perform this operation.',
+  );
+
+  readonly NotEnoughPlates = this.createError(BadRequestException, 'notEnoughPlates', 'Not enough plates available.');
+
+  readonly FailedToCutPlate = this.createError(
+    InternalServerErrorException,
+    'failedToCutPlate',
+    'Failed to convert plate to cut.',
+  );
+}
+
 export const harvestEntryCreateCutError = new HarvestEntryCreateCutError();
 export const harvestEntryCreatePlateError = new HarvestEntryCreatePlateError();
+export const harvestEntryCutPlateError = new HarvestEntryCutPlateError();

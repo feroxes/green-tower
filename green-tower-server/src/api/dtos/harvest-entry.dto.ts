@@ -48,3 +48,19 @@ export class HarvestEntryCreatePlateDto {
   @IsOptional()
   state?: HarvestEntryState;
 }
+
+export class HarvestEntryCutPlateDto {
+  @IsUUID()
+  @IsNotEmpty()
+  harvestEntryId: string;
+
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  amountOfPlates: number;
+
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  amountOfGrams: number;
+}

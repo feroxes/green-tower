@@ -4,7 +4,11 @@ import { AuthorizedGuard } from '../../guards/authorized.guard';
 
 import { HarvestEntryService } from '../../services/harvest-entry/harvest-entry.service';
 
-import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto } from '../dtos/harvest-entry.dto';
+import {
+  HarvestEntryCreateCutDto,
+  HarvestEntryCreatePlateDto,
+  HarvestEntryCutPlateDto,
+} from '../dtos/harvest-entry.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -27,5 +31,11 @@ export class HarvestEntryController {
     @Executor() executor: ExecutorType,
   ) {
     return this.harvestEntryService.createPlate(harvestEntryCreatePlateDto, executor);
+  }
+
+  @Post('cutPlate')
+  @UseGuards(AuthorizedGuard)
+  async cutPlate(@Body() harvestEntryCutPlateDto: HarvestEntryCutPlateDto, @Executor() executor: ExecutorType) {
+    return this.harvestEntryService.cutPlate(harvestEntryCutPlateDto, executor);
   }
 }
