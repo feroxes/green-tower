@@ -85,6 +85,18 @@ describe('PlantingHarvest', () => {
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 
+    it(`${UseCases.planting.harvest} - invalid planting type`, async () => {
+      const planting = (await Calls.Planting.create(app, testHelper.getAccessToken, {
+        ...mockDto.plantingCreateDto,
+        plantId: testHelper.getPlant.id,
+        type: PlantingType.CUT,
+      })) as ObjectResponseType<Planting>;
+      dto.id = planting.body.id;
+      const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
+      const expectedError = plantingHarvestError.InvalidPlantingType();
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
+
     it(`${UseCases.planting.harvest} - invalid amount of plates value`, async () => {
       dto.amountOfPlates = 100;
       const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ErrorResponseType;

@@ -70,6 +70,7 @@ class PlantingHarvestError extends BaseError {
     'plantingIsInFinalState',
     'Planting is in final state.',
   );
+  readonly InvalidPlantingType = this.createError(ConflictException, 'invalidPlantingType', 'Invalid planting type.');
   readonly InvalidAmountOfPlatesValue = this.createError(
     ConflictException,
     'invalidAmountOfPlatesValue',

@@ -46,6 +46,12 @@ export class PlantingHarvestService {
     }
 
     if (plantingHarvestDto.type === PlantingType.PLATE) {
+      if (planting.type !== PlantingType.PLATE) {
+        throw plantingHarvestError.InvalidPlantingType({
+          plantingType: planting.type,
+          expectedType: PlantingType.PLATE,
+        });
+      }
       if (plantingHarvestDto.amountOfPlates! > planting.amountOfPlates!) {
         throw plantingHarvestError.InvalidAmountOfPlatesValue();
       }
