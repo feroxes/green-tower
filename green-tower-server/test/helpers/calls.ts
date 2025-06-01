@@ -226,7 +226,7 @@ export const Calls = {
       app: INestApplication,
       accessToken: string,
       body: HarvestEntryCreatePlateDto,
-    ): Promise<ListResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
+    ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.harvestEntry.createPlate, body, accessToken);
     },
   },

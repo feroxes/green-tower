@@ -140,13 +140,25 @@ export class PlantingHarvestDto {
   type: PlantingType;
 
   @IsNumber()
-  @Min(1)
+  @Min(0)
   @IsNotEmpty()
   harvestGram: number;
+
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.CUT)
+  @IsNumber()
+  @Min(1)
+  @IsOptional()
+  harvestDeadGram?: number;
 
   @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
   @IsNumber()
   @Min(1)
   @IsNotEmpty()
   amountOfPlates?: number;
+
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
+  @IsNumber()
+  @Min(1)
+  @IsOptional()
+  amountOfDeadPlates?: number;
 }

@@ -50,12 +50,29 @@ describe('PlantingHarvest', () => {
       ValidationHelper.planting.validatePlantingState(res.body, PlantingState.HARVESTED);
     });
 
+    it(`${UseCases.planting.harvest} - HDS - dead plate`, async () => {
+      delete dto.amountOfPlates;
+      dto.amountOfDeadPlates = 10;
+      const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
+      ValidationHelper.planting.validatePlantingState(res.body, PlantingState.DEAD);
+    });
+
     it(`${UseCases.planting.harvest} - HDS - cut`, async () => {
       dto.type = PlantingType.CUT;
       delete dto.amountOfPlates;
 
       const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
       ValidationHelper.planting.validatePlantingState(res.body, PlantingState.HARVESTED);
+    });
+
+    it(`${UseCases.planting.harvest} - HDS - dead cut`, async () => {
+      dto.type = PlantingType.CUT;
+      delete dto.amountOfPlates;
+      dto.harvestGram = 0;
+      dto.harvestDeadGram = 200;
+
+      const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
+      ValidationHelper.planting.validatePlantingState(res.body, PlantingState.DEAD);
     });
 
     it(`${UseCases.planting.harvest} - planting is in final state`, async () => {

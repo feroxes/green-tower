@@ -81,6 +81,13 @@ export class HarvestEntryCreateCutService {
       isManualCreate: !planting,
     };
 
+    if (harvestEntryCreateCutDto.state === HarvestEntryState.DEAD) {
+      dto.state = HarvestEntryState.DEAD;
+      dto.harvestGram = 0;
+      dto.harvestGramsLeft = 0;
+      dto.gramsDead = harvestGram;
+    }
+
     let harvestEntry = this.harvestEntryRepository.create(dto);
 
     try {

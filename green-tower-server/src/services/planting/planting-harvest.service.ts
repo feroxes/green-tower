@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { HarvestEntryState } from '../../entities/harvest-entry.entity';
 import { Planting, PlantingFinalStates, PlantingState } from '../../entities/planting.entity';
 
 import { HarvestEntryService } from '../harvest-entry/harvest-entry.service';
@@ -35,6 +36,8 @@ export class PlantingHarvestService {
     await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
+    //TODO what id plantingHarvestDto.amountOfPlates > planting.amountOfPlates
+    // also amountOfDeadPlates + amountOfPlates should be equal to planting.amountOfPlates
     let planting = await this.plantingComponent.checkPlantingExistence(
       { id: plantingHarvestDto.id, farm: { id: executor.farmId } },
       useCase,
@@ -57,15 +60,37 @@ export class PlantingHarvestService {
           executor,
           true,
         );
+        if (plantingHarvestDto.amountOfDeadPlates) {
+          await this.harvestEntryService.createPlate(
+            { ...harvestEntryDto, amountOfPlates: plantingHarvestDto.amountOfPlates!, state: HarvestEntryState.DEAD },
+            executor,
+            true,
+          );
+        }
       } else {
         await this.harvestEntryService.createCut(harvestEntryDto, executor, true);
+        if (plantingHarvestDto.harvestDeadGram) {
+          await this.harvestEntryService.createCut(
+            { ...harvestEntryDto, state: HarvestEntryState.DEAD },
+            executor,
+            true,
+          );
+        }
       }
     } catch (e: unknown) {
       throw plantingHarvestError.FailedToCreateHarvestEntry({ e });
     }
 
-    planting.state = PlantingState.HARVESTED;
-    planting.harvestTs = new Date();
+    if (
+      (plantingHarvestDto.amountOfDeadPlates && planting.amountOfPlates === plantingHarvestDto.amountOfDeadPlates) ||
+      (plantingHarvestDto.harvestDeadGram && plantingHarvestDto.harvestGram === 0)
+    ) {
+      planting.state = PlantingState.DEAD;
+      planting.deadTs = new Date();
+    } else {
+      planting.state = PlantingState.HARVESTED;
+      planting.harvestTs = new Date();
+    }
 
     try {
       planting = await this.plantingRepository.save(planting);

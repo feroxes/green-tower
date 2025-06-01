@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsNumber, IsUUID, Min, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsUUID, Min, ValidateIf } from 'class-validator';
+
+import { HarvestEntryState } from '../../entities/harvest-entry.entity';
 
 export class HarvestEntryCreateCutDto {
   @IsNumber()
@@ -15,6 +17,10 @@ export class HarvestEntryCreateCutDto {
   @IsUUID()
   @IsNotEmpty()
   plantId?: string;
+
+  @IsEnum(HarvestEntryState)
+  @IsOptional()
+  state?: HarvestEntryState;
 }
 
 export class HarvestEntryCreatePlateDto {
@@ -37,4 +43,8 @@ export class HarvestEntryCreatePlateDto {
   @Min(1)
   @IsNotEmpty()
   amountOfPlates: number;
+
+  @IsEnum(HarvestEntryState)
+  @IsOptional()
+  state?: HarvestEntryState;
 }

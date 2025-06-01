@@ -3,17 +3,12 @@ import { TestingModule } from '@nestjs/testing';
 
 import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 
-import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto } from '../../src/api/dtos/harvest-entry.dto';
+import { HarvestEntryCreatePlateDto } from '../../src/api/dtos/harvest-entry.dto';
 import { mockDto } from '../mock/mock.dtos';
 
-import { harvestEntryCreateCutError, harvestEntryCreatePlateError } from '../../src/api/errors/harverst-entry.errors';
+import { harvestEntryCreatePlateError } from '../../src/api/errors/harverst-entry.errors';
 
-import {
-  ErrorResponse,
-  ErrorResponseType,
-  ListResponseType,
-  ObjectResponseType,
-} from '../helpers/types/response.types';
+import { ErrorResponse, ErrorResponseType, ObjectResponseType } from '../helpers/types/response.types';
 
 import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
@@ -53,9 +48,8 @@ describe('HarvestEntryCreatePlate', () => {
         app,
         testHelper.getAccessToken,
         dto,
-      )) as ListResponseType<HarvestEntry>;
-      ValidationHelper.harvestEntry.validateHarvestEntryPlatesCreation(res.body, dto);
-      expect(res.body.meta.total).toBe(mockDto.harvestEntryCreatePlateDto.amountOfPlates);
+      )) as ObjectResponseType<HarvestEntry>;
+      ValidationHelper.harvestEntry.validateHarvestEntryCreation(res.body, dto);
     });
 
     it(`${UseCases.harvestEntry.createPlate} - invalid dto`, async () => {

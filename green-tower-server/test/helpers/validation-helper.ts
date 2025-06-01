@@ -174,13 +174,7 @@ export const ValidationHelper = {
     ) {
       expect(harvestEntry).toBeDefined();
       expect(harvestEntry).not.toBeNull();
-      if (!(dto instanceof HarvestEntryCreateCutDto) && dto.amountOfPlates) {
-        let gramPerPlate = dto.harvestGram / dto.amountOfPlates;
-        gramPerPlate = parseFloat(gramPerPlate.toFixed(6));
-        expect(harvestEntry.harvestGram).toBe(gramPerPlate);
-      } else {
-        expect(harvestEntry.harvestGram).toBe(dto.harvestGram);
-      }
+      expect(harvestEntry.harvestGram).toBe(dto.harvestGram);
       expect(harvestEntry.plant).toBeDefined();
       if (dto.plantingId) {
         expect(harvestEntry.planting).toBeDefined();

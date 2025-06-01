@@ -13,7 +13,7 @@ import { UserComponent } from '../../components/user.component';
 
 import { HarvestEntryCreatePlateDto } from '../../api/dtos/harvest-entry.dto';
 
-import { harvestEntryCreateCutError, harvestEntryCreatePlateError } from '../../api/errors/harverst-entry.errors';
+import { harvestEntryCreatePlateError } from '../../api/errors/harverst-entry.errors';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -34,7 +34,7 @@ export class HarvestEntryCreatePlateService {
     harvestEntryCreatePlateDto: HarvestEntryCreatePlateDto,
     executor: ExecutorType,
     isInternalCall = false,
-  ): Promise<{ itemList: HarvestEntry[]; meta: { total: number } }> {
+  ): Promise<HarvestEntry> {
     const useCase = 'harvestEntry/createPlate';
     const { plantingId, plantId, harvestGram, amountOfPlates } = harvestEntryCreatePlateDto;
 
@@ -68,29 +68,37 @@ export class HarvestEntryCreatePlateService {
       );
     }
 
-    let gramPerPlate = harvestGram / amountOfPlates;
-    gramPerPlate = parseFloat(gramPerPlate.toFixed(6));
-
     const dto = {
       type: PlantingType.PLATE,
       state: HarvestEntryState.READY,
       farm,
       ...(planting && { planting }),
       plant,
-      harvestGram: gramPerPlate,
-      isManualCreate: !planting,
-      harvestGramsLeft: gramPerPlate,
+      harvestGram,
       gramsDead: 0,
+      isManualCreate: !planting,
+      harvestAmountOfPlates: amountOfPlates,
+      harvestAmountOfPlatesLeft: amountOfPlates,
+      amountOfPlatesDead: 0,
     };
 
-    let harvestEntryList = Array.from({ length: amountOfPlates }).map(() => this.harvestEntryRepository.create(dto));
+    if (harvestEntryCreatePlateDto.state === HarvestEntryState.DEAD) {
+      dto.state = HarvestEntryState.DEAD;
+      dto.harvestGram = 0;
+      dto.gramsDead = harvestGram;
+      dto.harvestAmountOfPlates = 0;
+      dto.harvestAmountOfPlatesLeft = 0;
+      dto.amountOfPlatesDead = amountOfPlates;
+    }
+
+    let harvestEntry = this.harvestEntryRepository.create(dto);
 
     try {
-      harvestEntryList = await this.harvestEntryRepository.save(harvestEntryList);
+      harvestEntry = await this.harvestEntryRepository.save(harvestEntry);
     } catch (e: unknown) {
       throw harvestEntryCreatePlateError.FailedToCreateHarvestEntry({ e });
     }
 
-    return { itemList: harvestEntryList, meta: { total: amountOfPlates } };
+    return harvestEntry;
   }
 }

@@ -82,12 +82,48 @@ export class HarvestEntry {
     type: 'numeric',
     precision: 10,
     scale: 6,
+    nullable: true,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  harvestAmountOfPlates?: number;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
+    nullable: true,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  harvestAmountOfPlatesLeft?: number;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
     transformer: {
       to: (value: number) => value,
       from: (value: string) => parseFloat(value),
     },
   })
   gramsDead: number;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 6,
+    nullable: true,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  amountOfPlatesDead?: number;
 
   @VersionColumn()
   version: number;
