@@ -4,6 +4,7 @@ import { TestingModule } from '@nestjs/testing';
 import { Planting, PlantingState } from '../../src/entities/planting.entity';
 
 import { PlantingHarvestDto } from '../../src/api/dtos/planting.dto';
+import { mockDto } from '../mock/mock.dtos';
 
 import { plantingHarvestError } from '../../src/api/errors/planting.errors';
 
@@ -40,7 +41,7 @@ describe('PlantingHarvest', () => {
       id: testHelper.planting.id,
       type: PlantingType.PLATE,
       harvestGram: 200,
-      amountOfPlates: 2,
+      amountOfPlates: mockDto.plantingCreateDto.amountOfPlates,
     };
   });
 
@@ -51,8 +52,8 @@ describe('PlantingHarvest', () => {
     });
 
     it(`${UseCases.planting.harvest} - HDS - dead plate`, async () => {
-      delete dto.amountOfPlates;
-      dto.amountOfDeadPlates = 10;
+      dto.amountOfPlates = 0;
+      dto.amountOfDeadPlates = mockDto.plantingCreateDto.amountOfPlates;
       const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ObjectResponseType<Planting>;
       ValidationHelper.planting.validatePlantingState(res.body, PlantingState.DEAD);
     });
@@ -81,6 +82,20 @@ describe('PlantingHarvest', () => {
 
       const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
       const expectedError = plantingHarvestError.PlantingIsInFinalState({ state: PlantingState.HARVESTED });
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
+
+    it(`${UseCases.planting.harvest} - invalid amount of plates value`, async () => {
+      dto.amountOfPlates = 100;
+      const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
+      const expectedError = plantingHarvestError.InvalidAmountOfPlatesValue();
+      validateError(res.body, expectedError.getResponse() as ErrorResponse);
+    });
+
+    it(`${UseCases.planting.harvest} - invalid amount of dead plates value`, async () => {
+      dto.amountOfDeadPlates = 100;
+      const res = (await Calls.Planting.harvest(app, testHelper.getAccessToken, dto)) as ErrorResponseType;
+      const expectedError = plantingHarvestError.InvalidAmountOfDeadPlatesValue();
       validateError(res.body, expectedError.getResponse() as ErrorResponse);
     });
 

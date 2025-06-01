@@ -36,8 +36,6 @@ export class PlantingHarvestService {
     await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
-    //TODO what id plantingHarvestDto.amountOfPlates > planting.amountOfPlates
-    // also amountOfDeadPlates + amountOfPlates should be equal to planting.amountOfPlates
     let planting = await this.plantingComponent.checkPlantingExistence(
       { id: plantingHarvestDto.id, farm: { id: executor.farmId } },
       useCase,
@@ -45,6 +43,18 @@ export class PlantingHarvestService {
 
     if (PlantingFinalStates.includes(planting.state)) {
       throw plantingHarvestError.PlantingIsInFinalState();
+    }
+
+    if (plantingHarvestDto.type === PlantingType.PLATE) {
+      if (plantingHarvestDto.amountOfPlates! > planting.amountOfPlates!) {
+        throw plantingHarvestError.InvalidAmountOfPlatesValue();
+      }
+      if (
+        plantingHarvestDto.amountOfDeadPlates &&
+        plantingHarvestDto.amountOfPlates! + plantingHarvestDto.amountOfDeadPlates !== planting.amountOfPlates!
+      ) {
+        throw plantingHarvestError.InvalidAmountOfDeadPlatesValue();
+      }
     }
 
     const harvestEntryDto = {

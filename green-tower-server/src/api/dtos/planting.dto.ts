@@ -146,7 +146,7 @@ export class PlantingHarvestDto {
 
   @ValidateIf((obj: Planting) => obj.type === PlantingType.CUT)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   @IsOptional()
   harvestDeadGram?: number;
 
@@ -158,7 +158,7 @@ export class PlantingHarvestDto {
 
   @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   @IsOptional()
   amountOfDeadPlates?: number;
 }
