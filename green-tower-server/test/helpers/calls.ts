@@ -11,7 +11,12 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { HarvestGroup } from '../../src/services/harvest-entry/harvest-entry-list-grouped.service';
 
-import { CustomerCreateDto, CustomerDeleteDto, CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
+import {
+  CustomerCreateDto,
+  CustomerDeleteDto,
+  CustomerListDto,
+  CustomerUpdateDto,
+} from '../../src/api/dtos/customer.dto';
 import {
   HarvestEntryCreateCutDto,
   HarvestEntryCreatePlateDto,
@@ -272,6 +277,13 @@ export const Calls = {
       body: CustomerDeleteDto,
     ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.customer.delete, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerListDto,
+    ): Promise<ListResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.customer.list, body, accessToken);
     },
   },
 };

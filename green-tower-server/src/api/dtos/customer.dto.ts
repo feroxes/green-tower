@@ -1,4 +1,18 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsUUID, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  IsUUID,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
+
+import { PlantListFiltersDto, PlantListSortersDto } from './plant.dto';
+
+import { ListMetaDto } from '../types/dto-types';
 
 export class CustomerCreateDto {
   @IsString()
@@ -65,4 +79,11 @@ export class CustomerDeleteDto {
   @IsUUID()
   @IsNotEmpty()
   id: string;
+}
+
+export class CustomerListDto {
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => ListMetaDto)
+  meta: ListMetaDto;
 }

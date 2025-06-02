@@ -36,10 +36,12 @@ export class Customer {
   @Column({ nullable: true })
   notes?: string;
 
+  @Exclude()
   @ManyToOne(() => Farm, (farm) => farm.customers)
   @JoinColumn({ name: 'farmId' })
   farm: Farm;
 
+  @Exclude()
   @ManyToOne(() => User, (user) => user.customers)
   @JoinColumn({ name: 'createdBy' })
   createdBy: User;

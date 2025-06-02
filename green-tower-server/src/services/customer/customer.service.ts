@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { Customer } from '../../entities/customer.entity';
-
 import { CustomerCreateService } from './customer-create.service';
 import { CustomerDeleteService } from './customer-delete.service';
+import { CustomerListService } from './customer-list.service';
 import { CustomerUpdateService } from './customer-update.service';
 
-import { CustomerCreateDto, CustomerDeleteDto, CustomerUpdateDto } from '../../api/dtos/customer.dto';
+import { CustomerCreateDto, CustomerDeleteDto, CustomerListDto, CustomerUpdateDto } from '../../api/dtos/customer.dto';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
@@ -16,17 +15,22 @@ export class CustomerService {
     private readonly customerCreateService: CustomerCreateService,
     private readonly customerUpdateService: CustomerUpdateService,
     private readonly customerDeleteService: CustomerDeleteService,
+    private readonly customerListService: CustomerListService,
   ) {}
 
-  async create(customerCreateDto: CustomerCreateDto, executor: ExecutorType): Promise<Customer> {
+  async create(customerCreateDto: CustomerCreateDto, executor: ExecutorType) {
     return this.customerCreateService.create(customerCreateDto, executor);
   }
 
-  async update(customerUpdateDto: CustomerUpdateDto, executor: ExecutorType): Promise<Customer> {
+  async update(customerUpdateDto: CustomerUpdateDto, executor: ExecutorType) {
     return this.customerUpdateService.update(customerUpdateDto, executor);
   }
 
-  async delete(customerDeleteDto: CustomerDeleteDto, executor: ExecutorType): Promise<void> {
+  async delete(customerDeleteDto: CustomerDeleteDto, executor: ExecutorType) {
     return this.customerDeleteService.delete(customerDeleteDto, executor);
+  }
+
+  async list(customerListDto: CustomerListDto, executor: ExecutorType) {
+    return this.customerListService.list(customerListDto, executor);
   }
 }
