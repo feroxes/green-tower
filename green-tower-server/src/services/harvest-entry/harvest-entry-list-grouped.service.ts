@@ -1,0 +1,93 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { HarvestEntry, HarvestEntryState } from '../../entities/harvest-entry.entity';
+import { Plant } from '../../entities/plant.entity';
+
+import { FarmComponent } from '../../components/farm.component';
+import { UserComponent } from '../../components/user.component';
+
+import { ExecutorType } from '../../api/types/auth.types';
+
+import { PlantingType } from '../../entities/enums/planting-type.enum';
+
+type HarvestEntryWithoutPlant = Omit<HarvestEntry, 'plant'>;
+
+type HarvestGroup = {
+  plant: Plant;
+  cut: {
+    totalGrams: number;
+    totalGramsLeft: number;
+    entries: HarvestEntryWithoutPlant[];
+  };
+  plate: {
+    totalPlates: number;
+    totalPlatesLeft: number;
+    entries: HarvestEntryWithoutPlant[];
+  };
+};
+
+@Injectable()
+export class HarvestEntryListGroupedService {
+  constructor(
+    @InjectRepository(HarvestEntry)
+    private readonly harvestEntryRepository: Repository<HarvestEntry>,
+    private readonly userComponent: UserComponent,
+    private readonly farmComponent: FarmComponent,
+  ) {}
+
+  async listGroupedByPlant(executor: ExecutorType): Promise<HarvestGroup[]> {
+    const useCase = 'harvestEntry/listGroupedByPlant';
+
+    await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
+    await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
+
+    const harvestEntries = await this.harvestEntryRepository.find({
+      where: {
+        farm: { id: executor.farmId },
+        state: HarvestEntryState.READY,
+      },
+      relations: ['plant'],
+      order: { createdAt: 'ASC' },
+    });
+
+    const groupedByPlant = harvestEntries.reduce(
+      (acc, entry) => {
+        const plantId = entry.plant.id;
+        if (!acc[plantId]) {
+          acc[plantId] = {
+            plant: entry.plant,
+            cut: {
+              totalGrams: 0,
+              totalGramsLeft: 0,
+              entries: [],
+            },
+            plate: {
+              totalPlates: 0,
+              totalPlatesLeft: 0,
+              entries: [],
+            },
+          };
+        }
+
+        const { plant, ...entryWithoutPlant } = entry;
+
+        if (entry.type === PlantingType.CUT) {
+          acc[plantId].cut.totalGrams += entry.harvestGram;
+          acc[plantId].cut.totalGramsLeft += entry.harvestGramsLeft || 0;
+          acc[plantId].cut.entries.push(entryWithoutPlant);
+        } else {
+          acc[plantId].plate.totalPlates += entry.harvestAmountOfPlates || 0;
+          acc[plantId].plate.totalPlatesLeft += entry.harvestAmountOfPlatesLeft || 0;
+          acc[plantId].plate.entries.push(entryWithoutPlant);
+        }
+
+        return acc;
+      },
+      {} as Record<string, HarvestGroup>,
+    );
+
+    return Object.values(groupedByPlant);
+  }
+}

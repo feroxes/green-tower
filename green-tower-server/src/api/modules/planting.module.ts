@@ -15,6 +15,7 @@ import { HarvestEntryService } from '../../services/harvest-entry/harvest-entry.
 import { HarvestEntryCreateCutService } from '../../services/harvest-entry/harvest-entry-create-cut.service';
 import { HarvestEntryCreatePlateService } from '../../services/harvest-entry/harvest-entry-create-plate.service';
 import { HarvestEntryCutPlateService } from '../../services/harvest-entry/harvest-entry-cut-plate.service';
+import { HarvestEntryListGroupedService } from '../../services/harvest-entry/harvest-entry-list-grouped.service';
 import { PlantingService } from '../../services/planting/planting.service';
 import { PlantingCreateService } from '../../services/planting/planting-create.service';
 import { PlantingDeleteService } from '../../services/planting/planting-delete.service';
@@ -39,6 +40,7 @@ import { UserComponent } from '../../components/user.component';
     HarvestEntryCreateCutService,
     HarvestEntryCreatePlateService,
     HarvestEntryCutPlateService,
+    HarvestEntryListGroupedService,
     PlantingService,
     PlantingCreateService,
     PlantingUpdateService,

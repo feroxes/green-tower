@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { HarvestEntryCreateCutService } from './harvest-entry-create-cut.service';
 import { HarvestEntryCreatePlateService } from './harvest-entry-create-plate.service';
 import { HarvestEntryCutPlateService } from './harvest-entry-cut-plate.service';
+import { HarvestEntryListGroupedService } from './harvest-entry-list-grouped.service';
 
 import {
   HarvestEntryCreateCutDto,
@@ -18,6 +19,7 @@ export class HarvestEntryService {
     private readonly harvestEntryCreateCutService: HarvestEntryCreateCutService,
     private readonly harvestEntryCreatePlateService: HarvestEntryCreatePlateService,
     private readonly harvestEntryCutPlateService: HarvestEntryCutPlateService,
+    private readonly harvestEntryListGroupedService: HarvestEntryListGroupedService,
   ) {}
 
   async createCut(
@@ -38,5 +40,9 @@ export class HarvestEntryService {
 
   async cutPlate(harvestEntryCutPlateDto: HarvestEntryCutPlateDto, executor: ExecutorType) {
     return this.harvestEntryCutPlateService.cutPlate(harvestEntryCutPlateDto, executor);
+  }
+
+  async listGroupedByPlant(executor: ExecutorType) {
+    return this.harvestEntryListGroupedService.listGroupedByPlant(executor);
   }
 }

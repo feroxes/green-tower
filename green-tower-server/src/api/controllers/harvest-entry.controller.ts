@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { AuthorizedGuard } from '../../guards/authorized.guard';
 
@@ -37,5 +37,11 @@ export class HarvestEntryController {
   @UseGuards(AuthorizedGuard)
   async cutPlate(@Body() harvestEntryCutPlateDto: HarvestEntryCutPlateDto, @Executor() executor: ExecutorType) {
     return this.harvestEntryService.cutPlate(harvestEntryCutPlateDto, executor);
+  }
+
+  @Get('listGroupedByPlant')
+  @UseGuards(AuthorizedGuard)
+  async listGroupedByPlant(@Executor() executor: ExecutorType) {
+    return this.harvestEntryService.listGroupedByPlant(executor);
   }
 }
