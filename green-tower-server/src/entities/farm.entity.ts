@@ -10,6 +10,7 @@ import {
   VersionColumn,
 } from 'typeorm';
 
+import { Customer } from './customer.entity';
 import { HarvestEntry } from './harvest-entry.entity';
 import { Plant } from './plant.entity';
 import { Planting } from './planting.entity';
@@ -40,6 +41,9 @@ export class Farm {
 
   @OneToMany(() => HarvestEntry, (harvestEntry: HarvestEntry) => harvestEntry.farm)
   harvestEntries: HarvestEntry[];
+
+  @OneToMany(() => Customer, (customer: Customer) => customer.farm)
+  customers: Customer[];
 
   @VersionColumn()
   version: number;
