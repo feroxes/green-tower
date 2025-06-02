@@ -43,5 +43,6 @@ export const UseCases = {
   customer: {
     create: '/customer/create',
     update: '/customer/update',
+    delete: '/customer/delete',
   },
 } as const;

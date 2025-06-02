@@ -6,7 +6,7 @@ import { Customer } from '../../src/entities/customer.entity';
 import { CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
 import { mockDto } from '../mock/mock.dtos';
 
-import { customerCreateError, customerUpdateError } from '../../src/api/errors/customer.errors';
+import { customerUpdateError } from '../../src/api/errors/customer.errors';
 import { CustomerComponentError } from '../../src/api/errors/customer-component.errors';
 import { UserCheckExistenceComponentError } from '../../src/api/errors/user-component.errors';
 
