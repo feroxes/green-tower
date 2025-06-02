@@ -10,11 +10,12 @@ import { UserComponent } from '../../components/user.component';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
+import { ListResponseType } from '../../api/types/dto-types';
 import { PlantingType } from '../../entities/enums/planting-type.enum';
 
 type HarvestEntryWithoutPlant = Omit<HarvestEntry, 'plant'>;
 
-type HarvestGroup = {
+export type HarvestGroup = {
   plant: Plant;
   cut: {
     totalGrams: number;
@@ -37,7 +38,7 @@ export class HarvestEntryListGroupedService {
     private readonly farmComponent: FarmComponent,
   ) {}
 
-  async listGroupedByPlant(executor: ExecutorType): Promise<HarvestGroup[]> {
+  async listGroupedByPlant(executor: ExecutorType): Promise<ListResponseType<HarvestGroup>> {
     const useCase = 'harvestEntry/listGroupedByPlant';
 
     await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
@@ -88,6 +89,8 @@ export class HarvestEntryListGroupedService {
       {} as Record<string, HarvestGroup>,
     );
 
-    return Object.values(groupedByPlant);
+    const itemList = Object.values(groupedByPlant);
+
+    return { itemList, meta: { page: 0, size: itemList.length, total: itemList.length } };
   }
 }

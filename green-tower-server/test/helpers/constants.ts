@@ -38,5 +38,6 @@ export const UseCases = {
     createCut: '/harvestEntry/createCut',
     createPlate: '/harvestEntry/createPlate',
     cutPlate: '/harvestEntry/cutPlate',
+    listGroupedByPlant: '/harvestEntry/listGroupedByPlant',
   },
 } as const;

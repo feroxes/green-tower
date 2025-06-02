@@ -8,6 +8,8 @@ import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { HarvestGroup } from '../../src/services/harvest-entry/harvest-entry-list-grouped.service';
+
 import {
   HarvestEntryCreateCutDto,
   HarvestEntryCreatePlateDto,
@@ -203,18 +205,18 @@ export const Calls = {
     ): Promise<ListResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.planting.list, body, accessToken);
     },
-    setState: async (
+    async setState(
       app: INestApplication,
       accessToken: string,
       body: PlantingSetStateDto,
-    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> => {
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.planting.setState, body, accessToken);
     },
-    harvest: async (
+    async harvest(
       app: INestApplication,
       accessToken: string,
       body: PlantingHarvestDto,
-    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> => {
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.planting.harvest, body, accessToken);
     },
   },
@@ -239,6 +241,12 @@ export const Calls = {
       body: HarvestEntryCutPlateDto,
     ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.harvestEntry.cutPlate, body, accessToken);
+    },
+    async listGroupedByPlant(
+      app: INestApplication,
+      accessToken: string,
+    ): Promise<ListResponseType<HarvestGroup> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.harvestEntry.listGroupedByPlant, {}, accessToken);
     },
   },
 };

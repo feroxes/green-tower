@@ -212,6 +212,7 @@ export class TestHelper {
 
     return (await this.harvestEntryRepository.findOne({
       where: { planting: { id: planting.body.id } },
+      relations: ['planting', 'plant', 'farm'],
     })) as HarvestEntry;
   }
 
