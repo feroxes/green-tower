@@ -10,8 +10,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { PlantListFiltersDto, PlantListSortersDto } from './plant.dto';
-
 import { ListMetaDto } from '../types/dto-types';
 
 export class CustomerCreateDto {

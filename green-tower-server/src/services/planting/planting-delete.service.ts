@@ -10,7 +10,6 @@ import { UserComponent } from '../../components/user.component';
 
 import { PlantingDeleteDto } from '../../api/dtos/planting.dto';
 
-import { plantDeleteError } from '../../api/errors/plant.errors';
 import { plantingDeleteError } from '../../api/errors/planting.errors';
 
 import { ExecutorType } from '../../api/types/auth.types';

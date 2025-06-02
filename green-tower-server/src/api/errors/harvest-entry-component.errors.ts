@@ -7,5 +7,9 @@ export class HarvestEntryComponentError extends BaseError {
     super(useCase);
   }
 
-  readonly HarvestEntryNotFound = this.createError(NotFoundException, 'harvestEntryNotFound', 'HarvestEntry not found.');
-} 
+  readonly HarvestEntryNotFound = this.createError(
+    NotFoundException,
+    'harvestEntryNotFound',
+    'HarvestEntry not found.',
+  );
+}
