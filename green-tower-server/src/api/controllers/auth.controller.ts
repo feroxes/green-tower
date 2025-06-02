@@ -1,15 +1,15 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { CookieOptions, Request, Response } from 'express';
 
-import { AuthorizedGuard } from '../../guards/authorized.guard';
+import { AuthorizedGuard } from '@guards/authorized.guard';
 
-import { AuthService } from '../../services/auth/auth.service';
+import { Executor } from '@decorators/executor.decorator';
 
-import { AuthResponseDto, ConfirmEmailDto, LoginDto, RegisterDto, ResendConfirmationEmailDto } from '../dtos/auth.dto';
+import { AuthService } from '@services/auth/auth.service';
 
-import { ExecutorType } from '../types/auth.types';
+import { AuthResponseDto, ConfirmEmailDto, LoginDto, RegisterDto, ResendConfirmationEmailDto } from '@dtos/auth.dto';
 
-import { Executor } from '../../decorators/executor.decorator';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Controller('auth')
 export class AuthController {

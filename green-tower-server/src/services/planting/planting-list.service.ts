@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
-import { Planting } from '../../entities/planting.entity';
+import { Planting } from '@entities/planting.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { PlantingComponent } from '../../components/planting.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { PlantingComponent } from '@components/planting.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantingListDto } from '../../api/dtos/planting.dto';
+import { PlantingListDto } from '@dtos/planting.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
-
-import { ListResponseType } from '../../api/types/dto-types';
+import { ExecutorType } from '@app-types/auth.types';
+import { ListResponseType } from '@app-types/dto.types';
 
 @Injectable()
 export class PlantingListService {

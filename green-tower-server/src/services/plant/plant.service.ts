@@ -6,9 +6,9 @@ import { PlantGetService } from './plant-get.service';
 import { PlantListService } from './plant-list.service';
 import { PlantUpdateService } from './plant-update.service';
 
-import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../api/dtos/plant.dto';
+import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '@dtos/plant.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantService {

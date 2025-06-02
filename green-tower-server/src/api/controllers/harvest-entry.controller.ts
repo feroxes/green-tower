@@ -1,18 +1,14 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
-import { AuthorizedGuard } from '../../guards/authorized.guard';
+import { AuthorizedGuard } from '@guards/authorized.guard';
 
-import { HarvestEntryService } from '../../services/harvest-entry/harvest-entry.service';
+import { Executor } from '@decorators/executor.decorator';
 
-import {
-  HarvestEntryCreateCutDto,
-  HarvestEntryCreatePlateDto,
-  HarvestEntryCutPlateDto,
-} from '../dtos/harvest-entry.dto';
+import { HarvestEntryService } from '@services/harvest-entry/harvest-entry.service';
 
-import { ExecutorType } from '../types/auth.types';
+import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto, HarvestEntryCutPlateDto } from '@dtos/harvest-entry.dto';
 
-import { Executor } from '../../decorators/executor.decorator';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Controller('harvestEntry')
 export class HarvestEntryController {

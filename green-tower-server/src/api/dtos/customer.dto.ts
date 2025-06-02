@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { ListMetaDto } from '../types/dto-types';
+import { ListMetaDto } from '@app-types/dto.types';
 
 export class CustomerCreateDto {
   @IsString()

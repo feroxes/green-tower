@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { Plant } from '../../entities/plant.entity';
+import { Plant } from '@entities/plant.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { PlantComponent } from '../../components/plant.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { PlantComponent } from '@components/plant.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantGetDto } from '../../api/dtos/plant.dto';
+import { PlantGetDto } from '@dtos/plant.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantGetService {

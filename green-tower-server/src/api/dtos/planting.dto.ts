@@ -1,3 +1,4 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Type } from 'class-transformer';
 import {
   IsEnum,
@@ -14,12 +15,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { Planting, PlantingState } from '../../entities/planting.entity';
+import { Planting, PlantingState } from '@entities/planting.entity';
 
-import { SortDirectionType } from '../types/common.types';
-
-import { PlantingType } from '../../entities/enums/planting-type.enum';
-import { ListMetaDto } from '../types/dto-types';
+import { SortDirectionType } from '@app-types/common.types';
+import { ListMetaDto } from '@app-types/dto.types';
 
 export class PlantingCreateDto {
   @IsUUID()

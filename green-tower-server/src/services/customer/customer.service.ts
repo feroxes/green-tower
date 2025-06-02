@@ -5,9 +5,9 @@ import { CustomerDeleteService } from './customer-delete.service';
 import { CustomerListService } from './customer-list.service';
 import { CustomerUpdateService } from './customer-update.service';
 
-import { CustomerCreateDto, CustomerDeleteDto, CustomerListDto, CustomerUpdateDto } from '../../api/dtos/customer.dto';
+import { CustomerCreateDto, CustomerDeleteDto, CustomerListDto, CustomerUpdateDto } from '@dtos/customer.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class CustomerService {

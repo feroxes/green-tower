@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Plant } from '../entities/plant.entity';
+import { List } from '@decorators/list.decorator';
 
-import { PlantListFiltersDto, PlantListSortersDto } from '../api/dtos/plant.dto';
+import { Plant } from '@entities/plant.entity';
 
-import { PlantComponentError } from '../api/errors/plant-component.errors';
+import { PlantListFiltersDto, PlantListSortersDto } from '@dtos/plant.dto';
 
-import { ExecutorType } from '../api/types/auth.types';
-import { SortDirectionType } from '../api/types/common.types';
+import { PlantComponentError } from '@errors/plant-component.errors';
 
-import { ListMetaDto, ListResponseType } from '../api/types/dto-types';
-import { List } from '../decorators/list.decorator';
+import { ExecutorType } from '@app-types/auth.types';
+import { SortDirectionType } from '@app-types/common.types';
+import { ListMetaDto, ListResponseType } from '@app-types/dto.types';
 
 @Injectable()
 export class PlantComponent {

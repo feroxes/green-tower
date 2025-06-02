@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { HarvestEntry } from '../entities/harvest-entry.entity';
+import { HarvestEntry } from '@entities/harvest-entry.entity';
 
-import { HarvestEntryComponentError } from '../api/errors/harvest-entry-component.errors';
+import { HarvestEntryComponentError } from '@errors/harvest-entry-component.errors';
 
 @Injectable()
 export class HarvestEntryComponent {

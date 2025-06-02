@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Farm } from '../../entities/farm.entity';
-import { User, UserRole } from '../../entities/user.entity';
+import { Farm } from '@entities/farm.entity';
+import { User, UserRole } from '@entities/user.entity';
 
-import { EmailService } from '../email/email.service';
+import { EmailService } from '@services/email/email.service';
 
-import { UserComponent } from '../../components/user.component';
+import { UserComponent } from '@components/user.component';
 
-import { RegisterDto } from '../../api/dtos/auth.dto';
+import { RegisterDto } from '@dtos/auth.dto';
 
-import { registerError } from '../../api/errors/auth.errors';
+import { registerError } from '@errors/auth.errors';
 
 @Injectable()
 export class AuthSignupService {

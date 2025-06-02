@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthConstants } from '@utils/constants';
 import { Repository } from 'typeorm';
 
-import { User } from '../../entities/user.entity';
+import { User } from '@entities/user.entity';
 
-import { EmailService } from '../email/email.service';
-import { TokenService } from '../token/token.service';
+import { EmailService } from '@services/email/email.service';
+import { TokenService } from '@services/token/token.service';
 
-import { ResendConfirmationEmailDto } from '../../api/dtos/auth.dto';
+import { ResendConfirmationEmailDto } from '@dtos/auth.dto';
 
-import { registerError, resendConfirmationEmailError } from '../../api/errors/auth.errors';
-
-import { AuthConstants } from '../../utils/constants';
+import { registerError, resendConfirmationEmailError } from '@errors/auth.errors';
 
 @Injectable()
 export class AuthResendConfirmationEmailService {

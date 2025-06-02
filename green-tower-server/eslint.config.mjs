@@ -34,10 +34,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
-      '@typescript-eslint/ban-ts-comment': [
-        'error',
-        { 'ts-ignore': 'allow-with-description' },
-      ],
+      '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
       'max-len': ['error', { code: 120 }],
       'simple-import-sort/imports': [
         'error',
@@ -47,6 +44,7 @@ export default tseslint.config(
             ['^\\u0000', '^@?\\w'],
             // Group 2: Imports containing ".guard"
             ['\\.guard'],
+            ['\\.decorator'],
             // Group 3: Imports containing ".strategy"
             ['\\.strategy'],
             // Group 4: Imports containing ".entity"
@@ -71,5 +69,5 @@ export default tseslint.config(
         },
       ],
     },
-  }
+  },
 );

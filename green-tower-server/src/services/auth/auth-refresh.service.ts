@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { TokenService } from '../token/token.service';
+import { TokenService } from '@services/token/token.service';
 
-import { RefreshDto } from '../../api/dtos/auth.dto';
+import { RefreshDto } from '@dtos/auth.dto';
 
 @Injectable()
 export class AuthRefreshService {

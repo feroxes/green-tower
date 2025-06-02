@@ -14,11 +14,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { PlantType } from '../../entities/plant.entity';
+import { PlantType } from '@entities/plant.entity';
 
-import { SortDirectionType } from '../types/common.types';
-
-import { ListMetaDto } from '../types/dto-types';
+import { SortDirectionType } from '@app-types/common.types';
+import { ListMetaDto } from '@app-types/dto.types';
 
 export class PlantCreateDto {
   @IsString()

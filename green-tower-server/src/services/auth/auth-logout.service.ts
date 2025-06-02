@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '../../entities/user.entity';
+import { User } from '@entities/user.entity';
 
-import { LogoutDto } from '../../api/dtos/auth.dto';
+import { LogoutDto } from '@dtos/auth.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class AuthLogoutService {

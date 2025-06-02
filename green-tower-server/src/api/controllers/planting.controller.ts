@@ -1,9 +1,11 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 
-import { AuthorizedGuard } from '../../guards/authorized.guard';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
+import { AuthorizedGuard } from '@guards/authorized.guard';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 
-import { PlantingService } from '../../services/planting/planting.service';
+import { Executor } from '@decorators/executor.decorator';
+
+import { PlantingService } from '@services/planting/planting.service';
 
 import {
   PlantingCreateDto,
@@ -13,11 +15,9 @@ import {
   PlantingListDto,
   PlantingSetStateDto,
   PlantingUpdateDto,
-} from '../dtos/planting.dto';
+} from '@dtos/planting.dto';
 
-import { ExecutorType } from '../types/auth.types';
-
-import { Executor } from '../../decorators/executor.decorator';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Controller('planting')
 @UseGuards(JwtAuthGuard)

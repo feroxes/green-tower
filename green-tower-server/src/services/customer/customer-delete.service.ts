@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ErrorCodes } from '@utils/constants';
 import { Repository } from 'typeorm';
 
-import { Customer } from '../../entities/customer.entity';
+import { Customer } from '@entities/customer.entity';
 
-import { CustomerComponent } from '../../components/customer.component';
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { CustomerComponent } from '@components/customer.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { CustomerDeleteDto } from '../../api/dtos/customer.dto';
+import { CustomerDeleteDto } from '@dtos/customer.dto';
 
-import { customerDeleteError } from '../../api/errors/customer.errors';
+import { customerDeleteError } from '@errors/customer.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
-
-import { ErrorCodes } from '../../utils/constants';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class CustomerDeleteService {

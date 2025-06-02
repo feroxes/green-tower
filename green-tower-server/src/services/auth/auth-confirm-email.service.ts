@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '../../entities/user.entity';
+import { User } from '@entities/user.entity';
 
-import { ConfirmEmailDto } from '../../api/dtos/auth.dto';
+import { ConfirmEmailDto } from '@dtos/auth.dto';
 
-import { confirmEmailError } from '../../api/errors/auth.errors';
+import { confirmEmailError } from '@errors/auth.errors';
 
 @Injectable()
 export class AuthConfirmEmailService {

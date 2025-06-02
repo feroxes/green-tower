@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthConstants } from '@utils/constants';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { User } from '../../entities/user.entity';
+import { User } from '@entities/user.entity';
 
-import { generateTokensErrors, refreshAccessTokenErrors } from '../../api/errors/token-service.errors';
-
-import { AuthConstants } from '../../utils/constants';
+import { generateTokensErrors, refreshAccessTokenErrors } from '@errors/token-service.errors';
 
 interface RefreshTokenPayload {
   sub: string;

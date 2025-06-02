@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Plant } from '../entities/plant.entity';
-import { Planting, PlantingState } from '../entities/planting.entity';
+import { createListMetaDto } from '@decorators/list.decorator';
 
-import { PlantingListFiltersDto, PlantingListSortersDto } from '../api/dtos/planting.dto';
+import { Plant } from '@entities/plant.entity';
+import { Planting, PlantingState } from '@entities/planting.entity';
 
-import { PlantingComponentError } from '../api/errors/planting-component.errors';
+import { PlantingListFiltersDto, PlantingListSortersDto } from '@dtos/planting.dto';
 
-import { ExecutorType } from '../api/types/auth.types';
+import { PlantingComponentError } from '@errors/planting-component.errors';
 
-import { ListMetaDto, ListResponseType } from '../api/types/dto-types';
-import { createListMetaDto } from '../decorators/list.decorator';
+import { ExecutorType } from '@app-types/auth.types';
+import { ListMetaDto, ListResponseType } from '@app-types/dto.types';
 
 @Injectable()
 export class PlantingComponent {

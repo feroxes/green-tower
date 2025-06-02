@@ -7,9 +7,9 @@ import { UserListService } from './user-list.service';
 import { UserSetRoleService } from './user-set-role.service';
 import { UserUpdateService } from './user-update.service';
 
-import { UserCreateCmdDto, UserDeleteDto, UserGetDto, UserSetRoleDto, UserUpdateDto } from '../../api/dtos/user.dto';
+import { UserCreateCmdDto, UserDeleteDto, UserGetDto, UserSetRoleDto, UserUpdateDto } from '@dtos/user.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class UserService {

@@ -1,3 +1,4 @@
+import { FarmConstants } from '@utils/constants';
 import {
   Column,
   CreateDateColumn,
@@ -15,8 +16,6 @@ import { HarvestEntry } from './harvest-entry.entity';
 import { Plant } from './plant.entity';
 import { Planting } from './planting.entity';
 import { User } from './user.entity';
-
-import { FarmConstants } from '../utils/constants';
 
 @Entity()
 export class Farm {

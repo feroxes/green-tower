@@ -1,10 +1,9 @@
 import { Type } from '@nestjs/common';
 import { ObjectLiteral, Repository } from 'typeorm';
 
-import { ExecutorType } from '../api/types/auth.types';
-import { SortDirectionType, SortOptions } from '../api/types/common.types';
-
-import { ListMetaDto, ListResponseType } from '../api/types/dto-types';
+import { ExecutorType } from '@app-types/auth.types';
+import { SortDirectionType, SortOptions } from '@app-types/common.types';
+import { ListMetaDto, ListResponseType } from '@app-types/dto.types';
 
 export interface ListOptions<T extends ObjectLiteral> {
   entity: Type<T>;

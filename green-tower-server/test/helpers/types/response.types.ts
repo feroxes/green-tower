@@ -1,4 +1,4 @@
-import { ListMetaType } from '../../../src/api/types/dto-types';
+import { ListMetaType } from '@app-types/dto.types';
 
 export type ErrorResponse = {
   errorCode: string;

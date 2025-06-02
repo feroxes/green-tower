@@ -3,8 +3,8 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Planting, PlantingState } from '../../entities/planting.entity';
-import { User } from '../../entities/user.entity';
+import { Planting, PlantingState } from '@entities/planting.entity';
+import { User } from '@entities/user.entity';
 
 @Injectable()
 export class PlantingAutoSetStateService {

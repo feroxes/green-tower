@@ -1,16 +1,16 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 
-import { AuthorizedGuard } from '../../guards/authorized.guard';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { OwnerGuard } from '../../guards/owner.guard';
+import { AuthorizedGuard } from '@guards/authorized.guard';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
+import { OwnerGuard } from '@guards/owner.guard';
 
-import { UserService } from '../../services/user/user.service';
+import { Executor } from '@decorators/executor.decorator';
 
-import { UserCreateCmdDto, UserDeleteDto, UserGetDto, UserSetRoleDto, UserUpdateDto } from '../dtos/user.dto';
+import { UserService } from '@services/user/user.service';
 
-import { ExecutorType } from '../types/auth.types';
+import { UserCreateCmdDto, UserDeleteDto, UserGetDto, UserSetRoleDto, UserUpdateDto } from '@dtos/user.dto';
 
-import { Executor } from '../../decorators/executor.decorator';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)

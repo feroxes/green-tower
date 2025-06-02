@@ -16,9 +16,9 @@ import {
   PlantingListDto,
   PlantingSetStateDto,
   PlantingUpdateDto,
-} from '../../api/dtos/planting.dto';
+} from '@dtos/planting.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantingService {

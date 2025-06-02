@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AuthConstants } from '@utils/constants';
 import * as ejs from 'ejs';
 import * as nodemailer from 'nodemailer';
 
-import { SupportedLanguages } from '../../api/types/common.types';
+import { SupportedLanguages } from '@app-types/common.types';
 
-import { AuthConstants } from '../../utils/constants';
 import { defaultParameters } from './templates/default-parameters';
 import { defaultTemplate } from './templates/default-template';
 import { registrationConfirmationTemplate } from './templates/registration-confirmation-template';
