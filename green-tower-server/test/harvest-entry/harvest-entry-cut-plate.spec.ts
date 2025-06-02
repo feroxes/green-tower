@@ -41,7 +41,7 @@ describe('HarvestEntryCutPlate', () => {
     dto = {
       ...mockDto.harvestEntryCutPlateDto,
     };
-    const harvestEntry = await testHelper.createHarvestEntry();
+    const harvestEntry = await testHelper.createHarvestPlateEntry();
     dto.harvestEntryId = harvestEntry.id;
   });
 

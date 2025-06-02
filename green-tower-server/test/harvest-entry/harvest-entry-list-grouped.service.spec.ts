@@ -45,7 +45,8 @@ describe('HarvestEntryListGroupedByPlant', () => {
     await clearDatabase(module);
     testHelper = new TestHelper(app, module);
     await testHelper.init();
-    await testHelper.createHarvestEntry();
+    await testHelper.createHarvestPlateEntry();
+    await testHelper.createHarvestCutEntry();
   });
 
   describe(UseCases.harvestEntry.listGroupedByPlant, () => {

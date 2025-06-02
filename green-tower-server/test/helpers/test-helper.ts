@@ -9,8 +9,7 @@ import { Farm } from '../../src/entities/farm.entity';
 import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
-import { UserRole } from '../../src/entities/user.entity';
-import { User } from '../../src/entities/user.entity';
+import { User, UserRole } from '../../src/entities/user.entity';
 
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
@@ -197,7 +196,7 @@ export class TestHelper {
     return planting!;
   }
 
-  async createHarvestEntry(): Promise<HarvestEntry> {
+  async createHarvestPlateEntry(): Promise<HarvestEntry> {
     const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
       ...mockDto.plantingCreateDto,
       plantId: this.getPlant.id,
@@ -208,6 +207,25 @@ export class TestHelper {
       type: PlantingType.PLATE,
       harvestGram: 200,
       amountOfPlates: mockDto.plantingCreateDto.amountOfPlates,
+    });
+
+    return (await this.harvestEntryRepository.findOne({
+      where: { planting: { id: planting.body.id } },
+      relations: ['planting', 'plant', 'farm'],
+    })) as HarvestEntry;
+  }
+
+  async createHarvestCutEntry(): Promise<HarvestEntry> {
+    const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
+      ...mockDto.plantingCreateDto,
+      plantId: this.getPlant.id,
+      type: PlantingType.CUT,
+    })) as ObjectResponseType<Planting>;
+
+    await Calls.Planting.harvest(this.app, this.getAccessToken, {
+      id: planting.body.id,
+      type: PlantingType.CUT,
+      harvestGram: 200,
     });
 
     return (await this.harvestEntryRepository.findOne({
