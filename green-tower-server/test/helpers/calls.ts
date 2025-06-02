@@ -2,15 +2,31 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Response } from 'supertest';
 
+import { Customer } from '../../src/entities/customer.entity';
 import { Farm } from '../../src/entities/farm.entity';
+import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { HarvestGroup } from '../../src/services/harvest-entry/harvest-entry-list-grouped.service';
+
+import {
+  CustomerCreateDto,
+  CustomerDeleteDto,
+  CustomerListDto,
+  CustomerUpdateDto,
+} from '../../src/api/dtos/customer.dto';
+import {
+  HarvestEntryCreateCutDto,
+  HarvestEntryCreatePlateDto,
+  HarvestEntryCutPlateDto,
+} from '../../src/api/dtos/harvest-entry.dto';
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import {
   PlantingDeleteDto,
   PlantingGetDto,
+  PlantingHarvestDto,
   PlantingListDto,
   PlantingSetStateDto,
   PlantingUpdateDto,
@@ -196,12 +212,78 @@ export const Calls = {
     ): Promise<ListResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.planting.list, body, accessToken);
     },
-    setState: async (
+    async setState(
       app: INestApplication,
       accessToken: string,
       body: PlantingSetStateDto,
-    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> => {
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.post(app, UseCases.planting.setState, body, accessToken);
+    },
+    async harvest(
+      app: INestApplication,
+      accessToken: string,
+      body: PlantingHarvestDto,
+    ): Promise<ObjectResponseType<Planting> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.planting.harvest, body, accessToken);
+    },
+  },
+  HarvestEntry: {
+    async createCut(
+      app: INestApplication,
+      accessToken: string,
+      body: HarvestEntryCreateCutDto,
+    ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.harvestEntry.createCut, body, accessToken);
+    },
+    async createPlate(
+      app: INestApplication,
+      accessToken: string,
+      body: HarvestEntryCreatePlateDto,
+    ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.harvestEntry.createPlate, body, accessToken);
+    },
+    async cutPlate(
+      app: INestApplication,
+      accessToken: string,
+      body: HarvestEntryCutPlateDto,
+    ): Promise<ObjectResponseType<HarvestEntry> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.harvestEntry.cutPlate, body, accessToken);
+    },
+    async listGroupedByPlant(
+      app: INestApplication,
+      accessToken: string,
+    ): Promise<ListResponseType<HarvestGroup> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.harvestEntry.listGroupedByPlant, {}, accessToken);
+    },
+  },
+  Customer: {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerCreateDto = mockDto.customerCreateDto,
+    ): Promise<ObjectResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.customer.create, body, accessToken);
+    },
+    async update(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerUpdateDto = mockDto.customerUpdateDto,
+    ): Promise<ObjectResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.customer.update, body, accessToken);
+    },
+    async delete(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerDeleteDto,
+    ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.customer.delete, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerListDto,
+    ): Promise<ListResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.customer.list, body, accessToken);
     },
   },
 };

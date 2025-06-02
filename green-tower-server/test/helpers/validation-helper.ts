@@ -1,8 +1,16 @@
+import { Customer } from '../../src/entities/customer.entity';
 import { Farm } from '../../src/entities/farm.entity';
+import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
-import { Planting, PlantingState, PlantingType } from '../../src/entities/planting.entity';
+import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
+import {
+  HarvestEntryCreateCutDto,
+  HarvestEntryCreatePlateDto,
+  HarvestEntryCutPlateDto,
+} from '../../src/api/dtos/harvest-entry.dto';
 import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
@@ -10,6 +18,7 @@ import { mockDto } from '../mock/mock.dtos';
 import { ErrorResponse, GuardError } from './types/response.types';
 
 import { ListResponseType } from '../../src/api/types/dto-types';
+import { PlantingType } from '../../src/entities/enums/planting-type.enum';
 
 export function validateError(error: ErrorResponse, expectedError: ErrorResponse) {
   expect(error.errorCode).toEqual(expectedError.errorCode);
@@ -161,6 +170,52 @@ export const ValidationHelper = {
       }
       if (planting.state === PlantingState.DEAD) {
         expect(planting.deadTs).toBeDefined();
+      }
+    },
+  },
+  harvestEntry: {
+    validateHarvestEntryCreation(
+      harvestEntry: HarvestEntry,
+      dto: HarvestEntryCreateCutDto | HarvestEntryCreatePlateDto,
+    ) {
+      expect(harvestEntry).toBeDefined();
+      expect(harvestEntry).not.toBeNull();
+      expect(harvestEntry.harvestGram).toBe(dto.harvestGram);
+      expect(harvestEntry.plant).toBeDefined();
+      if (dto.plantingId) {
+        expect(harvestEntry.planting).toBeDefined();
+        expect(harvestEntry.isManualCreate).toBe(false);
+      } else {
+        expect(harvestEntry.isManualCreate).toBe(true);
+      }
+    },
+    validateHarvestEntryCutPlate(harvestEntry: HarvestEntry, dto: HarvestEntryCutPlateDto) {
+      expect(harvestEntry).toBeDefined();
+      expect(harvestEntry).not.toBeNull();
+      expect(harvestEntry.harvestGram).toBe(dto.amountOfGrams);
+      expect(harvestEntry.plant).toBeDefined();
+      expect(harvestEntry.planting).toBeDefined();
+      expect(harvestEntry.isManualCreate).toBe(false);
+    },
+  },
+  customer: {
+    validateCustomerCreation(customer: Customer, mockCustomerCreateDto = mockDto.customerCreateDto) {
+      expect(customer).toBeDefined();
+      expect(customer.createdBy).toBeDefined();
+      expect(customer.farm).toBeDefined();
+      expect(customer.isDeleted).toBe(false);
+      for (const key in mockCustomerCreateDto) {
+        expect(customer[key]).toBe(mockCustomerCreateDto[key]);
+      }
+    },
+
+    validateCustomerUpdate(customer: Customer, mockCustomerUpdateDto: CustomerUpdateDto) {
+      expect(customer).toBeDefined();
+      expect(customer.createdBy).toBeDefined();
+      expect(customer.farm).toBeDefined();
+      expect(customer.isDeleted).toBe(false);
+      for (const key in mockCustomerUpdateDto) {
+        expect(customer[key]).toBe(mockCustomerUpdateDto[key]);
       }
     },
   },

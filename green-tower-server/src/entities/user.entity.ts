@@ -11,6 +11,7 @@ import {
   VersionColumn,
 } from 'typeorm';
 
+import { Customer } from './customer.entity';
 import { Farm } from './farm.entity';
 import { Plant } from './plant.entity';
 import { Planting } from './planting.entity';
@@ -72,6 +73,9 @@ export class User {
 
   @OneToMany(() => Planting, (planting) => planting.createdBy)
   plantings: Planting[];
+
+  @OneToMany(() => Customer, (customer) => customer.createdBy)
+  customers: Customer[];
 
   @Exclude()
   @Column({ default: false })

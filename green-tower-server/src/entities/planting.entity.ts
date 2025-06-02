@@ -6,14 +6,18 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
+import { HarvestEntry } from './harvest-entry.entity';
 import { Plant } from './plant.entity';
 import { User } from './user.entity';
+
+import { PlantingType } from './enums/planting-type.enum';
 
 export enum PlantingState {
   GROWING = 'growing',
@@ -23,11 +27,6 @@ export enum PlantingState {
 }
 
 export const PlantingFinalStates = [PlantingState.HARVESTED, PlantingState.DEAD] as PlantingState[];
-
-export enum PlantingType {
-  CUT = 'cut',
-  PLATE = 'plate',
-}
 
 @Entity()
 @Index('IDX_PLANTING_CREATED_AT', ['createdAt'])
@@ -69,8 +68,8 @@ export class Planting {
   @JoinColumn({ name: 'plantId' })
   plant: Plant;
 
-  @VersionColumn()
-  version: number;
+  @OneToMany(() => HarvestEntry, (harvestEntry: HarvestEntry) => harvestEntry.planting)
+  harvestEntries: HarvestEntry[];
 
   @Column({ type: 'timestamptz' })
   expectedHarvestTs: Date;
@@ -91,6 +90,13 @@ export class Planting {
 
   @Column({ nullable: true, type: 'timestamptz' })
   deadTs?: Date;
+
+  @Exclude()
+  @Column({ default: false })
+  isDeleted: boolean;
+
+  @VersionColumn()
+  version: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

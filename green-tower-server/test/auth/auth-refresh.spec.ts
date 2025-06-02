@@ -2,9 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { EmptyResponseType } from '../helpers/types/response.types';
-
-import { Calls } from '../helpers/calls';
 import { UseCases } from '../helpers/constants';
 import { TestHelper } from '../helpers/test-helper';
 import { clearDatabase, closeDatabaseConnection, init } from '../test.config';

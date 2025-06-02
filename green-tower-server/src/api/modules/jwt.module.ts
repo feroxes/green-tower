@@ -16,4 +16,4 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   exports: [JwtModule],
 })
-export class JwtGlobalModule {} 
+export class JwtGlobalModule {}

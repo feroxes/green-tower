@@ -32,5 +32,18 @@ export const UseCases = {
     delete: '/planting/delete',
     list: '/planting/list',
     setState: '/planting/setState',
+    harvest: '/planting/harvest',
+  },
+  harvestEntry: {
+    createCut: '/harvestEntry/createCut',
+    createPlate: '/harvestEntry/createPlate',
+    cutPlate: '/harvestEntry/cutPlate',
+    listGroupedByPlant: '/harvestEntry/listGroupedByPlant',
+  },
+  customer: {
+    create: '/customer/create',
+    update: '/customer/update',
+    delete: '/customer/delete',
+    list: '/customer/list',
   },
 } as const;

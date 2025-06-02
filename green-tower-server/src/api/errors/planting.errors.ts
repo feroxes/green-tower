@@ -61,7 +61,40 @@ class PlantingSetStateError extends BaseError {
   );
 }
 
+class PlantingHarvestError extends BaseError {
+  constructor() {
+    super('planting/harvest/');
+  }
+  readonly PlantingIsInFinalState = this.createError(
+    ConflictException,
+    'plantingIsInFinalState',
+    'Planting is in final state.',
+  );
+  readonly InvalidPlantingType = this.createError(ConflictException, 'invalidPlantingType', 'Invalid planting type.');
+  readonly InvalidAmountOfPlatesValue = this.createError(
+    ConflictException,
+    'invalidAmountOfPlatesValue',
+    'Invalid amount of plates value.',
+  );
+  readonly InvalidAmountOfDeadPlatesValue = this.createError(
+    ConflictException,
+    'invalidAmountOfDeadPlatesValue',
+    'Invalid amount of dead plates value.',
+  );
+  readonly FailedToSetPlantingState = this.createError(
+    InternalServerErrorException,
+    'failedToSetPlantingState',
+    'Failed to set planting state.',
+  );
+  readonly FailedToCreateHarvestEntry = this.createError(
+    InternalServerErrorException,
+    'failedToCreateHarvestEntry',
+    'Failed to create harvest entry.',
+  );
+}
+
 export const plantingCreateError = new PlantingCreateError();
 export const plantingUpdateError = new PlantingUpdateError();
 export const plantingDeleteError = new PlantingDeleteError();
 export const plantingSetStateError = new PlantingSetStateError();
+export const plantingHarvestError = new PlantingHarvestError();

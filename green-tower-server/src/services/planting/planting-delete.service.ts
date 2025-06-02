@@ -14,6 +14,8 @@ import { plantingDeleteError } from '../../api/errors/planting.errors';
 
 import { ExecutorType } from '../../api/types/auth.types';
 
+import { ErrorCodes } from '../../utils/constants';
+
 @Injectable()
 export class PlantingDeleteService {
   constructor(
@@ -29,7 +31,7 @@ export class PlantingDeleteService {
 
     await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
     await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
-    await this.plantingComponent.checkPlantingExistence(
+    const planting = await this.plantingComponent.checkPlantingExistence(
       { id: plantingDeleteDto.id, farm: { id: executor.farmId } },
       useCase,
     );
@@ -37,7 +39,12 @@ export class PlantingDeleteService {
     try {
       await this.plantingRepository.delete(plantingDeleteDto.id);
     } catch (e: unknown) {
-      throw plantingDeleteError.FailedToDeletePlanting({ e });
+      if (e instanceof Error && 'code' in e) {
+        const error = e as { code: string; message: string };
+        if (error.code === ErrorCodes.DB.foreignKeyViolation) {
+          await this.plantingRepository.save({ ...planting, isDeleted: true });
+        }
+      } else throw plantingDeleteError.FailedToDeletePlanting({ e });
     }
   }
 }

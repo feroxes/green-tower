@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsEnum,
+  IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -13,10 +14,11 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { Planting, PlantingState, PlantingType } from '../../entities/planting.entity';
+import { Planting, PlantingState } from '../../entities/planting.entity';
 
 import { SortDirectionType } from '../types/common.types';
 
+import { PlantingType } from '../../entities/enums/planting-type.enum';
 import { ListMetaDto } from '../types/dto-types';
 
 export class PlantingCreateDto {
@@ -123,7 +125,40 @@ export class PlantingSetStateDto {
   @IsNotEmpty()
   id: string;
 
-  @IsEnum(PlantingState)
+  @IsIn([PlantingState.GROWING, PlantingState.READY, PlantingState.DEAD])
   @IsNotEmpty()
   state: PlantingState;
+}
+
+export class PlantingHarvestDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @IsEnum(PlantingType)
+  @IsNotEmpty()
+  type: PlantingType;
+
+  @IsNumber()
+  @Min(0)
+  @IsNotEmpty()
+  harvestGram: number;
+
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.CUT)
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  harvestDeadGram?: number;
+
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  amountOfPlates?: number;
+
+  @ValidateIf((obj: Planting) => obj.type === PlantingType.PLATE)
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  amountOfDeadPlates?: number;
 }

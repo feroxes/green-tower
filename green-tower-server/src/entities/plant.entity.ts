@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
+import { HarvestEntry } from './harvest-entry.entity';
 import { Planting } from './planting.entity';
 import { User } from './user.entity';
 
@@ -108,6 +109,9 @@ export class Plant {
 
   @OneToMany(() => Planting, (planting) => planting.plant)
   plantings: Planting[];
+
+  @OneToMany(() => HarvestEntry, (harvestEntry) => harvestEntry.plant)
+  harvestEntries: HarvestEntry[];
 
   @Exclude()
   @Column({ default: false })

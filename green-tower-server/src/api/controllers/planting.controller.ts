@@ -9,6 +9,7 @@ import {
   PlantingCreateDto,
   PlantingDeleteDto,
   PlantingGetDto,
+  PlantingHarvestDto,
   PlantingListDto,
   PlantingSetStateDto,
   PlantingUpdateDto,
@@ -57,5 +58,11 @@ export class PlantingController {
   @UseGuards(AuthorizedGuard)
   async setState(@Body() plantingSetStateDto: PlantingSetStateDto, @Executor() executor: ExecutorType) {
     return this.plantingService.setState(plantingSetStateDto, executor);
+  }
+
+  @Post('/harvest')
+  @UseGuards(AuthorizedGuard)
+  async harvest(@Body() plantingHarvestDto: PlantingHarvestDto, @Executor() executor: ExecutorType) {
+    return this.plantingService.harvest(plantingHarvestDto, executor);
   }
 }

@@ -49,15 +49,6 @@ describe('PlantingSetState', () => {
       ValidationHelper.planting.validatePlantingState(res.body, dto.state);
     });
 
-    it(`${UseCases.planting.setState} - HDS - harvested`, async () => {
-      const state = PlantingState.HARVESTED;
-      const res = (await Calls.Planting.setState(app, testHelper.getAccessToken, {
-        ...dto,
-        state,
-      })) as ObjectResponseType<Planting>;
-      ValidationHelper.planting.validatePlantingState(res.body, state);
-    });
-
     it(`${UseCases.planting.setState} - HDS - dead`, async () => {
       const state = PlantingState.DEAD;
       const res = (await Calls.Planting.setState(app, testHelper.getAccessToken, {

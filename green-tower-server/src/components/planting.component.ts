@@ -5,12 +5,7 @@ import { Repository } from 'typeorm';
 import { Plant } from '../entities/plant.entity';
 import { Planting, PlantingState } from '../entities/planting.entity';
 
-import {
-  PlantingCreateDto,
-  PlantingListFiltersDto,
-  PlantingListSortersDto,
-  PlantingUpdateDto,
-} from '../api/dtos/planting.dto';
+import { PlantingListFiltersDto, PlantingListSortersDto } from '../api/dtos/planting.dto';
 
 import { PlantingComponentError } from '../api/errors/planting-component.errors';
 
@@ -39,7 +34,7 @@ export class PlantingComponent {
   ): Promise<Planting> {
     const Errors = new PlantingComponentError(errorCode);
     const planting = await this.plantingRepository.findOne({
-      where: filter,
+      where: { ...filter, isDeleted: false },
       relations: ['farm', 'createdBy', 'plant'],
       ...(params && { ...params }),
     });
