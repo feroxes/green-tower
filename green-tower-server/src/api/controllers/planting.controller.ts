@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 
 import { AuthorizedGuard } from '../../guards/authorized.guard';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
@@ -43,6 +43,7 @@ export class PlantingController {
   }
 
   @Post('delete')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthorizedGuard)
   async delete(@Body() plantingDeleteDto: PlantingDeleteDto, @Executor() executor: ExecutorType) {
     return this.plantingService.delete(plantingDeleteDto, executor);
