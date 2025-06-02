@@ -6,7 +6,7 @@ import { Customer } from '../../entities/customer.entity';
 
 import { CustomerService } from '../../services/customer/customer.service';
 
-import { CustomerCreateDto } from '../dtos/customer.dto';
+import { CustomerCreateDto, CustomerUpdateDto } from '../dtos/customer.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -18,7 +18,13 @@ export class CustomerController {
 
   @Post('create')
   @UseGuards(AuthorizedGuard)
-  async create(@Body() dto: CustomerCreateDto, @Executor() executor: ExecutorType): Promise<Customer> {
-    return this.customerService.create(dto, executor);
+  async create(@Body() customerCreateDto: CustomerCreateDto, @Executor() executor: ExecutorType): Promise<Customer> {
+    return this.customerService.create(customerCreateDto, executor);
+  }
+
+  @Post('update')
+  @UseGuards(AuthorizedGuard)
+  async update(@Body() customerUpdateDto: CustomerUpdateDto, @Executor() executor: ExecutorType): Promise<Customer> {
+    return this.customerService.update(customerUpdateDto, executor);
   }
 }

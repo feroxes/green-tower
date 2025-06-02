@@ -9,6 +9,8 @@ import { UserComponent } from '../../components/user.component';
 
 import { CustomerCreateDto } from '../../api/dtos/customer.dto';
 
+import { customerCreateError } from '../../api/errors/customer.errors';
+
 import { ExecutorType } from '../../api/types/auth.types';
 
 @Injectable()
@@ -20,16 +22,24 @@ export class CustomerCreateService {
     private readonly farmComponent: FarmComponent,
   ) {}
 
-  async create(dto: CustomerCreateDto, executor: ExecutorType): Promise<Customer> {
-    const user = await this.userComponent.checkUserExistence(executor.id, executor.farmId, 'CUSTOMER_CREATE');
-    const farm = await this.farmComponent.checkFarmExistence(executor.farmId, 'CUSTOMER_CREATE');
+  async create(customerCreateDto: CustomerCreateDto, executor: ExecutorType): Promise<Customer> {
+    const useCase = 'customer/create/';
+    const user = await this.userComponent.checkUserExistence(executor.id, executor.farmId, useCase);
+    const farm = await this.farmComponent.checkFarmExistence(executor.farmId, useCase);
 
-    const customer = this.customerRepository.create({
-      ...dto,
+    const dto = {
+      ...customerCreateDto,
       createdBy: user,
       farm,
-    });
+    };
 
-    return this.customerRepository.save(customer);
+    let customer = this.customerRepository.create(dto);
+
+    try {
+      customer = await this.customerRepository.save(customer);
+    } catch (e: unknown) {
+      throw customerCreateError.FailedToCreateCustomer({ e });
+    }
+    return customer;
   }
 }

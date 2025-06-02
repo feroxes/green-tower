@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, MaxLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsUUID, MaxLength } from 'class-validator';
 
 export class CustomerCreateDto {
   @IsString()
@@ -28,5 +28,35 @@ export class CustomerCreateDto {
   @IsString()
   @IsOptional()
   @MaxLength(2024)
+  notes?: string;
+}
+
+export class CustomerUpdateDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @IsString()
+  @IsOptional()
+  contactName?: string;
+
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @IsString()
+  @IsOptional()
+  email?: string;
+
+  @IsString()
+  @IsOptional()
+  address?: string;
+
+  @IsString()
+  @IsOptional()
   notes?: string;
 }
