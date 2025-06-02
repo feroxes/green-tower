@@ -20,7 +20,7 @@ export class CustomerComponent {
   ): Promise<Customer> {
     const Errors = new CustomerComponentError(errorCode);
     const customer = await this.customerRepository.findOne({
-      where: { ...filter },
+      where: { ...filter, isDeleted: false },
       relations: ['farm', 'createdBy'],
       ...(params && { ...params }),
     });

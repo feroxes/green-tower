@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -6,6 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
@@ -41,6 +43,13 @@ export class Customer {
   @ManyToOne(() => User, (user) => user.customers)
   @JoinColumn({ name: 'createdBy' })
   createdBy: User;
+
+  @Exclude()
+  @Column({ default: false })
+  isDeleted: boolean;
+
+  @VersionColumn()
+  version: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
