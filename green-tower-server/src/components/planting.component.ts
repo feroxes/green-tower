@@ -35,7 +35,7 @@ export class PlantingComponent {
     const Errors = new PlantingComponentError(errorCode);
     const planting = await this.plantingRepository.findOne({
       where: { ...filter, isDeleted: false },
-      relations: ['farm', 'createdBy', 'plant', 'harvestEntries'],
+      relations: ['farm', 'createdBy', 'plant'],
       ...(params && { ...params }),
     });
 
