@@ -60,3 +60,9 @@ export class CustomerUpdateDto {
   @IsOptional()
   notes?: string;
 }
+
+export class CustomerDeleteDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+}

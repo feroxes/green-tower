@@ -24,5 +24,17 @@ class CustomerUpdateError extends BaseError {
   );
 }
 
+class CustomerDeleteError extends BaseError {
+  constructor() {
+    super('customer/delete/');
+  }
+  readonly FailedToDeleteCustomer = this.createError(
+    InternalServerErrorException,
+    'failedToDeleteCustomer',
+    'Failed to delete a Customer',
+  );
+}
+
 export const customerCreateError = new CustomerCreateError();
 export const customerUpdateError = new CustomerUpdateError();
+export const customerDeleteError = new CustomerDeleteError();

@@ -11,6 +11,7 @@ import { CustomerController } from '../controllers/customer.controller';
 
 import { CustomerService } from '../../services/customer/customer.service';
 import { CustomerCreateService } from '../../services/customer/customer-create.service';
+import { CustomerDeleteService } from '../../services/customer/customer-delete.service';
 import { CustomerUpdateService } from '../../services/customer/customer-update.service';
 import { TokenService } from '../../services/token/token.service';
 
@@ -25,6 +26,7 @@ import { UserComponent } from '../../components/user.component';
     CustomerService,
     CustomerCreateService,
     CustomerUpdateService,
+    CustomerDeleteService,
     CustomerComponent,
     UserComponent,
     FarmComponent,

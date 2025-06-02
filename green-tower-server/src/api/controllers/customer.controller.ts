@@ -2,12 +2,13 @@ import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 
 import { AuthorizedGuard } from '../../guards/authorized.guard';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
+import { OwnerOrAdminGuard } from '../../guards/owner-or-admin.guard';
 
 import { Customer } from '../../entities/customer.entity';
 
 import { CustomerService } from '../../services/customer/customer.service';
 
-import { CustomerCreateDto, CustomerUpdateDto } from '../dtos/customer.dto';
+import { CustomerCreateDto, CustomerDeleteDto, CustomerUpdateDto } from '../dtos/customer.dto';
 
 import { ExecutorType } from '../types/auth.types';
 
@@ -28,5 +29,11 @@ export class CustomerController {
   @UseGuards(AuthorizedGuard)
   async update(@Body() customerUpdateDto: CustomerUpdateDto, @Executor() executor: ExecutorType): Promise<Customer> {
     return this.customerService.update(customerUpdateDto, executor);
+  }
+
+  @Post('delete')
+  @UseGuards(OwnerOrAdminGuard)
+  async delete(@Body() customerDeleteDto: CustomerDeleteDto, @Executor() executor: ExecutorType): Promise<void> {
+    return this.customerService.delete(customerDeleteDto, executor);
   }
 }
