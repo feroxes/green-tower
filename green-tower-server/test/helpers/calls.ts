@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Response } from 'supertest';
 
+import { Customer } from '../../src/entities/customer.entity';
 import { Farm } from '../../src/entities/farm.entity';
 import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
@@ -10,6 +11,7 @@ import { User, UserRole } from '../../src/entities/user.entity';
 
 import { HarvestGroup } from '../../src/services/harvest-entry/harvest-entry-list-grouped.service';
 
+import { CustomerCreateDto, CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
 import {
   HarvestEntryCreateCutDto,
   HarvestEntryCreatePlateDto,
@@ -247,6 +249,22 @@ export const Calls = {
       accessToken: string,
     ): Promise<ListResponseType<HarvestGroup> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.harvestEntry.listGroupedByPlant, {}, accessToken);
+    },
+  },
+  Customer: {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerCreateDto = mockDto.customerCreateDto,
+    ): Promise<ObjectResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.customer.create, body, accessToken);
+    },
+    async update(
+      app: INestApplication,
+      accessToken: string,
+      body: CustomerUpdateDto = mockDto.customerUpdateDto,
+    ): Promise<ObjectResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.customer.update, body, accessToken);
     },
   },
 };

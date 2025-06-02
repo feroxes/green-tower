@@ -5,6 +5,7 @@ import { TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Customer } from '../../src/entities/customer.entity';
 import { Farm } from '../../src/entities/farm.entity';
 import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
@@ -39,6 +40,8 @@ export class TestHelper {
   plantingRepository: Repository<Planting>;
   harvestEntry: HarvestEntry;
   harvestEntryRepository: Repository<HarvestEntry>;
+  customer: Customer;
+  customerRepository: Repository<Customer>;
   private jwtService: JwtService;
 
   constructor(
@@ -59,6 +62,7 @@ export class TestHelper {
     this.plantRepository = this.module.get<Repository<Plant>>(getRepositoryToken(Plant));
     this.plantingRepository = this.module.get<Repository<Planting>>(getRepositoryToken(Planting));
     this.harvestEntryRepository = this.module.get<Repository<HarvestEntry>>(getRepositoryToken(HarvestEntry));
+    this.customerRepository = this.module.get<Repository<Customer>>(getRepositoryToken(Customer));
     await Calls.Auth.signUp(this.app);
 
     const ownerDataObject = await this.userRepository.findOne({ where: { email: mockDto.authRegisterDto.email } });
@@ -78,6 +82,8 @@ export class TestHelper {
     }
 
     const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
+
+    const customer = (await Calls.Customer.create(this.app, this.accessToken)) as ObjectResponseType<Customer>;
 
     const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
       ...mockDto.plantingCreateDto,
@@ -100,6 +106,8 @@ export class TestHelper {
     })) as Plant;
 
     this.planting = (await this.plantingRepository.findOne({ where: { id: planting.body.id } })) as Planting;
+
+    this.customer = (await this.customerRepository.findOne({ where: { id: customer.body.id } })) as Customer;
   }
 
   async createUser(
@@ -136,6 +144,10 @@ export class TestHelper {
 
   get getPlanting(): Planting {
     return this.planting;
+  }
+
+  get getCustomer(): Customer {
+    return this.customer;
   }
 
   get getAccessToken(): string {

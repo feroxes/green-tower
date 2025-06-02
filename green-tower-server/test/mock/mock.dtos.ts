@@ -91,4 +91,20 @@ export const mockDto = {
     amountOfPlates: 10,
     amountOfGrams: 200,
   },
+  customerCreateDto: {
+    name: 'Silo',
+    contactName: 'Vadym',
+    phone: '+380931231231',
+    email: 'some@gmail.com',
+    address: 'street and number',
+  },
+  customerUpdateDto: {
+    id: '',
+    name: 'Silo 2',
+    contactName: 'Yarik',
+    phone: '+380931239999',
+    email: 'some-thinkgs@gmail.com',
+    address: 'street 2',
+    motes: 'Some notes',
+  },
 };

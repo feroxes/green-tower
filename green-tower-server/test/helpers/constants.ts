@@ -40,4 +40,8 @@ export const UseCases = {
     cutPlate: '/harvestEntry/cutPlate',
     listGroupedByPlant: '/harvestEntry/listGroupedByPlant',
   },
+  customer: {
+    create: '/customer/create',
+    update: '/customer/update',
+  },
 } as const;

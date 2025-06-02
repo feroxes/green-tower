@@ -1,9 +1,11 @@
+import { Customer } from '../../src/entities/customer.entity';
 import { Farm } from '../../src/entities/farm.entity';
 import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 
+import { CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
 import {
   HarvestEntryCreateCutDto,
   HarvestEntryCreatePlateDto,
@@ -194,6 +196,27 @@ export const ValidationHelper = {
       expect(harvestEntry.plant).toBeDefined();
       expect(harvestEntry.planting).toBeDefined();
       expect(harvestEntry.isManualCreate).toBe(false);
+    },
+  },
+  customer: {
+    validateCustomerCreation(customer: Customer, mockCustomerCreateDto = mockDto.customerCreateDto) {
+      expect(customer).toBeDefined();
+      expect(customer.createdBy).toBeDefined();
+      expect(customer.farm).toBeDefined();
+      expect(customer.isDeleted).toBe(false);
+      for (const key in mockCustomerCreateDto) {
+        expect(customer[key]).toBe(mockCustomerCreateDto[key]);
+      }
+    },
+
+    validateCustomerUpdate(customer: Customer, mockCustomerUpdateDto: CustomerUpdateDto) {
+      expect(customer).toBeDefined();
+      expect(customer.createdBy).toBeDefined();
+      expect(customer.farm).toBeDefined();
+      expect(customer.isDeleted).toBe(false);
+      for (const key in mockCustomerUpdateDto) {
+        expect(customer[key]).toBe(mockCustomerUpdateDto[key]);
+      }
     },
   },
 };

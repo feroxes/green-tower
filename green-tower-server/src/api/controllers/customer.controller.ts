@@ -1,6 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 
 import { AuthorizedGuard } from '../../guards/authorized.guard';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 import { Customer } from '../../entities/customer.entity';
 
@@ -13,6 +14,7 @@ import { ExecutorType } from '../types/auth.types';
 import { Executor } from '../../decorators/executor.decorator';
 
 @Controller('customer')
+@UseGuards(JwtAuthGuard)
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
