@@ -1,3 +1,4 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -46,6 +47,11 @@ export class PlantingCreateService {
       expectedHarvestTs: this.plantingComponent.getExpectedHarvestTs(plant),
       expectedHarvestGrams: parseFloat(expectedHarvestGrams.toFixed(6)),
     };
+
+    if (_plantingCreateDto.type === PlantingType.CUT) {
+      // @ts-ignore not needed here
+      delete _plantingCreateDto.amountOfPlates;
+    }
 
     let planting = this.plantingRepository.create(_plantingCreateDto);
     try {
