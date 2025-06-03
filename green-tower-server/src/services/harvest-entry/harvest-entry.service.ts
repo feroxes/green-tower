@@ -5,13 +5,9 @@ import { HarvestEntryCreatePlateService } from './harvest-entry-create-plate.ser
 import { HarvestEntryCutPlateService } from './harvest-entry-cut-plate.service';
 import { HarvestEntryListGroupedService } from './harvest-entry-list-grouped.service';
 
-import {
-  HarvestEntryCreateCutDto,
-  HarvestEntryCreatePlateDto,
-  HarvestEntryCutPlateDto,
-} from '../../api/dtos/harvest-entry.dto';
+import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto, HarvestEntryCutPlateDto } from '@dtos/harvest-entry.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class HarvestEntryService {

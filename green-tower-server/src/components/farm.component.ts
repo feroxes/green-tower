@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Farm } from '../entities/farm.entity';
+import { Farm } from '@entities/farm.entity';
 
-import { FarmGetComponentError } from '../api/errors/farm-component.errors';
+import { FarmGetComponentError } from '@errors/farm-component.errors';
 
 @Injectable()
 export class FarmComponent {

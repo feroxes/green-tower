@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
-import { SupportedLanguages } from '../types/common.types';
+import { SupportedLanguages } from '@app-types/common.types';
 
 export class RegisterDto {
   @IsString()

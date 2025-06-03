@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
-import { Farm } from '../../entities/farm.entity';
+import { Farm } from '@entities/farm.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { FarmGetDto } from '../../api/dtos/farm.dto';
+import { FarmGetDto } from '@dtos/farm.dto';
 
-import { getError } from '../../api/errors/farm.errors';
+import { getError } from '@errors/farm.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class FarmGetService {

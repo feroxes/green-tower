@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { User, UserRole } from '../../entities/user.entity';
+import { User, UserRole } from '@entities/user.entity';
 
-import { UserComponent } from '../../components/user.component';
+import { UserComponent } from '@components/user.component';
 
-import { UserGetDto } from '../../api/dtos/user.dto';
+import { UserGetDto } from '@dtos/user.dto';
 
-import { userGetError } from '../../api/errors/user.errors';
+import { userGetError } from '@errors/user.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class UserGetService {

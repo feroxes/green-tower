@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User, UserRole } from '../../entities/user.entity';
+import { User, UserRole } from '@entities/user.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { UserUpdateDto } from '../../api/dtos/user.dto';
+import { UserUpdateDto } from '@dtos/user.dto';
 
-import { userUpdateError } from '../../api/errors/user.errors';
+import { userUpdateError } from '@errors/user.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class UserUpdateService {

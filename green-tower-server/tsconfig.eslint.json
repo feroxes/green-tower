@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
   "compilerOptions": {
+    "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
       "@entities/*": ["src/entities/*"],
@@ -13,5 +13,6 @@
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts"]
 }

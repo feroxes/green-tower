@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
-import { User } from '../../entities/user.entity';
+import { User } from '@entities/user.entity';
 
-import { TokenService } from '../token/token.service';
+import { TokenService } from '@services/token/token.service';
 
-import { AuthResponseDto, LoginDto } from '../../api/dtos/auth.dto';
+import { AuthResponseDto, LoginDto } from '@dtos/auth.dto';
 
-import { loginError } from '../../api/errors/auth.errors';
+import { loginError } from '@errors/auth.errors';
 
 @Injectable()
 export class AuthLoginService {

@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Planting, PlantingState } from '../../entities/planting.entity';
+import { Planting, PlantingState } from '@entities/planting.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { PlantComponent } from '../../components/plant.component';
-import { PlantingComponent } from '../../components/planting.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { PlantComponent } from '@components/plant.component';
+import { PlantingComponent } from '@components/planting.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantingUpdateDto } from '../../api/dtos/planting.dto';
+import { PlantingUpdateDto } from '@dtos/planting.dto';
 
-import { plantingUpdateError } from '../../api/errors/planting.errors';
+import { plantingUpdateError } from '@errors/planting.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantingUpdateService {

@@ -1,15 +1,15 @@
 import { Body, Controller, Get, UseGuards } from '@nestjs/common';
 
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { OwnerGuard } from '../../guards/owner.guard';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
+import { OwnerGuard } from '@guards/owner.guard';
 
-import { FarmService } from '../../services/farm/farm.service';
+import { Executor } from '@decorators/executor.decorator';
 
-import { FarmGetDto } from '../dtos/farm.dto';
+import { FarmService } from '@services/farm/farm.service';
 
-import { ExecutorType } from '../types/auth.types';
+import { FarmGetDto } from '@dtos/farm.dto';
 
-import { Executor } from '../../decorators/executor.decorator';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Controller('farm')
 @UseGuards(JwtAuthGuard)

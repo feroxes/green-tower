@@ -1,8 +1,8 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
-import { UserRole } from '../../entities/user.entity';
+import { UserRole } from '@entities/user.entity';
 
-import { SupportedLanguages } from '../types/common.types';
+import { SupportedLanguages } from '@app-types/common.types';
 
 export class UserCreateDto {
   @IsString()

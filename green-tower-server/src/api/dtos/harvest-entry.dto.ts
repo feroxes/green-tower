@@ -1,6 +1,6 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsUUID, Min, ValidateIf } from 'class-validator';
 
-import { HarvestEntryState } from '../../entities/harvest-entry.entity';
+import { HarvestEntryState } from '@entities/harvest-entry.entity';
 
 export class HarvestEntryCreateCutDto {
   @IsNumber()

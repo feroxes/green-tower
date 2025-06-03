@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthConstants } from '@utils/constants';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
-import { Farm } from '../entities/farm.entity';
-import { User } from '../entities/user.entity';
+import { List } from '@decorators/list.decorator';
 
-import { TokenService } from '../services/token/token.service';
+import { Farm } from '@entities/farm.entity';
+import { User } from '@entities/user.entity';
 
-import { UserCreateDto } from '../api/dtos/user.dto';
+import { TokenService } from '@services/token/token.service';
 
-import { UserCheckExistenceComponentError, UserCreateComponentError } from '../api/errors/user-component.errors';
+import { UserCreateDto } from '@dtos/user.dto';
 
-import { ExecutorType } from '../api/types/auth.types';
-import { SortDirectionType } from '../api/types/common.types';
+import { UserCheckExistenceComponentError, UserCreateComponentError } from '@errors/user-component.errors';
 
-import { ListMetaDto, ListResponseType } from '../api/types/dto-types';
-import { List } from '../decorators/list.decorator';
-import { AuthConstants } from '../utils/constants';
+import { ExecutorType } from '@app-types/auth.types';
+import { SortDirectionType } from '@app-types/common.types';
+import { ListMetaDto, ListResponseType } from '@app-types/dto.types';
 
 @Injectable()
 export class UserComponent {

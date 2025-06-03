@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
-import { Customer } from '../../entities/customer.entity';
+import { Customer } from '@entities/customer.entity';
 
-import { CustomerComponent } from '../../components/customer.component';
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { CustomerComponent } from '@components/customer.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { CustomerListDto } from '../../api/dtos/customer.dto';
+import { CustomerListDto } from '@dtos/customer.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
-
-import { ListResponseType } from '../../api/types/dto-types';
+import { ExecutorType } from '@app-types/auth.types';
+import { ListResponseType } from '@app-types/dto.types';
 
 @Injectable()
 export class CustomerListService {

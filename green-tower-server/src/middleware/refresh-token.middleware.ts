@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { parse } from 'cookie';
 import { NextFunction, Request, Response } from 'express';
 
-import { TokenService } from '../services/token/token.service';
+import { TokenService } from '@services/token/token.service';
 
-import { refreshTokenMiddlewareErrors } from '../api/errors/refresh-token-middleware.errors';
+import { refreshTokenMiddlewareErrors } from '@errors/refresh-token-middleware.errors';
 
 @Injectable()
 export class RefreshTokenMiddleware implements NestMiddleware {

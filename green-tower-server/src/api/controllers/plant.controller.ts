@@ -1,16 +1,16 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 
-import { AuthorizedGuard } from '../../guards/authorized.guard';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { OwnerOrAdminGuard } from '../../guards/owner-or-admin.guard';
+import { AuthorizedGuard } from '@guards/authorized.guard';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
+import { OwnerOrAdminGuard } from '@guards/owner-or-admin.guard';
 
-import { PlantService } from '../../services/plant/plant.service';
+import { Executor } from '@decorators/executor.decorator';
 
-import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../dtos/plant.dto';
+import { PlantService } from '@services/plant/plant.service';
 
-import { ExecutorType } from '../types/auth.types';
+import { PlantCreateDto, PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '@dtos/plant.dto';
 
-import { Executor } from '../../decorators/executor.decorator';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Controller('plant')
 @UseGuards(JwtAuthGuard)
@@ -36,6 +36,7 @@ export class PlantController {
   }
 
   @Post('delete')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(OwnerOrAdminGuard)
   async delete(@Body() plantDeleteDto: PlantDeleteDto, @Executor() executor: ExecutorType) {
     return this.plantService.delete(plantDeleteDto, executor);

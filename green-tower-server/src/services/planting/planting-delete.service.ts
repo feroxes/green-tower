@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ErrorCodes } from '@utils/constants';
 import { Repository } from 'typeorm';
 
-import { Planting } from '../../entities/planting.entity';
+import { Planting } from '@entities/planting.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { PlantingComponent } from '../../components/planting.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { PlantingComponent } from '@components/planting.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantingDeleteDto } from '../../api/dtos/planting.dto';
+import { PlantingDeleteDto } from '@dtos/planting.dto';
 
-import { plantingDeleteError } from '../../api/errors/planting.errors';
+import { plantingDeleteError } from '@errors/planting.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
-
-import { ErrorCodes } from '../../utils/constants';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantingDeleteService {

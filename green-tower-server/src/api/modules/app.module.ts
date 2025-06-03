@@ -4,12 +4,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Customer } from '../../entities/customer.entity';
-import { Farm } from '../../entities/farm.entity';
-import { HarvestEntry } from '../../entities/harvest-entry.entity';
-import { Plant } from '../../entities/plant.entity';
-import { Planting } from '../../entities/planting.entity';
-import { User } from '../../entities/user.entity';
+import { Customer } from '@entities/customer.entity';
+import { Farm } from '@entities/farm.entity';
+import { HarvestEntry } from '@entities/harvest-entry.entity';
+import { Plant } from '@entities/plant.entity';
+import { Planting } from '@entities/planting.entity';
+import { User } from '@entities/user.entity';
 
 import { AuthModule } from './auth.module';
 import { CustomerModule } from './customer.module';
@@ -20,9 +20,9 @@ import { PlantModule } from './plant.module';
 import { PlantingModule } from './planting.module';
 import { UserModule } from './user.module';
 
-import { CleanupService } from '../../services/cleanup/cleanup.service';
-import { PlantingAutoSetStateService } from '../../services/planting/planting-auto-set-state.service';
-import { TokenService } from '../../services/token/token.service';
+import { CleanupService } from '@services/cleanup/cleanup.service';
+import { PlantingAutoSetStateService } from '@services/planting/planting-auto-set-state.service';
+import { TokenService } from '@services/token/token.service';
 
 import { RefreshTokenMiddleware } from '../../middleware/refresh-token.middleware';
 

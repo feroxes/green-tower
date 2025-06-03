@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 import { FarmGetService } from './farm-get.service';
 
-import { FarmGetDto } from '../../api/dtos/farm.dto';
+import { FarmGetDto } from '@dtos/farm.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class FarmService {

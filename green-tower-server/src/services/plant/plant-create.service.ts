@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Plant } from '../../entities/plant.entity';
+import { Plant } from '@entities/plant.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantCreateDto } from '../../api/dtos/plant.dto';
+import { PlantCreateDto } from '@dtos/plant.dto';
 
-import { plantCreateError } from '../../api/errors/plant.errors';
+import { plantCreateError } from '@errors/plant.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantCreateService {

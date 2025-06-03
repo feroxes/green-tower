@@ -15,9 +15,9 @@ import {
   RefreshDto,
   RegisterDto,
   ResendConfirmationEmailDto,
-} from '../../api/dtos/auth.dto';
+} from '@dtos/auth.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class AuthService {

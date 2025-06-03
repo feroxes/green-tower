@@ -1,20 +1,19 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { HarvestEntry, HarvestEntryState } from '../../entities/harvest-entry.entity';
+import { HarvestEntry, HarvestEntryState } from '@entities/harvest-entry.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { HarvestEntryComponent } from '../../components/harvest-entry.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { HarvestEntryComponent } from '@components/harvest-entry.component';
+import { UserComponent } from '@components/user.component';
 
-import { HarvestEntryCutPlateDto } from '../../api/dtos/harvest-entry.dto';
+import { HarvestEntryCutPlateDto } from '@dtos/harvest-entry.dto';
 
-import { harvestEntryCutPlateError } from '../../api/errors/harverst-entry.errors';
+import { harvestEntryCutPlateError } from '@errors/harverst-entry.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
-
-import { PlantingType } from '../../entities/enums/planting-type.enum';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class HarvestEntryCutPlateService {

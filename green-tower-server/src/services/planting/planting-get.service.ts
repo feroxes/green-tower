@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { Planting } from '../../entities/planting.entity';
+import { Planting } from '@entities/planting.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { PlantingComponent } from '../../components/planting.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { PlantingComponent } from '@components/planting.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantingGetDto } from '../../api/dtos/planting.dto';
+import { PlantingGetDto } from '@dtos/planting.dto';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantingUGetService {

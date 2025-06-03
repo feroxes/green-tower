@@ -1,17 +1,16 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { HarvestEntry, HarvestEntryState } from '../../entities/harvest-entry.entity';
-import { Plant } from '../../entities/plant.entity';
+import { HarvestEntry, HarvestEntryState } from '@entities/harvest-entry.entity';
+import { Plant } from '@entities/plant.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { ExecutorType } from '../../api/types/auth.types';
-
-import { ListResponseType } from '../../api/types/dto-types';
-import { PlantingType } from '../../entities/enums/planting-type.enum';
+import { ExecutorType } from '@app-types/auth.types';
+import { ListResponseType } from '@app-types/dto.types';
 
 type HarvestEntryWithoutPlant = Omit<HarvestEntry, 'plant'>;
 

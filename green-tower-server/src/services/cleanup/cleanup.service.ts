@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LessThan } from 'typeorm';
 
-import { Farm } from '../../entities/farm.entity';
-import { User } from '../../entities/user.entity';
+import { Farm } from '@entities/farm.entity';
+import { User } from '@entities/user.entity';
 
 @Injectable()
 export class CleanupService {

@@ -57,12 +57,16 @@ export class TestHelper {
   }
 
   async init(): Promise<void> {
+    await this.#userInit();
+    await this.#farmInit();
+    await this.#plantInit();
+    await this.#plantingInit();
+    this.#harvestEntryInit();
+    await this.#customerInit();
+  }
+
+  async #userInit() {
     this.userRepository = this.module.get<Repository<User>>(getRepositoryToken(User));
-    this.farmRepository = this.module.get<Repository<Farm>>(getRepositoryToken(Farm));
-    this.plantRepository = this.module.get<Repository<Plant>>(getRepositoryToken(Plant));
-    this.plantingRepository = this.module.get<Repository<Planting>>(getRepositoryToken(Planting));
-    this.harvestEntryRepository = this.module.get<Repository<HarvestEntry>>(getRepositoryToken(HarvestEntry));
-    this.customerRepository = this.module.get<Repository<Customer>>(getRepositoryToken(Customer));
     await Calls.Auth.signUp(this.app);
 
     const ownerDataObject = await this.userRepository.findOne({ where: { email: mockDto.authRegisterDto.email } });
@@ -80,33 +84,45 @@ export class TestHelper {
         this.refreshToken = match[1];
       }
     }
-
-    const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
-
-    const customer = (await Calls.Customer.create(this.app, this.accessToken)) as ObjectResponseType<Customer>;
-
-    const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
-      ...mockDto.plantingCreateDto,
-      plantId: plant.body.id,
-    })) as ObjectResponseType<Planting>;
-
     this.owner = (await this.userRepository.findOne({
       where: { email: mockDto.authRegisterDto.email },
       relations: ['farm'],
     })) as User;
+  }
 
+  async #farmInit() {
+    this.farmRepository = this.module.get<Repository<Farm>>(getRepositoryToken(Farm));
     this.farm = (await this.farmRepository.findOne({
       where: { id: this.owner.farm.id },
       relations: ['users', 'plants'],
     })) as Farm;
+  }
 
+  async #plantInit() {
+    this.plantRepository = this.module.get<Repository<Plant>>(getRepositoryToken(Plant));
+    const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
     this.plant = (await this.plantRepository.findOne({
       where: { id: plant.body.id },
       relations: ['createdBy'],
     })) as Plant;
+  }
 
+  async #plantingInit() {
+    this.plantingRepository = this.module.get<Repository<Planting>>(getRepositoryToken(Planting));
+    const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
+      ...mockDto.plantingCreateDto,
+      plantId: this.plant.id,
+    })) as ObjectResponseType<Planting>;
     this.planting = (await this.plantingRepository.findOne({ where: { id: planting.body.id } })) as Planting;
+  }
 
+  #harvestEntryInit() {
+    this.harvestEntryRepository = this.module.get<Repository<HarvestEntry>>(getRepositoryToken(HarvestEntry));
+  }
+
+  async #customerInit() {
+    this.customerRepository = this.module.get<Repository<Customer>>(getRepositoryToken(Customer));
+    const customer = (await Calls.Customer.create(this.app, this.accessToken)) as ObjectResponseType<Customer>;
     this.customer = (await this.customerRepository.findOne({ where: { id: customer.body.id } })) as Customer;
   }
 

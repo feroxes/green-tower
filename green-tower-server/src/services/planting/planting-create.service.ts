@@ -1,19 +1,20 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Planting, PlantingState } from '../../entities/planting.entity';
+import { Planting, PlantingState } from '@entities/planting.entity';
 
-import { FarmComponent } from '../../components/farm.component';
-import { PlantComponent } from '../../components/plant.component';
-import { PlantingComponent } from '../../components/planting.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { PlantComponent } from '@components/plant.component';
+import { PlantingComponent } from '@components/planting.component';
+import { UserComponent } from '@components/user.component';
 
-import { PlantingCreateDto } from '../../api/dtos/planting.dto';
+import { PlantingCreateDto } from '@dtos/planting.dto';
 
-import { plantingCreateError } from '../../api/errors/planting.errors';
+import { plantingCreateError } from '@errors/planting.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class PlantingCreateService {
@@ -46,6 +47,11 @@ export class PlantingCreateService {
       expectedHarvestTs: this.plantingComponent.getExpectedHarvestTs(plant),
       expectedHarvestGrams: parseFloat(expectedHarvestGrams.toFixed(6)),
     };
+
+    if (_plantingCreateDto.type === PlantingType.CUT) {
+      // @ts-ignore not needed here
+      delete _plantingCreateDto.amountOfPlates;
+    }
 
     let planting = this.plantingRepository.create(_plantingCreateDto);
     try {

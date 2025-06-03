@@ -16,8 +16,8 @@ import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
 
 import { ErrorResponse, GuardError } from './types/response.types';
+import { ListResponseType } from '@app-types/dto.types';
 
-import { ListResponseType } from '../../src/api/types/dto-types';
 import { PlantingType } from '../../src/entities/enums/planting-type.enum';
 
 export function validateError(error: ErrorResponse, expectedError: ErrorResponse) {

@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 
-import { User } from '../../entities/user.entity';
+import { User } from '@entities/user.entity';
 
-import { EmailService } from '../email/email.service';
+import { EmailService } from '@services/email/email.service';
 
-import { FarmComponent } from '../../components/farm.component';
-import { UserComponent } from '../../components/user.component';
+import { FarmComponent } from '@components/farm.component';
+import { UserComponent } from '@components/user.component';
 
-import { UserCreateCmdDto } from '../../api/dtos/user.dto';
+import { UserCreateCmdDto } from '@dtos/user.dto';
 
-import { userCreateError } from '../../api/errors/user.errors';
+import { userCreateError } from '@errors/user.errors';
 
-import { ExecutorType } from '../../api/types/auth.types';
+import { ExecutorType } from '@app-types/auth.types';
 
 @Injectable()
 export class UserCreateService {
