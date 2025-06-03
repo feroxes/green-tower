@@ -1,3 +1,4 @@
+import { numeric } from '@entities/config';
 import { Exclude } from 'class-transformer';
 import {
   Column,
@@ -56,74 +57,22 @@ export class HarvestEntry {
   @JoinColumn({ name: 'plantId' })
   plant: Plant;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column(numeric)
   harvestGram: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    nullable: true,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column({ nullable: true, ...numeric })
   harvestGramsLeft?: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    nullable: true,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column({ nullable: true, ...numeric })
   harvestAmountOfPlates?: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    nullable: true,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column({ nullable: true, ...numeric })
   harvestAmountOfPlatesLeft?: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column(numeric)
   gramsDead: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    nullable: true,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column({ nullable: true, ...numeric })
   amountOfPlatesDead?: number;
 
   @VersionColumn()

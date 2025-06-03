@@ -1,3 +1,4 @@
+import { numeric } from '@entities/config';
 import {
   Column,
   CreateDateColumn,
@@ -37,7 +38,7 @@ export class Order {
   @Column({ type: 'enum', enum: OrderState, default: OrderState.CREATED })
   state: OrderState;
 
-  @Column({ type: 'decimal' })
+  @Column(numeric)
   totalPrice: number;
 
   @VersionColumn()

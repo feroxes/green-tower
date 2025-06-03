@@ -1,3 +1,4 @@
+import { numeric } from '@entities/config';
 import { Exclude } from 'class-transformer';
 import {
   Column,
@@ -74,15 +75,7 @@ export class Planting {
   @Column({ type: 'timestamptz' })
   expectedHarvestTs: Date;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column(numeric)
   expectedHarvestGrams: number;
 
   @Column({ nullable: true, type: 'timestamptz' })

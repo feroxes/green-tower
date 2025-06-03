@@ -1,6 +1,18 @@
 import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsUUID, Min, ValidateIf, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsUUID,
+  Min,
+  ValidateIf,
+  ValidateNested,
+} from 'class-validator';
+
+import { ListMetaDto } from '@app-types/dto.types';
 
 export class OrderCreateDto {
   @IsUUID()
@@ -38,4 +50,11 @@ export class OrderCreateItemDto {
   @IsNumber()
   @Min(1)
   amountOfGrams?: number;
+}
+
+export class OrderListDto {
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => ListMetaDto)
+  meta: ListMetaDto;
 }

@@ -1,3 +1,4 @@
+import { numeric } from '@entities/config';
 import {
   Column,
   CreateDateColumn,
@@ -38,22 +39,13 @@ export class OrderItem {
   @Column({ type: 'integer', nullable: true })
   amountOfPlates?: number;
 
-  @Column({
-    nullable: true,
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column({ nullable: true, ...numeric })
   amountOfGrams?: number;
 
-  @Column({ type: 'decimal' })
+  @Column(numeric)
   unitPrice: number;
 
-  @Column({ type: 'decimal' })
+  @Column(numeric)
   totalPrice: number;
 
   @VersionColumn()

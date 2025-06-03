@@ -1,3 +1,4 @@
+import { numeric } from '@entities/config';
 import { Exclude } from 'class-transformer';
 import {
   Column,
@@ -66,37 +67,13 @@ export class Plant {
   @Column()
   expectedHarvestGramsPerPlate: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column(numeric)
   expectedHarvestGramsPerGramOfSeeds: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column(numeric)
   sellPricePerGram: number;
 
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 6,
-    transformer: {
-      to: (value: number) => value,
-      from: (value: string) => parseFloat(value),
-    },
-  })
+  @Column(numeric)
   sellPricePerPlate: number;
 
   @Exclude()

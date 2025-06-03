@@ -19,11 +19,13 @@ import { HarvestEntryCutPlateService } from '@services/harvest-entry/harvest-ent
 import { HarvestEntryListGroupedService } from '@services/harvest-entry/harvest-entry-list-grouped.service';
 import { OrderService } from '@services/order/order.service';
 import { OrderCreateService } from '@services/order/order-create.service';
+import { OrderListService } from '@services/order/order-list.service';
 import { TokenService } from '@services/token/token.service';
 
 import { CustomerComponent } from '@components/customer.component';
 import { FarmComponent } from '@components/farm.component';
 import { HarvestEntryComponent } from '@components/harvest-entry.component';
+import { OrderComponent } from '@components/order.component';
 import { PlantComponent } from '@components/plant.component';
 import { PlantingComponent } from '@components/planting.component';
 import { UserComponent } from '@components/user.component';
@@ -34,6 +36,7 @@ import { UserComponent } from '@components/user.component';
   providers: [
     OrderService,
     OrderCreateService,
+    OrderListService,
     UserComponent,
     FarmComponent,
     CustomerComponent,
@@ -46,6 +49,7 @@ import { UserComponent } from '@components/user.component';
     HarvestEntryCreateCutService,
     HarvestEntryCreatePlateService,
     HarvestEntryListGroupedService,
+    OrderComponent,
   ],
   exports: [OrderService],
 })
