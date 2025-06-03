@@ -95,6 +95,17 @@
       "src/**/*.(t|j)s"
     ],
     "coverageDirectory": "./test/coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@components/(.*)$": "<rootDir>/src/components/$1",
+      "^@entities/(.*)$": "<rootDir>/src/entities/$1",
+      "^@guards/(.*)$": "<rootDir>/src/guards/$1",
+      "^@decorators/(.*)$": "<rootDir>/src/decorators/$1",
+      "^@app-types/(.*)$": "<rootDir>/src/api/types/$1",
+      "^@dtos/(.*)$": "<rootDir>/src/api/dtos/$1",
+      "^@errors/(.*)$": "<rootDir>/src/api/errors/$1",
+      "^@services/(.*)$": "<rootDir>/src/services/$1",
+      "^@utils/(.*)$": "<rootDir>/src/utils/$1"
+    }
   }
 }
