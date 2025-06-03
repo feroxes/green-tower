@@ -60,10 +60,10 @@ export class OrderCreateService {
             throw orderCreateError.PlantNotFound();
           }
           const isCut = item.type === PlantingType.CUT;
-          const available = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
-          const required = item.amountOfGrams ?? item.amountOfPlates ?? 0;
+          const availableAmount = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
+          const requiredAmount = item.amountOfGrams ?? item.amountOfPlates ?? 0;
 
-          if (!available || required > available) {
+          if (!availableAmount || requiredAmount > availableAmount) {
             throw orderCreateError.NotEnoughStock();
           }
 
@@ -74,7 +74,7 @@ export class OrderCreateService {
             manager,
             entries,
             item.type,
-            required,
+            requiredAmount,
           );
 
           await manager.save(HarvestEntry, updatedEntries);
@@ -85,7 +85,7 @@ export class OrderCreateService {
             amountOfPlates: item.amountOfPlates,
             amountOfGrams: item.amountOfGrams,
             unitPrice: item.unitPrice,
-            totalPrice: item.unitPrice * required,
+            totalPrice: item.unitPrice * requiredAmount,
           });
 
           orderItems.push(orderItem);
