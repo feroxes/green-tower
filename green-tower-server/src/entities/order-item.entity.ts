@@ -1,4 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
 
 import { Order } from './order.entity';
 import { Plant } from './plant.entity';
@@ -14,9 +23,11 @@ export class OrderItem {
   id: string;
 
   @ManyToOne(() => Order, (order) => order.items)
+  @JoinColumn({ name: 'orderId' })
   order: Order;
 
-  @ManyToOne(() => Plant)
+  @ManyToOne(() => Plant, (item) => item.orderItems)
+  @JoinColumn({ name: 'plantId' })
   plant: Plant;
 
   @Column({ type: 'enum', enum: OrderItemType })
@@ -41,4 +52,13 @@ export class OrderItem {
 
   @Column({ type: 'decimal' })
   totalPrice: number;
+
+  @VersionColumn()
+  version: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

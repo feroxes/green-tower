@@ -16,6 +16,7 @@ import { HarvestEntry } from './harvest-entry.entity';
 import { Plant } from './plant.entity';
 import { Planting } from './planting.entity';
 import { User } from './user.entity';
+import { Order } from '@entities/order.entity';
 
 @Entity()
 export class Farm {
@@ -43,6 +44,9 @@ export class Farm {
 
   @OneToMany(() => Customer, (customer: Customer) => customer.farm)
   customers: Customer[];
+
+  @OneToMany(() => Order, (order: Order) => order.farm)
+  orders: Order[];
 
   @VersionColumn()
   version: number;

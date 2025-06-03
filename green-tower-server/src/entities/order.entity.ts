@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -26,7 +27,8 @@ export class Order {
   @ManyToOne(() => Farm)
   farm: Farm;
 
-  @ManyToOne(() => Customer)
+  @ManyToOne(() => Customer, (item) => item.orders)
+  @JoinColumn({ name: 'customerId' })
   customer: Customer;
 
   @OneToMany(() => OrderItem, (item) => item.order, { cascade: true })
@@ -38,12 +40,12 @@ export class Order {
   @Column({ type: 'decimal' })
   totalPrice: number;
 
+  @VersionColumn()
+  version: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @VersionColumn()
-  version: number;
 }

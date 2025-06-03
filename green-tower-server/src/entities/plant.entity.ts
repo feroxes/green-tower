@@ -14,6 +14,7 @@ import {
 
 import { Farm } from './farm.entity';
 import { HarvestEntry } from './harvest-entry.entity';
+import { OrderItem } from './order-item.entity';
 import { Planting } from './planting.entity';
 import { User } from './user.entity';
 
@@ -112,6 +113,10 @@ export class Plant {
 
   @OneToMany(() => HarvestEntry, (harvestEntry) => harvestEntry.plant)
   harvestEntries: HarvestEntry[];
+
+  @Exclude()
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.plant)
+  orderItems: OrderItem[];
 
   @Exclude()
   @Column({ default: false })
