@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 
-import { HarvestGroup } from '../../src/services/harvest-entry/harvest-entry-list-grouped.service';
+import { HarvestGroup } from '@services/harvest-entry/harvest-entry-list-grouped.service';
 
 import { ListResponseType } from '../helpers/types/response.types';
 

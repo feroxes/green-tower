@@ -3,6 +3,7 @@ import { ListMetaType } from '@app-types/dto.types';
 export type ErrorResponse = {
   errorCode: string;
   message: string;
+  params?: Record<string, any>;
 };
 
 export type GuardError = {

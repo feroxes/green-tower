@@ -4,6 +4,7 @@ import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting, PlantingState } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
+import { Order, OrderState } from '@entities/order.entity';
 
 import { CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
 import {
@@ -14,6 +15,7 @@ import {
 import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
 import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
 import { mockDto } from '../mock/mock.dtos';
+import { OrderCreateDto } from '@dtos/order.dto';
 
 import { ErrorResponse, GuardError } from './types/response.types';
 import { ListResponseType } from '@app-types/dto.types';
@@ -217,6 +219,19 @@ export const ValidationHelper = {
       for (const key in mockCustomerUpdateDto) {
         expect(customer[key]).toBe(mockCustomerUpdateDto[key]);
       }
+    },
+  },
+  order: {
+    validateOrderCreation(order: Order, dto: OrderCreateDto) {
+      const totalPrice = dto.items.reduce((acc, cur) => {
+        return (acc += cur.unitPrice * (cur.amountOfPlates || cur.amountOfGrams || 0));
+      }, 0);
+      expect(order).toBeDefined();
+      expect(order.customer).toBeDefined();
+      expect(order.customer.id).toBe(dto.customerId);
+      expect(order.state).toBe(OrderState.CREATED);
+      expect(order.totalPrice).toBe(totalPrice);
+      expect(order.items.length).toBe(dto.items.length);
     },
   },
 };

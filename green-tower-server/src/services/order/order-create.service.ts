@@ -42,63 +42,68 @@ export class OrderCreateService {
       useCase,
     );
 
+    // TODO { lock: { mode: 'pessimistic_write' } } ?
     const grouped = await this.harvestEntryService.listGroupedByPlant(executor);
 
-    return await this.dataSource.transaction(async (manager) => {
-      const orderItems: OrderItem[] = [];
-      let totalPrice = 0;
+    try {
+      return await this.dataSource.transaction(async (manager) => {
+        const orderItems: OrderItem[] = [];
+        let totalPrice = 0;
 
-      for (const item of orderCreateDto.items) {
-        const plant = await this.plantComponent.checkPlantExistence(
-          { id: item.plantId, farm: { id: executor.farmId } },
-          useCase,
-        );
-        const group = grouped.itemList.find((g) => g.plant.id === item.plantId);
-        if (!group) {
-          throw orderCreateError.PlantNotFound();
+        for (const item of orderCreateDto.items) {
+          const plant = await this.plantComponent.checkPlantExistence(
+            { id: item.plantId, farm: { id: executor.farmId } },
+            useCase,
+          );
+          const group = grouped.itemList.find((g) => g.plant.id === item.plantId);
+          if (!group) {
+            throw orderCreateError.PlantNotFound();
+          }
+          const isCut = item.type === PlantingType.CUT;
+          const available = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
+          const required = item.amountOfGrams ?? item.amountOfPlates ?? 0;
+
+          if (!available || required > available) {
+            throw orderCreateError.NotEnoughStock();
+          }
+
+          const entries = isCut ? group.cut.entries : group.plate.entries;
+
+          const updatedEntries = await this.harvestEntryComponent.allocateStock(
+            useCase,
+            manager,
+            entries,
+            item.type,
+            required,
+          );
+
+          await manager.save(HarvestEntry, updatedEntries);
+
+          const orderItem = manager.create(OrderItem, {
+            plant,
+            type: item.type,
+            amountOfPlates: item.amountOfPlates,
+            amountOfGrams: item.amountOfGrams,
+            unitPrice: item.unitPrice,
+            totalPrice: item.unitPrice * required,
+          });
+
+          orderItems.push(orderItem);
+          totalPrice += orderItem.totalPrice;
         }
-        const isCut = item.type === PlantingType.CUT;
-        const available = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
-        const required = item.amountOfGrams ?? item.amountOfPlates ?? 0;
 
-        if (!available || required > available) {
-          throw orderCreateError.NotEnoughStock();
-        }
-
-        const entries = isCut ? group.cut.entries : group.plate.entries;
-
-        const updatedEntries = await this.harvestEntryComponent.allocateStock(
-          useCase,
-          manager,
-          entries,
-          item.type,
-          required,
-        );
-
-        await manager.save(HarvestEntry, updatedEntries);
-
-        const orderItem = manager.create(OrderItem, {
-          plant,
-          type: item.type,
-          amountOfPlates: item.amountOfPlates,
-          amountOfGrams: item.amountOfGrams,
-          unitPrice: item.unitPrice,
-          totalPrice: item.unitPrice * required,
+        const order = manager.create(Order, {
+          farm,
+          customer,
+          items: orderItems,
+          state: OrderState.CREATED,
+          totalPrice,
         });
 
-        orderItems.push(orderItem);
-        totalPrice += orderItem.totalPrice;
-      }
-
-      const order = manager.create(Order, {
-        farm,
-        customer,
-        items: orderItems,
-        state: OrderState.CREATED,
-        totalPrice,
+        return manager.save(Order, order);
       });
-
-      return manager.save(Order, order);
-    });
+    } catch (e: unknown) {
+      throw orderCreateError.FailedToCreateOrder({ e });
+    }
   }
 }
