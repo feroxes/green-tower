@@ -1,32 +1,6 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsUUID, Min, ValidateNested } from 'class-validator';
-
-import { OrderItemType } from '@entities/order-item.entity';
-
-export class OrderCreateItemDto {
-  @IsUUID()
-  @IsNotEmpty()
-  plantId: string;
-
-  @IsEnum(OrderItemType)
-  @IsNotEmpty()
-  type: OrderItemType;
-
-  @IsNumber()
-  @Min(0)
-  @IsNotEmpty()
-  unitPrice: number;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(1)
-  amountOfPlates?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(1)
-  amountOfGrams?: number;
-}
+import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsUUID, Min, ValidateIf, ValidateNested } from 'class-validator';
 
 export class OrderCreateDto {
   @IsUUID()
@@ -37,4 +11,31 @@ export class OrderCreateDto {
   @ValidateNested({ each: true })
   @Type(() => OrderCreateItemDto)
   items: OrderCreateItemDto[];
+}
+
+export class OrderCreateItemDto {
+  @IsUUID()
+  @IsNotEmpty()
+  plantId: string;
+
+  @IsEnum(PlantingType)
+  @IsNotEmpty()
+  type: PlantingType;
+
+  @IsNumber()
+  @Min(0)
+  @IsNotEmpty()
+  unitPrice: number;
+
+  @ValidateIf((obj: OrderCreateItemDto) => obj.type === PlantingType.PLATE)
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
+  amountOfPlates?: number;
+
+  @ValidateIf((obj: OrderCreateItemDto) => obj.type === PlantingType.CUT)
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
+  amountOfGrams?: number;
 }

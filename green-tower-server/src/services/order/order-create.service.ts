@@ -1,10 +1,10 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 
 import { HarvestEntry } from '@entities/harvest-entry.entity';
 import { Order, OrderState } from '@entities/order.entity';
-import { OrderItem, OrderItemType } from '@entities/order-item.entity';
+import { OrderItem } from '@entities/order-item.entity';
 
 import { HarvestEntryService } from '@services/harvest-entry/harvest-entry.service';
 
@@ -23,10 +23,6 @@ import { ExecutorType } from '@app-types/auth.types';
 @Injectable()
 export class OrderCreateService {
   constructor(
-    @InjectRepository(Order)
-    private orderRepository: Repository<Order>,
-    @InjectRepository(OrderItem)
-    private orderItemRepository: Repository<OrderItem>,
     private dataSource: DataSource,
     private userComponent: UserComponent,
     private farmComponent: FarmComponent,
@@ -61,7 +57,7 @@ export class OrderCreateService {
         if (!group) {
           throw orderCreateError.PlantNotFound();
         }
-        const isCut = item.type === OrderItemType.CUT;
+        const isCut = item.type === PlantingType.CUT;
         const available = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
         const required = item.amountOfGrams ?? item.amountOfPlates ?? 0;
 

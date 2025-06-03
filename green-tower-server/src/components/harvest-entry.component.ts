@@ -1,3 +1,4 @@
+import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
@@ -36,7 +37,7 @@ export class HarvestEntryComponent {
     useCase: string,
     manager: EntityManager,
     entries: HarvestEntryWithoutPlant[],
-    type: OrderItemType,
+    type: PlantingType,
     amountToAllocate: number,
   ): Promise<HarvestEntry[]> {
     const Errors = new HarvestEntryComponentError(useCase);
@@ -48,7 +49,7 @@ export class HarvestEntryComponent {
       const dbEntry = await manager.findOne(HarvestEntry, { where: { id: entry.id } });
       if (!dbEntry) continue;
 
-      if (type === OrderItemType.CUT) {
+      if (type === PlantingType.CUT) {
         const available = dbEntry.harvestGramsLeft ?? 0;
         const used = Math.min(available, amountToAllocate);
         dbEntry.harvestGramsLeft = available - used;
