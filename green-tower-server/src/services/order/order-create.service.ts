@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
+import { HarvestEntry } from '@entities/harvest-entry.entity';
 import { Order, OrderState } from '@entities/order.entity';
 import { OrderItem, OrderItemType } from '@entities/order-item.entity';
 
@@ -9,6 +10,7 @@ import { HarvestEntryService } from '@services/harvest-entry/harvest-entry.servi
 
 import { CustomerComponent } from '@components/customer.component';
 import { FarmComponent } from '@components/farm.component';
+import { HarvestEntryComponent } from '@components/harvest-entry.component';
 import { PlantComponent } from '@components/plant.component';
 import { UserComponent } from '@components/user.component';
 
@@ -25,10 +27,12 @@ export class OrderCreateService {
     private orderRepository: Repository<Order>,
     @InjectRepository(OrderItem)
     private orderItemRepository: Repository<OrderItem>,
+    private dataSource: DataSource,
     private userComponent: UserComponent,
     private farmComponent: FarmComponent,
     private customerComponent: CustomerComponent,
     private plantComponent: PlantComponent,
+    private harvestEntryComponent: HarvestEntryComponent,
     private harvestEntryService: HarvestEntryService,
   ) {}
 
@@ -44,51 +48,61 @@ export class OrderCreateService {
 
     const grouped = await this.harvestEntryService.listGroupedByPlant(executor);
 
-    const orderItems: OrderItem[] = [];
-    let totalPrice = 0;
+    return await this.dataSource.transaction(async (manager) => {
+      const orderItems: OrderItem[] = [];
+      let totalPrice = 0;
 
-    for (const item of orderCreateDto.items) {
-      const plant = await this.plantComponent.checkPlantExistence(
-        { id: item.plantId, farm: { id: executor.farmId } },
-        useCase,
-      );
-      const group = grouped.itemList.find((g) => g.plant.id === item.plantId);
+      for (const item of orderCreateDto.items) {
+        const plant = await this.plantComponent.checkPlantExistence(
+          { id: item.plantId, farm: { id: executor.farmId } },
+          useCase,
+        );
+        const group = grouped.itemList.find((g) => g.plant.id === item.plantId);
+        if (!group) {
+          throw orderCreateError.PlantNotFound();
+        }
+        const isCut = item.type === OrderItemType.CUT;
+        const available = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
+        const required = item.amountOfGrams ?? item.amountOfPlates ?? 0;
 
-      if (!group) {
-        throw orderCreateError.PlantNotFound();
+        if (!available || required > available) {
+          throw orderCreateError.NotEnoughStock();
+        }
+
+        const entries = isCut ? group.cut.entries : group.plate.entries;
+
+        const updatedEntries = await this.harvestEntryComponent.allocateStock(
+          useCase,
+          manager,
+          entries,
+          item.type,
+          required,
+        );
+
+        await manager.save(HarvestEntry, updatedEntries);
+
+        const orderItem = manager.create(OrderItem, {
+          plant,
+          type: item.type,
+          amountOfPlates: item.amountOfPlates,
+          amountOfGrams: item.amountOfGrams,
+          unitPrice: item.unitPrice,
+          totalPrice: item.unitPrice * required,
+        });
+
+        orderItems.push(orderItem);
+        totalPrice += orderItem.totalPrice;
       }
 
-      if (item.type === OrderItemType.CUT) {
-        if (!group.cut.totalGramsLeft || (item.amountOfGrams || 0) > group.cut.totalGramsLeft)
-          throw orderCreateError.NotEnoughStock();
-      } else {
-        if (!group.plate.totalPlatesLeft || (item.amountOfPlates || 0) > group.plate.totalPlatesLeft)
-          throw orderCreateError.NotEnoughStock();
-      }
-      const orderItem = this.orderItemRepository.create({
-        plant,
-        type: item.type,
-        amountOfPlates: item.amountOfPlates,
-        amountOfGrams: item.amountOfGrams,
-        unitPrice: item.unitPrice,
-        totalPrice: item.unitPrice * (item.amountOfPlates || item.amountOfGrams || 0),
+      const order = manager.create(Order, {
+        farm,
+        customer,
+        items: orderItems,
+        state: OrderState.CREATED,
+        totalPrice,
       });
 
-      orderItems.push(orderItem);
-      totalPrice += orderItem.totalPrice;
-    }
-
-    const order = this.orderRepository.create({
-      farm,
-      customer,
-      items: orderItems,
-      state: OrderState.CREATED,
-      totalPrice,
+      return manager.save(Order, order);
     });
-    try {
-      return await this.orderRepository.save(order);
-    } catch (e: unknown) {
-      throw orderCreateError.FailedToCreateOrder({ e });
-    }
   }
 }

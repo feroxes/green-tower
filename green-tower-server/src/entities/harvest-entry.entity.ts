@@ -23,6 +23,7 @@ export enum HarvestEntryState {
   PRESENT = 'present',
   DEAD = 'dead',
 }
+export type HarvestEntryWithoutPlant = Omit<HarvestEntry, 'plant'>;
 
 @Entity()
 @Index('IDX_HARVEST_ENTRY_CREATED_AT', ['createdAt'])

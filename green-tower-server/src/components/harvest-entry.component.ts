@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
-import { HarvestEntry } from '@entities/harvest-entry.entity';
+import { HarvestEntry, HarvestEntryState, HarvestEntryWithoutPlant } from '@entities/harvest-entry.entity';
+import { OrderItemType } from '@entities/order-item.entity';
 
 import { HarvestEntryComponentError } from '@errors/harvest-entry-component.errors';
 
@@ -29,5 +30,45 @@ export class HarvestEntryComponent {
       throw Errors.HarvestEntryNotFound();
     }
     return harvestEntry;
+  }
+
+  async allocateStock(
+    useCase: string,
+    manager: EntityManager,
+    entries: HarvestEntryWithoutPlant[],
+    type: OrderItemType,
+    amountToAllocate: number,
+  ): Promise<HarvestEntry[]> {
+    const Errors = new HarvestEntryComponentError(useCase);
+    const updatedEntries: HarvestEntry[] = [];
+
+    for (const entry of entries) {
+      if (amountToAllocate <= 0) break;
+
+      const dbEntry = await manager.findOne(HarvestEntry, { where: { id: entry.id } });
+      if (!dbEntry) continue;
+
+      if (type === OrderItemType.CUT) {
+        const available = dbEntry.harvestGramsLeft ?? 0;
+        const used = Math.min(available, amountToAllocate);
+        dbEntry.harvestGramsLeft = available - used;
+        if (dbEntry.harvestGramsLeft === 0) dbEntry.state = HarvestEntryState.SOLD;
+        amountToAllocate -= used;
+      } else {
+        const available = dbEntry.harvestAmountOfPlatesLeft ?? 0;
+        const used = Math.min(available, amountToAllocate);
+        dbEntry.harvestAmountOfPlatesLeft = available - used;
+        if (dbEntry.harvestAmountOfPlatesLeft === 0) dbEntry.state = HarvestEntryState.SOLD;
+        amountToAllocate -= used;
+      }
+
+      updatedEntries.push(dbEntry);
+    }
+
+    if (amountToAllocate > 0) {
+      throw Errors.NotEnoughStock();
+    }
+
+    return updatedEntries;
   }
 }

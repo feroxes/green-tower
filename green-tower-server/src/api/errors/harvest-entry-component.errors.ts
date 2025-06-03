@@ -12,4 +12,6 @@ export class HarvestEntryComponentError extends BaseError {
     'harvestEntryNotFound',
     'HarvestEntry not found.',
   );
+
+  readonly NotEnoughStock = this.createError(NotFoundException, 'notEnoughStock', 'Not enough stock.');
 }
