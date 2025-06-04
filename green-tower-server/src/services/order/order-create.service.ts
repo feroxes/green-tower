@@ -2,7 +2,6 @@ import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 
-import { HarvestEntry } from '@entities/harvest-entry.entity';
 import { Order, OrderState } from '@entities/order.entity';
 import { OrderItem } from '@entities/order-item.entity';
 
@@ -59,6 +58,7 @@ export class OrderCreateService {
           if (!group) {
             throw orderCreateError.PlantNotFound();
           }
+
           const isCut = item.type === PlantingType.CUT;
           const availableAmount = isCut ? group.cut.totalGramsLeft : group.plate.totalPlatesLeft;
           const requiredAmount = item.amountOfGrams ?? item.amountOfPlates ?? 0;
@@ -66,18 +66,6 @@ export class OrderCreateService {
           if (!availableAmount || requiredAmount > availableAmount) {
             throw orderCreateError.NotEnoughStock();
           }
-
-          const entries = isCut ? group.cut.entries : group.plate.entries;
-
-          const updatedEntries = await this.harvestEntryComponent.allocateStock(
-            useCase,
-            manager,
-            entries,
-            item.type,
-            requiredAmount,
-          );
-
-          await manager.save(HarvestEntry, updatedEntries);
 
           const orderItem = manager.create(OrderItem, {
             plant,
@@ -87,6 +75,23 @@ export class OrderCreateService {
             unitPrice: item.unitPrice,
             totalPrice: item.unitPrice * requiredAmount,
           });
+
+          try {
+            await manager.save(OrderItem, orderItem);
+          } catch (e: unknown) {
+            throw orderCreateError.FailedToCreateOrderItem({ e });
+          }
+
+          const entries = isCut ? group.cut.entries : group.plate.entries;
+
+          await this.harvestEntryComponent.allocateStock(
+            useCase,
+            manager,
+            orderItem,
+            entries,
+            item.type,
+            requiredAmount,
+          );
 
           orderItems.push(orderItem);
           totalPrice += orderItem.totalPrice;

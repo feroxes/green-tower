@@ -49,5 +49,6 @@ export const UseCases = {
   order: {
     create: '/order/create',
     list: '/order/list',
+    delete: '/order/delete',
   },
 } as const;

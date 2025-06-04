@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
@@ -12,6 +13,7 @@ import {
 
 import { Order } from './order.entity';
 import { Plant } from './plant.entity';
+import { OrderItemHarvestEntry } from '@entities/order-item-harvest-entry.entity';
 
 import { PlantingType } from './enums/planting-type.enum';
 
@@ -35,6 +37,9 @@ export class OrderItem {
 
   @Column({ type: 'enum', enum: PlantingType })
   type: PlantingType;
+
+  @OneToMany(() => OrderItemHarvestEntry, (entry) => entry.orderItem)
+  orderItemHarvestEntries: OrderItemHarvestEntry[];
 
   @Column({ type: 'integer', nullable: true })
   amountOfPlates?: number;

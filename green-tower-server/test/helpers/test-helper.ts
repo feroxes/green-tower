@@ -12,6 +12,7 @@ import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
 import { Order } from '@entities/order.entity';
+import { OrderItemHarvestEntry } from '@entities/order-item-harvest-entry.entity';
 
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
@@ -45,6 +46,8 @@ export class TestHelper {
   customerRepository: Repository<Customer>;
   order: Order;
   orderRepository: Repository<Order>;
+  orderItemHarvestEntry: OrderItemHarvestEntry;
+  orderItemHarvestEntryRepository: Repository<OrderItemHarvestEntry>;
   private jwtService: JwtService;
 
   constructor(
@@ -67,6 +70,7 @@ export class TestHelper {
     this.harvestEntryInit();
     await this.customerInit();
     this.orderInit();
+    this.orderItemHarvestEntryInit();
   }
 
   private async userInit() {
@@ -132,6 +136,12 @@ export class TestHelper {
 
   private orderInit() {
     this.orderRepository = this.module.get<Repository<Order>>(getRepositoryToken(Order));
+  }
+
+  private orderItemHarvestEntryInit() {
+    this.orderItemHarvestEntryRepository = this.module.get<Repository<OrderItemHarvestEntry>>(
+      getRepositoryToken(OrderItemHarvestEntry),
+    );
   }
 
   async createUser(

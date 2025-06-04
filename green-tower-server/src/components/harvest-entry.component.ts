@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 
 import { HarvestEntry, HarvestEntryState, HarvestEntryWithoutPlant } from '@entities/harvest-entry.entity';
-import { OrderItemType } from '@entities/order-item.entity';
+import { OrderItem } from '@entities/order-item.entity';
+import { OrderItemHarvestEntry } from '@entities/order-item-harvest-entry.entity';
 
 import { HarvestEntryComponentError } from '@errors/harvest-entry-component.errors';
 
@@ -36,6 +37,7 @@ export class HarvestEntryComponent {
   async allocateStock(
     useCase: string,
     manager: EntityManager,
+    orderItem: OrderItem,
     entries: HarvestEntryWithoutPlant[],
     type: PlantingType,
     amountToAllocate: number,
@@ -46,28 +48,49 @@ export class HarvestEntryComponent {
     for (const entry of entries) {
       if (amountToAllocate <= 0) break;
 
-      const dbEntry = await manager.findOne(HarvestEntry, { where: { id: entry.id } });
-      if (!dbEntry) continue;
+      const harvestEntry = await manager.findOne(HarvestEntry, { where: { id: entry.id } });
+      if (!harvestEntry) continue;
+
+      let available = 0;
+      let amountTaken = 0;
 
       if (type === PlantingType.CUT) {
-        const available = dbEntry.harvestGramsLeft ?? 0;
-        const used = Math.min(available, amountToAllocate);
-        dbEntry.harvestGramsLeft = available - used;
-        if (dbEntry.harvestGramsLeft === 0) dbEntry.state = HarvestEntryState.SOLD;
-        amountToAllocate -= used;
+        available = harvestEntry.harvestGramsLeft ?? 0;
+        amountTaken = Math.min(available, amountToAllocate);
+        harvestEntry.harvestGramsLeft = available - amountTaken;
       } else {
-        const available = dbEntry.harvestAmountOfPlatesLeft ?? 0;
-        const used = Math.min(available, amountToAllocate);
-        dbEntry.harvestAmountOfPlatesLeft = available - used;
-        if (dbEntry.harvestAmountOfPlatesLeft === 0) dbEntry.state = HarvestEntryState.SOLD;
-        amountToAllocate -= used;
+        available = harvestEntry.harvestAmountOfPlatesLeft ?? 0;
+        amountTaken = Math.min(available, amountToAllocate);
+        harvestEntry.harvestAmountOfPlatesLeft = available - amountTaken;
       }
 
-      updatedEntries.push(dbEntry);
+      if (
+        (type === PlantingType.CUT && harvestEntry.harvestGramsLeft === 0) ||
+        (type === PlantingType.PLATE && harvestEntry.harvestAmountOfPlatesLeft === 0)
+      ) {
+        harvestEntry.state = HarvestEntryState.SOLD;
+      }
+
+      amountToAllocate -= amountTaken;
+      updatedEntries.push(harvestEntry);
+
+      const relation = manager.create(OrderItemHarvestEntry, { orderItem, harvestEntry, amountTaken });
+
+      try {
+        await manager.save(OrderItemHarvestEntry, relation);
+      } catch (e: unknown) {
+        throw Errors.FailedToCreateOrderItemHarvestEntry({ e });
+      }
     }
 
     if (amountToAllocate > 0) {
       throw Errors.NotEnoughStock();
+    }
+
+    try {
+      await manager.save(HarvestEntry, updatedEntries);
+    } catch (e: unknown) {
+      throw Errors.FailedToCreateHarvestEntry({ e });
     }
 
     return updatedEntries;

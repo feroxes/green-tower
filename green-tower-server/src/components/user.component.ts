@@ -27,6 +27,19 @@ export class UserComponent {
     private tokenService: TokenService,
   ) {}
 
+  async checkUserExistence(id: string, farmId: string, errorCode: string): Promise<User> {
+    const Errors = new UserCheckExistenceComponentError(errorCode);
+    const user = await this.userRepository.findOne({
+      where: { id, farm: { id: farmId }, isDeleted: false },
+      relations: ['farm'],
+    });
+
+    if (!user) {
+      throw Errors.UserNotFound({ id });
+    }
+    return user;
+  }
+
   async create(createDto: UserCreateDto, farm: Farm, errorCode: string): Promise<{ user: User }> {
     const Errors = new UserCreateComponentError(errorCode);
     const existingUser = await this.userRepository.findOne({
@@ -72,18 +85,5 @@ export class UserComponent {
   })
   async list(executor: ExecutorType, meta?: ListMetaDto): Promise<ListResponseType<User>> {
     return Promise.resolve({ itemList: [], meta: { page: 0, size: 0, total: 0 } });
-  }
-
-  async checkUserExistence(id: string, farmId: string, errorCode: string): Promise<User> {
-    const Errors = new UserCheckExistenceComponentError(errorCode);
-    const user = await this.userRepository.findOne({
-      where: { id, farm: { id: farmId }, isDeleted: false },
-      relations: ['farm'],
-    });
-
-    if (!user) {
-      throw Errors.UserNotFound({ id });
-    }
-    return user;
   }
 }

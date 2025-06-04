@@ -15,7 +15,7 @@ import { HarvestGroup } from '@services/harvest-entry/harvest-entry-list-grouped
 import { mockDto } from '../mock/mock.dtos';
 import { CustomerCreateDto, CustomerDeleteDto, CustomerListDto, CustomerUpdateDto } from '@dtos/customer.dto';
 import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto, HarvestEntryCutPlateDto } from '@dtos/harvest-entry.dto';
-import { OrderCreateDto, OrderListDto } from '@dtos/order.dto';
+import { OrderCreateDto, OrderDeleteDto, OrderListDto } from '@dtos/order.dto';
 import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '@dtos/plant.dto';
 import {
   PlantingDeleteDto,
@@ -293,6 +293,13 @@ export const Calls = {
       body: OrderListDto,
     ): Promise<ListResponseType<Order> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.order.list, body, accessToken);
+    },
+    async delete(
+      app: INestApplication,
+      accessToken: string,
+      body: OrderDeleteDto,
+    ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.order.delete, body, accessToken);
     },
   },
 };

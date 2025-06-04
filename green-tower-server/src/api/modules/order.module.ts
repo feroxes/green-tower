@@ -6,6 +6,7 @@ import { Farm } from '@entities/farm.entity';
 import { HarvestEntry } from '@entities/harvest-entry.entity';
 import { Order } from '@entities/order.entity';
 import { OrderItem } from '@entities/order-item.entity';
+import { OrderItemHarvestEntry } from '@entities/order-item-harvest-entry.entity';
 import { Plant } from '@entities/plant.entity';
 import { Planting } from '@entities/planting.entity';
 import { User } from '@entities/user.entity';
@@ -19,6 +20,7 @@ import { HarvestEntryCutPlateService } from '@services/harvest-entry/harvest-ent
 import { HarvestEntryListGroupedService } from '@services/harvest-entry/harvest-entry-list-grouped.service';
 import { OrderService } from '@services/order/order.service';
 import { OrderCreateService } from '@services/order/order-create.service';
+import { OrderDeleteService } from '@services/order/order-delete.service';
 import { OrderListService } from '@services/order/order-list.service';
 import { TokenService } from '@services/token/token.service';
 
@@ -31,12 +33,25 @@ import { PlantingComponent } from '@components/planting.component';
 import { UserComponent } from '@components/user.component';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, OrderItem, Customer, User, Farm, Plant, HarvestEntry, Planting])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Order,
+      OrderItem,
+      Customer,
+      User,
+      Farm,
+      Plant,
+      HarvestEntry,
+      Planting,
+      OrderItemHarvestEntry,
+    ]),
+  ],
   controllers: [OrderController],
   providers: [
     OrderService,
     OrderCreateService,
     OrderListService,
+    OrderDeleteService,
     UserComponent,
     FarmComponent,
     CustomerComponent,

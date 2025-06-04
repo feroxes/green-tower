@@ -16,6 +16,11 @@ class OrderCreateError extends BaseError {
     'notEnoughStock',
     'Not enough stock for one or more items',
   );
+  readonly FailedToCreateOrderItem = this.createError(
+    InternalServerErrorException,
+    'FailedToCreateOrderItem',
+    'Failed to create Order Item',
+  );
   readonly PlantNotFound = this.createError(NotFoundException, 'plantNotFound', 'Plant not found');
 }
 

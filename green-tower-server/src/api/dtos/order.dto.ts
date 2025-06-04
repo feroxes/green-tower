@@ -58,3 +58,9 @@ export class OrderListDto {
   @Type(() => ListMetaDto)
   meta: ListMetaDto;
 }
+
+export class OrderDeleteDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+}

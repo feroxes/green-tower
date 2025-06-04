@@ -30,6 +30,7 @@ export class OrderComponent {
     const Errors = new OrderComponentError(errorCode);
     const order = await this.orderRepository.findOne({
       where: { ...filter },
+      relations: ['items'],
       ...(params && { ...params }),
     });
     if (!order) {
