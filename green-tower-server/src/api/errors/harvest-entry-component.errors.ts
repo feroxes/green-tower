@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 
 import { BaseError } from './base.error';
 
@@ -11,5 +11,25 @@ export class HarvestEntryComponentError extends BaseError {
     NotFoundException,
     'harvestEntryNotFound',
     'HarvestEntry not found.',
+  );
+
+  readonly NotEnoughStock = this.createError(NotFoundException, 'notEnoughStock', 'Not enough stock.');
+
+  readonly FailedToCreateOrderItemHarvestEntry = this.createError(
+    InternalServerErrorException,
+    'failedToCreateOrderItemHarvestEntry',
+    'Failed to create order item harvest entry.',
+  );
+
+  readonly FailedToCreateHarvestEntry = this.createError(
+    InternalServerErrorException,
+    'failedToCreateHarvestEntry',
+    'Failed to create harvest entry.',
+  );
+
+  readonly FailedToRollbackStock = this.createError(
+    InternalServerErrorException,
+    'failedToRollbackStock',
+    'Failed to rollback stock.',
   );
 }

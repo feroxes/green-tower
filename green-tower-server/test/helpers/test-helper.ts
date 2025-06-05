@@ -11,6 +11,8 @@ import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
 import { Plant } from '../../src/entities/plant.entity';
 import { Planting } from '../../src/entities/planting.entity';
 import { User, UserRole } from '../../src/entities/user.entity';
+import { Order } from '@entities/order.entity';
+import { OrderItemHarvestEntry } from '@entities/order-item-harvest-entry.entity';
 
 import { UserCreateCmdDto } from '../../src/api/dtos/user.dto';
 import { mockDto } from '../mock/mock.dtos';
@@ -42,6 +44,10 @@ export class TestHelper {
   harvestEntryRepository: Repository<HarvestEntry>;
   customer: Customer;
   customerRepository: Repository<Customer>;
+  order: Order;
+  orderRepository: Repository<Order>;
+  orderItemHarvestEntry: OrderItemHarvestEntry;
+  orderItemHarvestEntryRepository: Repository<OrderItemHarvestEntry>;
   private jwtService: JwtService;
 
   constructor(
@@ -57,15 +63,17 @@ export class TestHelper {
   }
 
   async init(): Promise<void> {
-    await this.#userInit();
-    await this.#farmInit();
-    await this.#plantInit();
-    await this.#plantingInit();
-    this.#harvestEntryInit();
-    await this.#customerInit();
+    await this.userInit();
+    await this.farmInit();
+    await this.plantInit();
+    await this.plantingInit();
+    this.harvestEntryInit();
+    await this.customerInit();
+    this.orderInit();
+    this.orderItemHarvestEntryInit();
   }
 
-  async #userInit() {
+  private async userInit() {
     this.userRepository = this.module.get<Repository<User>>(getRepositoryToken(User));
     await Calls.Auth.signUp(this.app);
 
@@ -90,7 +98,7 @@ export class TestHelper {
     })) as User;
   }
 
-  async #farmInit() {
+  private async farmInit() {
     this.farmRepository = this.module.get<Repository<Farm>>(getRepositoryToken(Farm));
     this.farm = (await this.farmRepository.findOne({
       where: { id: this.owner.farm.id },
@@ -98,7 +106,7 @@ export class TestHelper {
     })) as Farm;
   }
 
-  async #plantInit() {
+  private async plantInit() {
     this.plantRepository = this.module.get<Repository<Plant>>(getRepositoryToken(Plant));
     const plant = (await Calls.Plant.create(this.app, this.accessToken)) as ObjectResponseType<Plant>;
     this.plant = (await this.plantRepository.findOne({
@@ -107,7 +115,7 @@ export class TestHelper {
     })) as Plant;
   }
 
-  async #plantingInit() {
+  private async plantingInit() {
     this.plantingRepository = this.module.get<Repository<Planting>>(getRepositoryToken(Planting));
     const planting = (await Calls.Planting.create(this.app, this.getAccessToken, {
       ...mockDto.plantingCreateDto,
@@ -116,14 +124,24 @@ export class TestHelper {
     this.planting = (await this.plantingRepository.findOne({ where: { id: planting.body.id } })) as Planting;
   }
 
-  #harvestEntryInit() {
+  private harvestEntryInit() {
     this.harvestEntryRepository = this.module.get<Repository<HarvestEntry>>(getRepositoryToken(HarvestEntry));
   }
 
-  async #customerInit() {
+  private async customerInit() {
     this.customerRepository = this.module.get<Repository<Customer>>(getRepositoryToken(Customer));
     const customer = (await Calls.Customer.create(this.app, this.accessToken)) as ObjectResponseType<Customer>;
     this.customer = (await this.customerRepository.findOne({ where: { id: customer.body.id } })) as Customer;
+  }
+
+  private orderInit() {
+    this.orderRepository = this.module.get<Repository<Order>>(getRepositoryToken(Order));
+  }
+
+  private orderItemHarvestEntryInit() {
+    this.orderItemHarvestEntryRepository = this.module.get<Repository<OrderItemHarvestEntry>>(
+      getRepositoryToken(OrderItemHarvestEntry),
+    );
   }
 
   async createUser(

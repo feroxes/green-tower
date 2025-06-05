@@ -5,12 +5,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
 import { Farm } from './farm.entity';
+import { Order } from './order.entity';
 import { User } from './user.entity';
 
 @Entity()
@@ -45,6 +47,10 @@ export class Customer {
   @ManyToOne(() => User, (user) => user.customers)
   @JoinColumn({ name: 'createdBy' })
   createdBy: User;
+
+  @Exclude()
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
 
   @Exclude()
   @Column({ default: false })

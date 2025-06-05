@@ -1,24 +1,22 @@
-import { Customer } from '../../src/entities/customer.entity';
-import { Farm } from '../../src/entities/farm.entity';
-import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
-import { Plant } from '../../src/entities/plant.entity';
-import { Planting, PlantingState } from '../../src/entities/planting.entity';
-import { User, UserRole } from '../../src/entities/user.entity';
+import { PlantingType } from '@entities/enums/planting-type.enum';
 
-import { CustomerUpdateDto } from '../../src/api/dtos/customer.dto';
-import {
-  HarvestEntryCreateCutDto,
-  HarvestEntryCreatePlateDto,
-  HarvestEntryCutPlateDto,
-} from '../../src/api/dtos/harvest-entry.dto';
-import { PlantUpdateDto } from '../../src/api/dtos/plant.dto';
-import { PlantingUpdateDto } from '../../src/api/dtos/planting.dto';
+import { Customer } from '@entities/customer.entity';
+import { Farm } from '@entities/farm.entity';
+import { HarvestEntry } from '@entities/harvest-entry.entity';
+import { Order, OrderState } from '@entities/order.entity';
+import { Plant } from '@entities/plant.entity';
+import { Planting, PlantingState } from '@entities/planting.entity';
+import { User, UserRole } from '@entities/user.entity';
+
 import { mockDto } from '../mock/mock.dtos';
+import { CustomerUpdateDto } from '@dtos/customer.dto';
+import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto, HarvestEntryCutPlateDto } from '@dtos/harvest-entry.dto';
+import { OrderCreateDto, OrderUpdateDto } from '@dtos/order.dto';
+import { PlantUpdateDto } from '@dtos/plant.dto';
+import { PlantingUpdateDto } from '@dtos/planting.dto';
 
 import { ErrorResponse, GuardError } from './types/response.types';
 import { ListResponseType } from '@app-types/dto.types';
-
-import { PlantingType } from '../../src/entities/enums/planting-type.enum';
 
 export function validateError(error: ErrorResponse, expectedError: ErrorResponse) {
   expect(error.errorCode).toEqual(expectedError.errorCode);
@@ -217,6 +215,30 @@ export const ValidationHelper = {
       for (const key in mockCustomerUpdateDto) {
         expect(customer[key]).toBe(mockCustomerUpdateDto[key]);
       }
+    },
+  },
+  order: {
+    validateOrderCreation(order: Order, dto: OrderCreateDto) {
+      const totalPrice = dto.items.reduce((acc, cur) => {
+        return (acc += cur.unitPrice * (cur.amountOfPlates || cur.amountOfGrams || 0));
+      }, 0);
+      expect(order).toBeDefined();
+      expect(order.customer).toBeDefined();
+      expect(order.customer.id).toBe(dto.customerId);
+      expect(order.state).toBe(OrderState.CREATED);
+      expect(order.totalPrice).toBe(totalPrice);
+      expect(order.items.length).toBe(dto.items.length);
+    },
+    validateOrderUpdate(order: Order, dto: OrderUpdateDto) {
+      const totalPrice = dto.items.reduce((acc, cur) => {
+        return (acc += cur.unitPrice * (cur.amountOfPlates || cur.amountOfGrams || 0));
+      }, 0);
+      expect(order).toBeDefined();
+      expect(order.customer).toBeDefined();
+      expect(order.customer.id).toBe(dto.customerId);
+      expect(order.state).toBe(OrderState.CREATED);
+      expect(order.totalPrice).toBe(totalPrice);
+      expect(order.items.length).toBe(dto.items.length);
     },
   },
 };

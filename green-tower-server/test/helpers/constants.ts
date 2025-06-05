@@ -46,4 +46,10 @@ export const UseCases = {
     delete: '/customer/delete',
     list: '/customer/list',
   },
+  order: {
+    create: '/order/create',
+    list: '/order/list',
+    delete: '/order/delete',
+    update: '/order/update',
+  },
 } as const;

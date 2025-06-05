@@ -2,27 +2,21 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Response } from 'supertest';
 
-import { Customer } from '../../src/entities/customer.entity';
-import { Farm } from '../../src/entities/farm.entity';
-import { HarvestEntry } from '../../src/entities/harvest-entry.entity';
-import { Plant } from '../../src/entities/plant.entity';
-import { Planting } from '../../src/entities/planting.entity';
-import { User, UserRole } from '../../src/entities/user.entity';
+import { Customer } from '@entities/customer.entity';
+import { Farm } from '@entities/farm.entity';
+import { HarvestEntry } from '@entities/harvest-entry.entity';
+import { Order } from '@entities/order.entity';
+import { Plant } from '@entities/plant.entity';
+import { Planting } from '@entities/planting.entity';
+import { User, UserRole } from '@entities/user.entity';
 
-import { HarvestGroup } from '../../src/services/harvest-entry/harvest-entry-list-grouped.service';
+import { HarvestGroup } from '@services/harvest-entry/harvest-entry-list-grouped.service';
 
-import {
-  CustomerCreateDto,
-  CustomerDeleteDto,
-  CustomerListDto,
-  CustomerUpdateDto,
-} from '../../src/api/dtos/customer.dto';
-import {
-  HarvestEntryCreateCutDto,
-  HarvestEntryCreatePlateDto,
-  HarvestEntryCutPlateDto,
-} from '../../src/api/dtos/harvest-entry.dto';
-import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '../../src/api/dtos/plant.dto';
+import { mockDto } from '../mock/mock.dtos';
+import { CustomerCreateDto, CustomerDeleteDto, CustomerListDto, CustomerUpdateDto } from '@dtos/customer.dto';
+import { HarvestEntryCreateCutDto, HarvestEntryCreatePlateDto, HarvestEntryCutPlateDto } from '@dtos/harvest-entry.dto';
+import { OrderCreateDto, OrderDeleteDto, OrderListDto, OrderUpdateDto } from '@dtos/order.dto';
+import { PlantDeleteDto, PlantGetDto, PlantListDto, PlantUpdateDto } from '@dtos/plant.dto';
 import {
   PlantingDeleteDto,
   PlantingGetDto,
@@ -30,9 +24,8 @@ import {
   PlantingListDto,
   PlantingSetStateDto,
   PlantingUpdateDto,
-} from '../../src/api/dtos/planting.dto';
-import { UserUpdateDto } from '../../src/api/dtos/user.dto';
-import { mockDto } from '../mock/mock.dtos';
+} from '@dtos/planting.dto';
+import { UserUpdateDto } from '@dtos/user.dto';
 
 import {
   EmptyResponseType,
@@ -284,6 +277,36 @@ export const Calls = {
       body: CustomerListDto,
     ): Promise<ListResponseType<Customer> | ErrorResponseType | GuardErrorResponseType> {
       return Calls.get(app, UseCases.customer.list, body, accessToken);
+    },
+  },
+  Order: {
+    async create(
+      app: INestApplication,
+      accessToken: string,
+      body: OrderCreateDto,
+    ): Promise<ObjectResponseType<Order> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.order.create, body, accessToken);
+    },
+    async list(
+      app: INestApplication,
+      accessToken: string,
+      body: OrderListDto,
+    ): Promise<ListResponseType<Order> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.get(app, UseCases.order.list, body, accessToken);
+    },
+    async delete(
+      app: INestApplication,
+      accessToken: string,
+      body: OrderDeleteDto,
+    ): Promise<EmptyResponseType | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.order.delete, body, accessToken);
+    },
+    async update(
+      app: INestApplication,
+      accessToken: string,
+      body: OrderUpdateDto,
+    ): Promise<ObjectResponseType<Order> | ErrorResponseType | GuardErrorResponseType> {
+      return Calls.post(app, UseCases.order.update, body, accessToken);
     },
   },
 };
