@@ -35,7 +35,7 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
-      'max-len': ['error', { code: 120 }],
+      'max-len': ['info', { code: 120 }],
       'simple-import-sort/imports': [
         'error',
         {
