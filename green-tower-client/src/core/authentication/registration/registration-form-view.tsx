@@ -1,9 +1,9 @@
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import React from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
+import { FormHeader } from '../authentication.styles';
 import { RegistrationSubHeader } from './registration.styles';
 
 import FormElements from '../../../components/form-elements/form-elements';
@@ -33,9 +33,9 @@ function RegistrationFormView({ onSubmit, errors, register, isPending }: Registr
   const lsi = useLsi(Lsi);
 
   return (
-    <ComponentWrapper>
-      <FormHeader variant="h5">{lsi.registration}</FormHeader>
-      <FormWrapper>
+    <Stack sx={{ height: '100%' }}>
+      <FormHeader variant="h4">{lsi.registration}</FormHeader>
+      <Box sx={{ height: '100%' }}>
         <form onSubmit={onSubmit}>
           <RegistrationSubHeader>{lsi.farmInfo}</RegistrationSubHeader>
           <FormElements.Text
@@ -88,8 +88,8 @@ function RegistrationFormView({ onSubmit, errors, register, isPending }: Registr
             {lsi.registration}
           </FormElements.Button>
         </form>
-      </FormWrapper>
-    </ComponentWrapper>
+      </Box>
+    </Stack>
   );
 }
 

@@ -4,6 +4,7 @@ import { FormContainer, PageWrapper } from './authentication-page-wrapper.styles
 
 import Logo from '../../components/logo/logo';
 
+import { Config } from '../../config/config';
 import { ActionType } from '../../core/authentication/authentication';
 import Footer from '../../core/authentication/footer';
 
@@ -20,7 +21,7 @@ function AuthenticationPageWrapper({ children, action, setAction }: Authenticati
       <FormContainer
         sx={{
           p: 3,
-          bgcolor: '#fff9ef',
+          bgcolor: Config.colors.sand,
           minHeight: action === 'login' ? '420px' : '480px',
         }}
       >

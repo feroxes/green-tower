@@ -11,10 +11,9 @@ function Text({ ...props }) {
       size="small"
       {...props}
       sx={{
-        backgroundColor: '#fefaf1',
-        borderRadius: '16px',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.08)',
         '& .MuiOutlinedInput-root': {
+          backgroundColor: Config.colors.sand,
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.08)',
           borderRadius: '16px',
           height: '50px',
           '& fieldset': {

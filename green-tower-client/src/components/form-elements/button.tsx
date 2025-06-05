@@ -1,6 +1,8 @@
 import { Button as Button_ } from '@mui/material';
 import React from 'react';
 
+import { Config } from '../../config/config';
+
 function Button({ ...props }) {
   return (
     <Button_
@@ -10,7 +12,7 @@ function Button({ ...props }) {
       sx={{
         height: 50,
         borderRadius: '16px',
-        backgroundColor: '#4caf50',
+        backgroundColor: Config.colors.lightGreen,
         color: '#fff',
         fontWeight: 700,
         fontSize: '16px',
@@ -22,6 +24,7 @@ function Button({ ...props }) {
         },
         '&:disabled': {
           backgroundColor: '#a5d6A7',
+          border: '1px solid transparent',
           color: '#eee',
         },
       }}

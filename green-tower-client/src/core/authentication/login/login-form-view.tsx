@@ -1,9 +1,11 @@
+import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { FormEventHandler } from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
+import { FormHeader } from '../authentication.styles';
 import { RegisterWrapper } from './login.styles';
 
 import FormElements from '../../../components/form-elements/form-elements';
@@ -31,9 +33,9 @@ function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: Logi
   const commonLsi = useLsi();
 
   return (
-    <ComponentWrapper>
+    <Stack sx={{ height: '100%' }}>
       <FormHeader variant="h4">{commonLsi.login}</FormHeader>
-      <FormWrapper>
+      <Box sx={{ height: '100%' }}>
         <form onSubmit={onSubmit}>
           <FormElements.Email
             error={Boolean(errors.email)}
@@ -63,8 +65,8 @@ function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: Logi
             </Link>
           </Typography>
         </RegisterWrapper>
-      </FormWrapper>
-    </ComponentWrapper>
+      </Box>
+    </Stack>
   );
 }
 
