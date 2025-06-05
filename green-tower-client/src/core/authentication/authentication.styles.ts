@@ -25,11 +25,3 @@ export const FooterWrapper = styled(Stack)`
   align-items: center;
   justify-content: space-between;
 `;
-
-export const FooterLink = styled(Link)`
-  text-align: right;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-`;

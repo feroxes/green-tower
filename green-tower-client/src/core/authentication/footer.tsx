@@ -1,6 +1,8 @@
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import { Dispatch, SetStateAction } from 'react';
 
-import { FooterLink,FooterWrapper } from './authentication.styles';
+import { FooterWrapper } from './authentication.styles';
 
 import LanguageSelector from '../../components/language-selector/language-selector';
 
@@ -45,7 +47,15 @@ function Footer({ setAction, action }: FooterProps) {
   return (
     <FooterWrapper direction="row" sx={{ mt: 3 }}>
       <LanguageSelector />
-      {action ? <FooterLink onClick={handleOnAction}>{getActionLsi()}</FooterLink> : ' '}
+      {action ? (
+        <Typography variant="body2">
+          <Link style={{ cursor: 'pointer' }} onClick={handleOnAction}>
+            {getActionLsi()}
+          </Link>
+        </Typography>
+      ) : (
+        ' '
+      )}
     </FooterWrapper>
   );
 }

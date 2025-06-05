@@ -1,8 +1,7 @@
-import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { FormEventHandler } from 'react';
-import type { FieldErrors,UseFormRegister } from 'react-hook-form';
+import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
 import { RegisterWrapper } from './login.styles';
@@ -33,7 +32,7 @@ function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: Logi
 
   return (
     <ComponentWrapper>
-      <FormHeader variant="h5">{commonLsi.login}</FormHeader>
+      <FormHeader variant="h4">{commonLsi.login}</FormHeader>
       <FormWrapper>
         <form onSubmit={onSubmit}>
           <FormElements.Email
@@ -50,25 +49,19 @@ function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: Logi
             {...register('password')}
           />
 
-          <Button
-            loading={isPending}
-            type="submit"
-            variant="contained"
-            color="success"
-            size="large"
-            fullWidth
-            sx={{ mt: 1 }}
-          >
+          <FormElements.Button loading={isPending} type="submit" style={{ marginTop: 8 }}>
             {commonLsi.login}
-          </Button>
+          </FormElements.Button>
         </form>
 
         <RegisterWrapper direction="row">
-          <Typography>{lsi.dontHaveAccount}</Typography>
+          <Typography variant="body2">{lsi.dontHaveAccount}</Typography>
           {Constants.space}
-          <Link onClick={onSwitch} sx={{ cursor: 'pointer' }}>
-            {lsi.register}
-          </Link>
+          <Typography variant="body2">
+            <Link onClick={onSwitch} sx={{ cursor: 'pointer' }}>
+              {lsi.register}
+            </Link>
+          </Typography>
         </RegisterWrapper>
       </FormWrapper>
     </ComponentWrapper>

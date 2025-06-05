@@ -84,17 +84,9 @@ function RegistrationFormView({ onSubmit, errors, register, isPending }: Registr
             confirm
             {...register('confirmPassword')}
           />
-          <Button
-            loading={isPending}
-            type="submit"
-            variant="contained"
-            color="success"
-            size="large"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
+          <FormElements.Button loading={isPending} type="submit" style={{ marginTop: 8 }}>
             {lsi.registration}
-          </Button>
+          </FormElements.Button>
         </form>
       </FormWrapper>
     </ComponentWrapper>
