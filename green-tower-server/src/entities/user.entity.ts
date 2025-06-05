@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -23,6 +24,9 @@ export enum UserRole {
 }
 
 @Entity()
+@Index('IDX_USER_FARM_ID', ['farm'])
+@Index('IDX_USER_EMAIL', ['email'])
+@Index('IDX_USER_IS_DELETED', ['isDeleted'])
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;

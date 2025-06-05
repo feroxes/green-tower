@@ -26,6 +26,9 @@ export enum PlantType {
 
 @Entity()
 @Index('IDX_PLANT_CREATED_AT', ['createdAt'])
+@Index('IDX_PLANT_NAME', ['name'])
+@Index('IDX_PLANT_FARM_ID', ['farm'])
+@Index('IDX_PLANT_IS_DELETED', ['isDeleted'])
 export class Plant {
   @PrimaryGeneratedColumn('uuid')
   id: string;

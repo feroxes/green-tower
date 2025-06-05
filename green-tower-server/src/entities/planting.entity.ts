@@ -31,6 +31,11 @@ export const PlantingFinalStates = [PlantingState.HARVESTED, PlantingState.DEAD]
 
 @Entity()
 @Index('IDX_PLANTING_CREATED_AT', ['createdAt'])
+@Index('IDX_PLANTING_PLANT_ID', ['plant'])
+@Index('IDX_PLANTING_FARM_ID', ['farm'])
+@Index('IDX_PLANTING_STATE', ['state'])
+@Index('IDX_PLANTING_EXPECTED_HARVEST_TS', ['expectedHarvestTs'])
+@Index('IDX_PLANTING_IS_DELETED', ['isDeleted'])
 export class Planting {
   @PrimaryGeneratedColumn('uuid')
   id: string;

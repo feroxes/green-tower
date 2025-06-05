@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -21,6 +22,10 @@ export enum OrderState {
 }
 
 @Entity()
+@Index('IDX_ORDER_CUSTOMER_ID', ['customer'])
+@Index('IDX_ORDER_FARM_ID', ['farm'])
+@Index('IDX_ORDER_STATE', ['state'])
+@Index('IDX_ORDER_CREATED_AT', ['createdAt'])
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;

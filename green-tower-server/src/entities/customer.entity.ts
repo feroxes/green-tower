@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -16,6 +17,9 @@ import { Order } from './order.entity';
 import { User } from './user.entity';
 
 @Entity()
+@Index('IDX_CUSTOMER_FARM_ID', ['farm'])
+@Index('IDX_CUSTOMER_IS_DELETED', ['isDeleted'])
+@Index('IDX_CUSTOMER_NAME', ['name'])
 export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;

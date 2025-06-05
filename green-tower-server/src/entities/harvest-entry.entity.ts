@@ -28,6 +28,10 @@ export type HarvestEntryWithoutPlant = Omit<HarvestEntry, 'plant'>;
 
 @Entity()
 @Index('IDX_HARVEST_ENTRY_CREATED_AT', ['createdAt'])
+@Index('IDX_HARVEST_ENTRY_PLANTING_ID', ['planting'])
+@Index('IDX_HARVEST_ENTRY_PLANT_ID', ['plant'])
+@Index('IDX_HARVEST_ENTRY_FARM_ID', ['farm'])
+@Index('IDX_HARVEST_ENTRY_STATE', ['state'])
 export class HarvestEntry {
   @PrimaryGeneratedColumn('uuid')
   id: string;
