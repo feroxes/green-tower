@@ -64,3 +64,9 @@ export class OrderDeleteDto {
   @IsNotEmpty()
   id: string;
 }
+
+export class OrderUpdateDto extends OrderCreateDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+}

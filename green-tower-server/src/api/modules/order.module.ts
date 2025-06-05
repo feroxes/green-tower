@@ -22,6 +22,7 @@ import { OrderService } from '@services/order/order.service';
 import { OrderCreateService } from '@services/order/order-create.service';
 import { OrderDeleteService } from '@services/order/order-delete.service';
 import { OrderListService } from '@services/order/order-list.service';
+import { OrderUpdateService } from '@services/order/order-update.service';
 import { TokenService } from '@services/token/token.service';
 
 import { CustomerComponent } from '@components/customer.component';
@@ -52,6 +53,7 @@ import { UserComponent } from '@components/user.component';
     OrderCreateService,
     OrderListService,
     OrderDeleteService,
+    OrderUpdateService,
     UserComponent,
     FarmComponent,
     CustomerComponent,

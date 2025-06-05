@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { EntityManager } from 'typeorm';
 
 import { HarvestEntryCreateCutService } from './harvest-entry-create-cut.service';
 import { HarvestEntryCreatePlateService } from './harvest-entry-create-plate.service';
@@ -40,5 +41,9 @@ export class HarvestEntryService {
 
   async listGroupedByPlant(executor: ExecutorType) {
     return this.harvestEntryListGroupedService.listGroupedByPlant(executor);
+  }
+
+  async listGroupedByPlantTransactional(executor: ExecutorType, manager: EntityManager) {
+    return this.harvestEntryListGroupedService.listGroupedByPlantTransactional(executor, manager);
   }
 }

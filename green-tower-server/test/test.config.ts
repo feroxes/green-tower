@@ -6,7 +6,7 @@ import { DataSource } from 'typeorm';
 
 import { AppModule } from '../src/api/modules/app.module';
 
-import { EmailService } from '../src/services/email/email.service';
+import { EmailService } from '@services/email/email.service';
 
 export interface TestModuleOptions {
   imports?: any[];

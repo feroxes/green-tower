@@ -1,7 +1,7 @@
 import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 import { HarvestEntry, HarvestEntryState, HarvestEntryWithoutPlant } from '@entities/harvest-entry.entity';
 import { Plant } from '@entities/plant.entity';
@@ -50,6 +50,20 @@ export class HarvestEntryListGroupedService {
       order: { createdAt: 'ASC' },
     });
 
+    return this.groupByPlant(harvestEntries);
+  }
+
+  async listGroupedByPlantTransactional(executor: ExecutorType, manager: EntityManager) {
+    const harvestEntries = await manager.find(HarvestEntry, {
+      where: { farm: { id: executor.farmId }, state: HarvestEntryState.READY },
+      relations: ['plant'],
+      order: { createdAt: 'ASC' },
+    });
+
+    return this.groupByPlant(harvestEntries);
+  }
+
+  private groupByPlant(harvestEntries: HarvestEntry[]) {
     const groupedByPlant = harvestEntries.reduce(
       (acc, entry) => {
         const plantId = entry.plant.id;

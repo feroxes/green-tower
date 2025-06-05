@@ -48,7 +48,13 @@ describe('OrderDelete', () => {
       id: testHelper.planting.id,
       type: PlantingType.PLATE,
       harvestGram: 200,
-      amountOfPlates: mockDto.plantingCreateDto.amountOfPlates,
+      amountOfPlates: mockDto.plantingCreateDto.amountOfPlates - subtrahend,
+    });
+    await Calls.Planting.harvest(app, testHelper.getAccessToken, {
+      id: testHelper.planting.id,
+      type: PlantingType.CUT,
+      harvestGram: 200,
+      amountOfPlates: subtrahend,
     });
     order = (await Calls.Order.create(app, testHelper.getAccessToken, {
       customerId: testHelper.getCustomer.id,
@@ -77,7 +83,9 @@ describe('OrderDelete', () => {
 
       ValidationHelper.validateSuccessResponse(res);
       expect(orderItemHarvestEntry.length).toBe(0);
-      expect(harvestEntryList.body.itemList[0].plate.totalPlatesLeft).toBe(mockDto.plantingCreateDto.amountOfPlates);
+      expect(harvestEntryList.body.itemList[0].plate.totalPlatesLeft).toBe(
+        mockDto.plantingCreateDto.amountOfPlates - subtrahend,
+      );
       expect(harvestEntryList.body.itemList[0].plate.entries[0].state).toBe(HarvestEntryState.READY);
     });
 

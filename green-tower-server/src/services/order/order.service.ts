@@ -3,8 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { OrderCreateService } from './order-create.service';
 import { OrderListService } from './order-list.service';
 import { OrderDeleteService } from '@services/order/order-delete.service';
+import { OrderUpdateService } from '@services/order/order-update.service';
 
-import { OrderCreateDto, OrderDeleteDto, OrderListDto } from '@dtos/order.dto';
+import { OrderCreateDto, OrderDeleteDto, OrderListDto, OrderUpdateDto } from '@dtos/order.dto';
 
 import { ExecutorType } from '@app-types/auth.types';
 
@@ -14,6 +15,7 @@ export class OrderService {
     private orderCreateService: OrderCreateService,
     private orderListService: OrderListService,
     private orderDeleteService: OrderDeleteService,
+    private orderUpdateService: OrderUpdateService,
   ) {}
 
   async create(orderCreateDto: OrderCreateDto, executor: ExecutorType) {
@@ -26,5 +28,9 @@ export class OrderService {
 
   async delete(orderDeleteDto: OrderDeleteDto, executor: ExecutorType) {
     return this.orderDeleteService.delete(orderDeleteDto, executor);
+  }
+
+  async update(orderUpdateDto: OrderUpdateDto, executor: ExecutorType) {
+    return this.orderUpdateService.update(orderUpdateDto, executor);
   }
 }

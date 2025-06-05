@@ -1,18 +1,18 @@
-import { PlantingType } from '@entities/enums/planting-type.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 
-import { HarvestEntry, HarvestEntryState } from '@entities/harvest-entry.entity';
 import { Order } from '@entities/order.entity';
 import { OrderItem } from '@entities/order-item.entity';
-import { OrderItemHarvestEntry } from '@entities/order-item-harvest-entry.entity';
 
 import { FarmComponent } from '@components/farm.component';
+import { HarvestEntryComponent } from '@components/harvest-entry.component';
 import { OrderComponent } from '@components/order.component';
 import { UserComponent } from '@components/user.component';
 
 import { OrderDeleteDto } from '@dtos/order.dto';
+
+import { orderDeleteError } from '@errors/order.errors';
 
 import { ExecutorType } from '@app-types/auth.types';
 
@@ -24,6 +24,7 @@ export class OrderDeleteService {
     private userComponent: UserComponent,
     private farmComponent: FarmComponent,
     private orderComponent: OrderComponent,
+    private harvestEntryComponent: HarvestEntryComponent,
   ) {}
 
   async delete(orderDeleteDto: OrderDeleteDto, executor: ExecutorType): Promise<void> {
@@ -37,34 +38,17 @@ export class OrderDeleteService {
       useCase,
     );
 
-    await this.entityManager.transaction(async (manager) => {
-      const allRelations = await manager.find(OrderItemHarvestEntry, {
-        where: { orderItem: { order: { id: order.id } } },
-        relations: ['orderItem', 'harvestEntry'],
+    try {
+      await this.entityManager.transaction(async (manager) => {
+        for (const item of order.items) {
+          await this.harvestEntryComponent.rollbackHarvestEntry(useCase, manager, item);
+        }
+
+        await manager.remove(OrderItem, order.items);
+        await manager.remove(Order, order);
       });
-
-      for (const relation of allRelations) {
-        const entry = await manager.findOne(HarvestEntry, {
-          where: { id: relation.harvestEntry.id },
-        });
-        if (!entry) continue;
-
-        if (relation.orderItem.type === PlantingType.CUT) {
-          entry.harvestGramsLeft = (entry.harvestGramsLeft || 0) + relation.amountTaken;
-        } else {
-          entry.harvestAmountOfPlatesLeft = (entry.harvestAmountOfPlatesLeft || 0) + relation.amountTaken;
-        }
-
-        if (entry.state === HarvestEntryState.SOLD) {
-          entry.state = HarvestEntryState.READY;
-        }
-
-        await manager.save(entry);
-      }
-
-      await manager.remove(OrderItemHarvestEntry, allRelations);
-      await manager.remove(OrderItem, order.items);
-      await manager.remove(Order, order);
-    });
+    } catch (e: unknown) {
+      throw orderDeleteError.FailedToDeleteOrder({ e });
+    }
   }
 }

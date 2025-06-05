@@ -27,7 +27,7 @@ export class OrderItem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Order, (order) => order.items)
+  @ManyToOne(() => Order, (order) => order.items, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'orderId' })
   order: Order;
 
@@ -38,7 +38,7 @@ export class OrderItem {
   @Column({ type: 'enum', enum: PlantingType })
   type: PlantingType;
 
-  @OneToMany(() => OrderItemHarvestEntry, (entry) => entry.orderItem)
+  @OneToMany(() => OrderItemHarvestEntry, (entry) => entry.orderItem, { cascade: true })
   orderItemHarvestEntries: OrderItemHarvestEntry[];
 
   @Column({ type: 'integer', nullable: true })

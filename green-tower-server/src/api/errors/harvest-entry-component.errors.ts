@@ -26,4 +26,10 @@ export class HarvestEntryComponentError extends BaseError {
     'failedToCreateHarvestEntry',
     'Failed to create harvest entry.',
   );
+
+  readonly FailedToRollbackStock = this.createError(
+    InternalServerErrorException,
+    'failedToRollbackStock',
+    'Failed to rollback stock.',
+  );
 }

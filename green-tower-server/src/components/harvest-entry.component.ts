@@ -34,7 +34,7 @@ export class HarvestEntryComponent {
     return harvestEntry;
   }
 
-  async allocateStock(
+  async allocateHarvestEntry(
     useCase: string,
     manager: EntityManager,
     orderItem: OrderItem,
@@ -53,8 +53,10 @@ export class HarvestEntryComponent {
 
       let available = 0;
       let amountTaken = 0;
+      const isCut = type === PlantingType.CUT;
+      const isPlate = type === PlantingType.PLATE;
 
-      if (type === PlantingType.CUT) {
+      if (isCut) {
         available = harvestEntry.harvestGramsLeft ?? 0;
         amountTaken = Math.min(available, amountToAllocate);
         harvestEntry.harvestGramsLeft = available - amountTaken;
@@ -64,10 +66,7 @@ export class HarvestEntryComponent {
         harvestEntry.harvestAmountOfPlatesLeft = available - amountTaken;
       }
 
-      if (
-        (type === PlantingType.CUT && harvestEntry.harvestGramsLeft === 0) ||
-        (type === PlantingType.PLATE && harvestEntry.harvestAmountOfPlatesLeft === 0)
-      ) {
+      if ((isCut && harvestEntry.harvestGramsLeft === 0) || (isPlate && harvestEntry.harvestAmountOfPlatesLeft === 0)) {
         harvestEntry.state = HarvestEntryState.SOLD;
       }
 
@@ -94,5 +93,43 @@ export class HarvestEntryComponent {
     }
 
     return updatedEntries;
+  }
+
+  async rollbackHarvestEntry(useCase: string, manager: EntityManager, orderItem: OrderItem): Promise<void> {
+    const Errors = new HarvestEntryComponentError(useCase);
+
+    const relations = await manager.find(OrderItemHarvestEntry, {
+      where: { orderItem: { id: orderItem.id } },
+      relations: ['harvestEntry'],
+    });
+
+    const updatedEntries: HarvestEntry[] = [];
+
+    for (const relation of relations) {
+      const entry = relation.harvestEntry;
+      if (!entry) continue;
+
+      if (orderItem.type === PlantingType.CUT) {
+        entry.harvestGramsLeft = (entry.harvestGramsLeft ?? 0) + relation.amountTaken;
+      } else {
+        entry.harvestAmountOfPlatesLeft = (entry.harvestAmountOfPlatesLeft ?? 0) + relation.amountTaken;
+      }
+
+      const hasStock = (entry.harvestGramsLeft ?? 0) > 0 || (entry.harvestAmountOfPlatesLeft ?? 0) > 0;
+      if (hasStock && entry.state === HarvestEntryState.SOLD) {
+        entry.state = HarvestEntryState.READY;
+      }
+
+      updatedEntries.push(entry);
+    }
+
+    try {
+      if (updatedEntries.length > 0) {
+        await manager.save(HarvestEntry, updatedEntries);
+      }
+      await manager.remove(OrderItemHarvestEntry, relations);
+    } catch (e: unknown) {
+      throw Errors.FailedToRollbackStock({ e });
+    }
   }
 }

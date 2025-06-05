@@ -84,7 +84,7 @@ export class OrderCreateService {
 
           const entries = isCut ? group.cut.entries : group.plate.entries;
 
-          await this.harvestEntryComponent.allocateStock(
+          await this.harvestEntryComponent.allocateHarvestEntry(
             useCase,
             manager,
             orderItem,
@@ -105,7 +105,11 @@ export class OrderCreateService {
           totalPrice,
         });
 
-        return manager.save(Order, order);
+        try {
+          return manager.save(Order, order);
+        } catch (e: unknown) {
+          throw orderCreateError.FailedToSaveOrder({ e });
+        }
       });
     } catch (e: unknown) {
       throw orderCreateError.FailedToCreateOrder({ e });
