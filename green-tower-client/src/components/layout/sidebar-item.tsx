@@ -31,8 +31,11 @@ function SidebarItem({ path, label, isActive, isOpen, onClick }: SidebarItemProp
         px: isOpen ? 1.25 : 1,
         display: 'flex',
         alignItems: 'center',
-        transition: 'background 0.2s',
+        transition: 'background 0.3s',
         gap: 2,
+        '&:hover': {
+          bgcolor: '#cce8a4',
+        },
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 32 }}>

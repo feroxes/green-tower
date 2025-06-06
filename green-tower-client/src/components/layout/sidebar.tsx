@@ -30,15 +30,16 @@ function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
     <Box
       sx={{
-        width: isOpen ? 260 : 'auto',
-        minWidth: isOpen ? 260 : 'auto',
+        width: isOpen ? 260 : 74,
+        minWidth: isOpen ? 260 : 74,
         p: isOpen ? 2 : 1,
         height: '100vh',
         bgcolor: '#fef7da',
         display: 'flex',
+        overflow: 'hidden',
         flexDirection: 'column',
         alignItems: 'center',
-        transition: 'width 0.2s',
+        transition: 'width 0.3s ease',
         position: 'sticky',
         top: 0,
         zIndex: 10,
