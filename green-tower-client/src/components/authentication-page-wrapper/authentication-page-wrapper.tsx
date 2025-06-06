@@ -21,7 +21,7 @@ function AuthenticationPageWrapper({ children, action, setAction }: Authenticati
       <FormContainer
         sx={{
           p: 3,
-          bgcolor: Config.colors.sand,
+          bgcolor: Config.colors.light,
           minHeight: action === 'login' ? '420px' : '480px',
         }}
       >

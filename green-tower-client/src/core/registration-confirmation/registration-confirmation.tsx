@@ -41,7 +41,7 @@ function RegistrationConfirmation({ query }: RegistrationConfirmationProps) {
       <PlaceholderBox
         code={isError ? 'sadSmile' : 'smile'}
         color={isError ? '#bd2635' : Config.colors.lightGreen}
-        bgColor={Config.colors.sand}
+        bgColor={Config.colors.light}
         header={isError ? lsi.oops : lsi.thanks}
         subHeader={isError ? getErrorLsi() : lsi.accountCreated}
       />

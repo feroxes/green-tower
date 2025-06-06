@@ -12,7 +12,7 @@ function Text({ ...props }) {
       {...props}
       sx={{
         '& .MuiOutlinedInput-root': {
-          backgroundColor: Config.colors.sand,
+          backgroundColor: Config.colors.light,
           boxShadow: '0 4px 10px rgba(0, 0, 0, 0.08)',
           borderRadius: '16px',
           height: '50px',

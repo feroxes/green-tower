@@ -31,7 +31,7 @@ function Logo({
       {displayLogo && <LogoWrapper size={logoSize} />}
       {displayText && (
         <Stack direction="row" sx={{ mt: textPosition === 'right' ? 0 : 1, ml: textPosition === 'right' ? 1 : 0 }}>
-          <Typography color={Config.colors.green} sx={{ fontSize, fontWeight: 'bold' }}>
+          <Typography color={Config.colors.deepGreen} sx={{ fontSize, fontWeight: 'bold' }}>
             {lsi.green}
           </Typography>
           {Constants.space}

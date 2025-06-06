@@ -31,4 +31,28 @@ export const Lsi = {
     en: 'Unexpected error. Please try again.',
     uk: 'Сталася помилка. Спробуйте ще раз.',
   },
+  dashboard: {
+    en: 'Dashboard',
+    uk: 'Дашборд',
+  },
+  plants: {
+    en: 'Plants',
+    uk: 'Рослини',
+  },
+  planting: {
+    en: 'Planting',
+    uk: 'Посадження',
+  },
+  orders: {
+    en: 'Orders',
+    uk: 'Замовлення',
+  },
+  clients: {
+    en: 'Clients',
+    uk: 'Клієнти',
+  },
+  settings: {
+    en: 'Settings',
+    uk: 'Налаштування',
+  },
 };

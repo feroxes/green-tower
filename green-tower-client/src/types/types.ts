@@ -9,3 +9,5 @@ export interface ErrorResponse {
 }
 
 export type UserRoles = 'owner' | 'admin' | 'user';
+
+export type Path = '/' | '/plants' | '/plantings' | '/orders' | '/clients' | '/settings';
