@@ -24,6 +24,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.80.6",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",

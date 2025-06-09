@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import BackgroundProvider from '../../components/background-provider/background-provider';
 import ThemeProvider from '../../components/theme-provider/theme-provider';
@@ -27,6 +28,7 @@ function App() {
           </AuthProvider>
         </BackgroundProvider>
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
