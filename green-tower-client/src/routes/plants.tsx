@@ -1,5 +1,20 @@
+import DataStateResolver from '../components/data-state-resolver/data-state-resolver';
+
+import { usePlants } from '../hooks/user/use-plants';
+
+import Plants from '../core/plants/plants';
+import { PlantListDto } from '../types/plants-types';
+
 function PlantsRoute() {
-  return <div>PlantsRoute</div>;
+  const { query } = usePlants();
+
+  return (
+    <DataStateResolver query={query}>
+      {({ data }) => {
+        return <Plants plantsDataList={data as PlantListDto} />;
+      }}
+    </DataStateResolver>
+  );
 }
 
 export default PlantsRoute;

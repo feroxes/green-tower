@@ -11,3 +11,9 @@ export interface ErrorResponse {
 export type UserRoles = 'owner' | 'admin' | 'user';
 
 export type Path = '/' | '/plants' | '/plantings' | '/orders' | '/clients' | '/settings';
+
+export type MetaType = {
+  page: number;
+  size: number;
+  total: number;
+};

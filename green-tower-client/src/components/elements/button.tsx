@@ -1,21 +1,24 @@
 import { Button as Button_ } from '@mui/material';
 import React from 'react';
 
+import { useDevice } from '../../hooks/hooks';
+
 import { Config } from '../../config/config';
 
-function Button({ ...props }) {
+function Button({ sx = {}, ...props }) {
+  const { isMobile } = useDevice();
   return (
     <Button_
       variant="contained"
       fullWidth
       {...props}
       sx={{
-        height: 50,
+        height: isMobile ? 40 : 50,
         borderRadius: '16px',
         backgroundColor: Config.colors.lightGreen,
         color: '#fff',
         fontWeight: 700,
-        fontSize: '16px',
+        fontSize: isMobile ? '14px' : '16px',
         textTransform: 'uppercase',
         border: '1px solid #1e9a1d',
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
@@ -27,6 +30,7 @@ function Button({ ...props }) {
           border: '1px solid transparent',
           color: '#eee',
         },
+        ...sx,
       }}
     >
       {props.children}

@@ -39,7 +39,8 @@ export class PlantCreateDto {
   notes?: string;
 
   @IsOptional()
-  @IsUrl()
+  // FIXME: url or path?
+  // @IsUrl()
   @MinLength(3)
   @MaxLength(512)
   imageUrl?: string;
@@ -107,7 +108,8 @@ export class PlantUpdateDto {
   notes?: string | null;
 
   @IsOptional()
-  @IsUrl()
+  // FIXME: url or path?
+  // @IsUrl()
   @MinLength(3)
   @MaxLength(512)
   imageUrl?: string | null;

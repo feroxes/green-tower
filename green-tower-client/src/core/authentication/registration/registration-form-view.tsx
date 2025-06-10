@@ -9,6 +9,7 @@ import { RegistrationSubHeader } from './registration.styles';
 import FormElements from '../../../components/form-elements/form-elements';
 
 import { useLsi } from '../../../hooks/common/use-lsi';
+import { useDevice } from '../../../hooks/hooks';
 
 import { Lsi } from './lsi';
 
@@ -31,6 +32,7 @@ interface RegistrationFormViewProps {
 
 function RegistrationFormView({ onSubmit, errors, register, isPending }: RegistrationFormViewProps) {
   const lsi = useLsi(Lsi);
+  const { isMobile } = useDevice();
 
   return (
     <Stack sx={{ height: '100%' }}>
@@ -46,7 +48,7 @@ function RegistrationFormView({ onSubmit, errors, register, isPending }: Registr
             {...register('farmName')}
           />
           <RegistrationSubHeader sx={{ mt: 1 }}>{lsi.userInfo}</RegistrationSubHeader>
-          <Stack direction="row" spacing={2} sx={{ m: '8px 0 4px' }}>
+          <Stack direction={isMobile ? 'column' : 'row'} spacing={2} sx={{ m: '8px 0 4px' }}>
             <FormElements.Text
               error={Boolean(errors.firstName)}
               helperText={errors.firstName?.message ?? ''}

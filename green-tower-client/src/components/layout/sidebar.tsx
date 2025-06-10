@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useDevice } from '../../hooks/common/use-device';
+
 import { Path } from '../../types/types';
 import Logo from '../logo/logo';
 import SidebarItem from './sidebar-item';
@@ -24,6 +26,7 @@ interface SidebarProps {
 }
 
 function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const { isMobile } = useDevice();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -68,11 +71,13 @@ function Sidebar({ isOpen, onToggle }: SidebarProps) {
           />
         ))}
       </Stack>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: isOpen ? 'flex-end' : 'center', p: 1 }}>
-        <IconButton onClick={onToggle} size="small">
-          {isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-        </IconButton>
-      </Box>
+      {!isMobile && (
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: isOpen ? 'flex-end' : 'center', p: 1 }}>
+          <IconButton onClick={onToggle} size="small">
+            {isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </Box>
+      )}
     </Box>
   );
 }

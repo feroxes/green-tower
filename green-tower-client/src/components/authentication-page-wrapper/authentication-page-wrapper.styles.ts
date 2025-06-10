@@ -9,7 +9,7 @@ export const PageWrapper = styled(Stack)`
 `;
 
 export const FormContainer = styled(Paper)`
-  width: 400px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   margin: 16px;
