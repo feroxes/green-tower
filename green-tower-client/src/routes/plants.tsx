@@ -1,6 +1,6 @@
 import DataStateResolver from '../components/data-state-resolver/data-state-resolver';
 
-import { usePlants } from '../hooks/user/use-plants';
+import { usePlants } from '../hooks/plants/use-plants';
 
 import Plants from '../core/plants/plants';
 import { PlantListDto } from '../types/plants-types';

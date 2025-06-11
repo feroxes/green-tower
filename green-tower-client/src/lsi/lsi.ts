@@ -55,4 +55,24 @@ export const Lsi = {
     en: 'Settings',
     uk: 'Налаштування',
   },
+  cancel: {
+    en: 'Cancel',
+    uk: 'Скасувати',
+  },
+  create: {
+    en: 'Create',
+    uk: 'Створити',
+  },
+  update: {
+    en: 'Update',
+    uk: 'Оновити',
+  },
+  microgreen: {
+    en: 'Microgreen',
+    uk: 'Мікрогрін',
+  },
+  common: {
+    en: 'Common',
+    uk: 'Звичайний',
+  },
 };

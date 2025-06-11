@@ -14,7 +14,7 @@ function Button({ sx = {}, ...props }) {
       {...props}
       sx={{
         height: isMobile ? 40 : 50,
-        borderRadius: '16px',
+        borderRadius: Config.commonBorderRadius,
         backgroundColor: Config.colors.lightGreen,
         color: '#fff',
         fontWeight: 700,

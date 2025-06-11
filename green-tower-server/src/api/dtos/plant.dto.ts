@@ -125,7 +125,7 @@ export class PlantUpdateDto {
 
   @IsOptional()
   @IsNumber()
-  @Min(0)
+  @Min(1)
   hoursToSoak?: number | null;
 
   @IsOptional()

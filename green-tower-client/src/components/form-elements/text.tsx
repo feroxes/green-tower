@@ -15,7 +15,7 @@ function Text({ ...props }) {
           backgroundColor: Config.colors.light,
           boxShadow: '0 4px 10px rgba(0, 0, 0, 0.08)',
           borderRadius: '16px',
-          height: '50px',
+          minHeight: '49px',
           '& fieldset': {
             borderColor: '#ece2d3',
           },
@@ -39,7 +39,9 @@ function Text({ ...props }) {
           color: Config.colors.brown,
         },
       }}
-    />
+    >
+      {props.children}
+    </TextField>
   );
 }
 

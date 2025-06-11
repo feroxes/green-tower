@@ -1,8 +1,11 @@
 import * as yup from 'yup';
 
-import type { ValidationLsiType } from '../../../../lsi/validation-lsi';
+import { useLsi } from '../../../../hooks/common/use-lsi';
 
-export function getRegistrationSchema(validationLsi: ValidationLsiType) {
+import { ValidationLsi, ValidationLsiType } from '../../../../lsi/validation-lsi';
+
+export function getRegistrationSchema() {
+  const validationLsi = useLsi(ValidationLsi);
   return yup
     .object({
       email: yup

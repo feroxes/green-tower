@@ -5,8 +5,7 @@ export enum PlantType {
   COMMON = 'common',
 }
 
-export type PlantDto = {
-  id: string;
+export type PlantCreateDto = {
   name: string;
   description?: string | null;
   notes?: string | null;
@@ -18,14 +17,18 @@ export type PlantDto = {
   shouldBePressed?: boolean | null;
   seedsGramPerPlate: number;
   expectedHarvestGramsPerPlate: number;
-  expectedHarvestGramsPerGramOfSeeds: number;
-  sellPricePerGram: number;
   sellPricePerPlate: number;
+};
+
+export interface PlantDto extends PlantCreateDto {
+  id: string;
   activePlantings?: number;
+  sellPricePerGram: number;
+  expectedHarvestGramsPerGramOfSeeds: number;
   version: number;
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
 export type PlantListDto = {
   itemList: PlantDto[];

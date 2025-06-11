@@ -36,7 +36,7 @@ function Card({ children, bgcolor = '#fff7da', onClick, sx = {}, showMenu = fals
         display: 'flex',
         bgcolor,
         p: 0.6,
-        borderRadius: 3,
+        borderRadius: Config.commonBorderRadius,
         border: '1px solid rgba(255, 255, 255, 0.5)',
         boxShadow: '0 6px 10px rgba(0, 0, 0, 0.1)',
         position: 'relative',
@@ -74,7 +74,7 @@ function Card({ children, bgcolor = '#fff7da', onClick, sx = {}, showMenu = fals
             slotProps={{
               paper: {
                 sx: {
-                  borderRadius: '12px',
+                  borderRadius: Config.commonBorderRadius,
                   backgroundColor: Config.colors.sand,
                 },
               },

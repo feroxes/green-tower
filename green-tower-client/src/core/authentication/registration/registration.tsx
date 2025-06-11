@@ -3,10 +3,8 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useRegistration } from '../../../hooks/auth/use-registration';
-import { useLsi } from '../../../hooks/common/use-lsi';
 import { useLanguage } from '../../../hooks/hooks';
 
-import { ValidationLsi } from '../../../lsi/validation-lsi';
 import RegistrationFormView, { RegistrationFormInputs } from './registration-form-view';
 import { getRegistrationSchema } from './validation/registration.schema';
 
@@ -17,8 +15,7 @@ interface RegistrationProps {
 
 function Registration({ setRegistrationEmail, onSwitch }: RegistrationProps) {
   const { mutate: signup, isPending } = useRegistration(onSwitch);
-  const validationLsi = useLsi(ValidationLsi);
-  const validationSchema = getRegistrationSchema(validationLsi);
+  const validationSchema = getRegistrationSchema();
   const { language } = useLanguage();
 
   const {

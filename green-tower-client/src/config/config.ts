@@ -6,5 +6,7 @@ export const Config = {
     green: '#5ca52f',
     light: '#fff9ef',
     sand: '#fff7da',
+    orange: '#f6825f',
   },
+  commonBorderRadius: 3,
 };
