@@ -48,7 +48,15 @@ function Dialog({ open, onClose, children, title, actionButton, maxWidth = 'md' 
             <Elements.Button
               onClick={onClose}
               fullWidth={false}
-              sx={{ backgroundColor: Config.colors.sand, color: Config.colors.brown, border: '1ps solid #fff' }}
+              sx={{
+                backgroundColor: Config.colors.sand,
+                color: Config.colors.brown,
+                border: '1ps solid #fff',
+                ml: 1,
+                '&:hover': {
+                  backgroundColor: Config.colors.orange,
+                },
+              }}
             >
               {lsi.cancel}
             </Elements.Button>

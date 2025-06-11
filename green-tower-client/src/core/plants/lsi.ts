@@ -23,6 +23,10 @@ export const Lsi = {
     en: 'Update plant',
     uk: 'Оновити рослину',
   },
+  deletePlant: {
+    en: 'Delete plant',
+    uk: 'Видалити рослину',
+  },
   name: {
     en: 'Name',
     uk: 'Назва',
@@ -68,7 +72,7 @@ export const Lsi = {
     uk: 'Ціна за лоток',
   },
   alfalfa: {
-    en: 'alfalfa',
+    en: 'Alfalfa',
     uk: 'Люцерна',
   },
   amaranth: {
@@ -203,8 +207,16 @@ export const Lsi = {
     en: 'Your plant successfully updated',
     uk: 'Ваша рослина успішно оновлено',
   },
+  successfullyDeleted: {
+    en: 'Your plant successfully deleted',
+    uk: 'Ваша рослина успішно видалена',
+  },
   unexpectedError: {
     en: 'Unexpected error. Please try again.',
     uk: 'Сталася помилка. Спробуйте ще раз.',
+  },
+  aboutToDelete: {
+    en: 'You are about to delete',
+    uk: 'Ви збираєтеся видалити',
   },
 };

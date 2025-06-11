@@ -50,11 +50,32 @@ export function usePlants() {
     onError: () => addAlert(lsi.unexpectedError, 'error'),
   });
 
+  const deleteMutation = useMutation<void, AxiosError, { id: string }>({
+    mutationFn: (dto) => Calls.Plants.delete(dto).then(() => {}),
+    onSuccess: (_, dto) => {
+      addAlert(lsi.successfullyDeleted, 'success');
+      queryClient.setQueryData<PlantListDto>(['plants'], (oldData) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          itemList: oldData.itemList.filter((plant) => plant.id !== dto.id),
+          meta: {
+            ...oldData.meta,
+            total: oldData.meta.total - 1,
+            size: oldData.meta.size - 1,
+          },
+        };
+      });
+    },
+    onError: () => addAlert(lsi.unexpectedError, 'error'),
+  });
+
   return {
     query,
     refetchPlants: query.refetch,
     createPlant: createMutation.mutateAsync,
     updatePlant: updateMutation.mutateAsync,
-    isPending: query.isPending || createMutation.isPending || updateMutation.isPending,
+    deletePlant: deleteMutation.mutateAsync,
+    isPending: query.isPending || createMutation.isPending || updateMutation.isPending || deleteMutation.isPending,
   };
 }
