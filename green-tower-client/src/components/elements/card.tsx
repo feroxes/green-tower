@@ -1,34 +1,21 @@
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Menu } from '@mui/material';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
 import { SxProps, Theme } from '@mui/material/styles';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 import { Config } from '../../config/config';
+import Elements from './elements';
+import { MenuOptionType } from './menu';
 
 interface CardProps {
   children: ReactNode;
   bgcolor?: string;
   onClick?: () => void;
   sx?: SxProps<Theme>;
-  showMenu?: boolean;
+  menuOptions?: MenuOptionType[];
 }
 
-function Card({ children, bgcolor = '#fff7da', onClick, sx = {}, showMenu = false }: CardProps) {
+function Card({ children, bgcolor = '#fff7da', onClick, sx = {}, menuOptions }: CardProps) {
   const isClickable = Boolean(onClick);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <Box
       onClick={onClick}
@@ -55,40 +42,7 @@ function Card({ children, bgcolor = '#fff7da', onClick, sx = {}, showMenu = fals
       }}
     >
       {children}
-      {showMenu && (
-        <IconButton
-          size="small"
-          onClick={handleClick}
-          sx={{
-            position: 'absolute',
-            top: 6,
-            right: 0,
-            zIndex: 1,
-            '&:hover': {
-              backgroundColor: 'transparent',
-            },
-          }}
-        >
-          <MoreVertIcon />
-          <Menu
-            slotProps={{
-              paper: {
-                sx: {
-                  borderRadius: Config.commonBorderRadius,
-                  backgroundColor: Config.colors.sand,
-                },
-              },
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <MenuItem onClick={handleClose}>Edit</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
-          </Menu>
-        </IconButton>
-      )}
+      {menuOptions && <Elements.ThreeDotsMenu options={menuOptions} />}
     </Box>
   );
 }

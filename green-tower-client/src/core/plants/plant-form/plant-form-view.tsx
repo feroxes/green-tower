@@ -63,7 +63,7 @@ function PlantFormView({ onSubmit, errors, register, isPending, plantDataObject,
         value: plantImageMap[key],
         label: (
           <Box sx={{ display: 'grid', gridTemplateColumns: '40px auto', alignItems: 'center' }}>
-            <img src={`assets/plants/${plantImageMap[key]}`} alt={key} height={30} style={{ margin: 'auto' }} />
+            <img src={plantImageMap[key]} alt={key} height={30} style={{ margin: 'auto' }} />
             {Constants.space}
             {plantLsi[typedKey]}
           </Box>

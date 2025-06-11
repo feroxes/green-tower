@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios';
 
 import { Lsi } from '../../core/plants/lsi';
 import Calls from '../../services/calls';
-import { PlantCreateDto, PlantDto, PlantListDto } from '../../types/plants-types';
+import { PlantCreateDto, PlantDto, PlantListDto, PlantUpdateDto } from '../../types/plants-types';
 import { useAlert } from '../common/use-alert';
 import { useLsi } from '../common/use-lsi';
 
@@ -32,15 +32,29 @@ export function usePlants() {
         };
       });
     },
-    onError: () => {
-      addAlert(lsi.unexpectedError, 'error');
+    onError: () => addAlert(lsi.unexpectedError, 'error'),
+  });
+
+  const updateMutation = useMutation<PlantDto, AxiosError, PlantUpdateDto>({
+    mutationFn: (dto) => Calls.Plants.update(dto).then((res) => res.data),
+    onSuccess: (updatedPlant) => {
+      addAlert(lsi.successfullyUpdated, 'success');
+      queryClient.setQueryData<PlantListDto>(['plants'], (oldData) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          itemList: oldData.itemList.map((plant) => (plant.id === updatedPlant.id ? updatedPlant : plant)),
+        };
+      });
     },
+    onError: () => addAlert(lsi.unexpectedError, 'error'),
   });
 
   return {
     query,
     refetchPlants: query.refetch,
     createPlant: createMutation.mutateAsync,
-    isPending: query.isPending || createMutation.isPending,
+    updatePlant: updateMutation.mutateAsync,
+    isPending: query.isPending || createMutation.isPending || updateMutation.isPending,
   };
 }

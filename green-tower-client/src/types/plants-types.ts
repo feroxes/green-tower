@@ -20,6 +20,10 @@ export type PlantCreateDto = {
   sellPricePerPlate: number;
 };
 
+export interface PlantUpdateDto extends PlantCreateDto {
+  id: string;
+}
+
 export interface PlantDto extends PlantCreateDto {
   id: string;
   activePlantings?: number;

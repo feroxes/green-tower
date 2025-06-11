@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 
 import { usePlants } from '../../../hooks/plants/use-plants';
@@ -15,7 +15,7 @@ interface PlantFormProps {
 
 function PlantForm({ plantDataObject, onClose }: PlantFormProps) {
   const schema = getPlantSchema();
-  const { createPlant, isPending } = usePlants();
+  const { createPlant, updatePlant, isPending } = usePlants();
 
   const methods = useForm<PlantCreateDto>({
     resolver: yupResolver(schema) as Resolver<PlantCreateDto>,
@@ -27,15 +27,14 @@ function PlantForm({ plantDataObject, onClose }: PlantFormProps) {
   }, [plantDataObject, methods.reset]);
 
   const onSubmit: SubmitHandler<PlantCreateDto> = async (data) => {
+    if (!data.notes) delete data.notes;
+    else data.notes = data.notes.trim();
+
     if (plantDataObject) {
-      // TODO: call update mutation
+      await updatePlant({ id: plantDataObject.id, ...data })
+        .then(() => onClose())
+        .catch((err) => console.error(err));
     } else {
-      if (!data.notes) delete data.notes;
-      else {
-        data.notes = data.notes.trim();
-      }
-      // TODO fix
-      data.imageUrl = `assets/plants/${data.imageUrl}`;
       await createPlant(data)
         .then(() => onClose())
         .catch((err) => console.error(err));

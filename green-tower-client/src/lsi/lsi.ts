@@ -67,6 +67,14 @@ export const Lsi = {
     en: 'Update',
     uk: 'Оновити',
   },
+  edit: {
+    en: 'Edit',
+    uk: 'Редагувати',
+  },
+  delete: {
+    en: 'Delete',
+    uk: 'Видалити',
+  },
   microgreen: {
     en: 'Microgreen',
     uk: 'Мікрогрін',

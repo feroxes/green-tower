@@ -199,6 +199,10 @@ export const Lsi = {
     en: 'Your plant successfully created',
     uk: 'Ваша рослина успішно створена',
   },
+  successfullyUpdated: {
+    en: 'Your plant successfully updated',
+    uk: 'Ваша рослина успішно оновлено',
+  },
   unexpectedError: {
     en: 'Unexpected error. Please try again.',
     uk: 'Сталася помилка. Спробуйте ще раз.',
