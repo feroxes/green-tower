@@ -77,10 +77,34 @@ export const Lsi = {
   },
   microgreen: {
     en: 'Microgreen',
-    uk: 'Мікрогрін',
+    uk: 'Мікрозелень',
   },
   common: {
     en: 'Common',
     uk: 'Звичайний',
+  },
+  g: {
+    en: 'g',
+    uk: 'г',
+  },
+  h: {
+    en: 'h',
+    uk: 'год',
+  },
+  uah: {
+    en: '₴',
+    uk: '₴',
+  },
+  days: {
+    en: 'Days',
+    uk: 'Днів',
+  },
+  yes: {
+    en: 'Yes',
+    uk: 'Так',
+  },
+  no: {
+    en: 'No',
+    uk: 'Ні',
   },
 };

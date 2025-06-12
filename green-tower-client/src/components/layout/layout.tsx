@@ -36,7 +36,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden' }}>
       <Sidebar isOpen={isSidebarOpen} onToggle={handleToggleSidebar} />
-      <Box sx={{ flex: 1, overflowY: 'auto', height: '100vh', backgroundColor: '#fffbe6', p: { xs: 2, sm: 2, md: 4 } }}>
+      <Box sx={{ flex: 1, overflowY: 'auto', height: '100vh', backgroundColor: '#fffbe6', p: { xs: 2, sm: 2, md: 3 } }}>
         {children}
       </Box>
     </Box>

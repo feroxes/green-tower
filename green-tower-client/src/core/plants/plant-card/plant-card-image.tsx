@@ -5,11 +5,12 @@ import generalImage from '../../../assets/plants/general.webp';
 
 interface PlantCardImageProps {
   imageUrl?: string | null;
+  size?: number | null;
 }
 
-function PlantCardImage({ imageUrl }: PlantCardImageProps) {
+function PlantCardImage({ imageUrl, size = 80 }: PlantCardImageProps) {
   return (
-    <Box sx={{ minWidth: 80, height: 80, mr: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <Box sx={{ minWidth: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <img src={imageUrl ? `/${imageUrl}` : generalImage} alt="Plant image" style={{ height: '100%' }} />
     </Box>
   );

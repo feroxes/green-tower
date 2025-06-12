@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
 
 import { useLsi } from '../../hooks/hooks';
@@ -33,9 +34,9 @@ function Dialog({ open, onClose, children, title, actionButton, maxWidth = 'md' 
       slotProps={{ paper: { sx: { borderRadius: Config.commonBorderRadius } } }}
     >
       <Elements.Card sx={{ flexDirection: 'column' }}>
-        <DialogTitle>
+        <DialogTitle sx={{ py: 1.5 }}>
           <Stack direction="row" sx={{ justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-            {title}
+            <Typography variant="h5">{title}</Typography>
             <IconButton size="small" onClick={onClose}>
               <ClearIcon />
             </IconButton>

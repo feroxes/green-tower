@@ -43,33 +43,65 @@ export const Lsi = {
     en: 'Type (more types soon)',
     uk: 'Тип (більше типів незабаром)',
   },
-  expectedHoursToHarvest: {
+  expectedHoursToHarvestH: {
     en: 'Time to harvest (hours)',
     uk: 'Час до збору (год)',
   },
-  hoursToSoak: {
-    en: 'Soaking time (hours)',
+  expectedHoursToHarvest: {
+    en: 'Time to harvest',
+    uk: 'Час до збору',
+  },
+  expectedDaysToHarvest: {
+    en: 'Days to harvest',
+    uk: 'Днів до збору',
+  },
+  hoursToSoakH: {
+    en: 'Soak time (hours)',
     uk: 'Час замочування (год)',
   },
-  hoursToMoveToLight: {
+  hoursToSoak: {
+    en: 'Soak time',
+    uk: 'Час замочування',
+  },
+  hoursToMoveToLightH: {
     en: 'Time to light (hours)',
     uk: 'Час до світла (год)',
+  },
+  hoursToMoveToLight: {
+    en: 'Time to light',
+    uk: 'Час до світла',
   },
   shouldBePressed: {
     en: 'Needs pressing',
     uk: 'Потребує притискання',
   },
-  seedsGramPerPlate: {
+  seedsGramPerPlateG: {
     en: 'Seeds per plate (g)',
     uk: 'Насіння на лоток (г)',
   },
-  expectedHarvestGramsPerPlate: {
+  seedsGramPerPlate: {
+    en: 'Seeds per plate',
+    uk: 'Насіння на лоток',
+  },
+  expectedHarvestGramsPerPlateG: {
     en: 'Harvest per plate (g)',
     uk: 'Урожай з лотка (г)',
+  },
+  expectedHarvestGramsPerPlate: {
+    en: 'Harvest per plate',
+    uk: 'Урожай з лотка',
+  },
+  expectedHarvestGramsPerHundredGrams: {
+    en: 'Harvest per 100 g of seeds',
+    uk: 'Урожай зі 100 г насіння',
   },
   sellPricePerPlate: {
     en: 'Price per plate',
     uk: 'Ціна за лоток',
+  },
+  sellPricePerHundredGrams: {
+    en: 'Price per 100 g',
+    uk: 'Ціна за 100 г',
   },
   alfalfa: {
     en: 'Alfalfa',

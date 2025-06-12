@@ -115,8 +115,8 @@ function PlantFormView({ onSubmit, errors, register, isPending, plantDataObject,
             error={Boolean(errors.seedsGramPerPlate)}
             helperText={errors.seedsGramPerPlate?.message ?? ''}
             disabled={isPending}
-            placeholder={plantLsi.seedsGramPerPlate}
-            label={plantLsi.seedsGramPerPlate}
+            placeholder={plantLsi.seedsGramPerPlateG}
+            label={plantLsi.seedsGramPerPlateG}
             type="number"
             inputProps={{ min: 1 }}
             required
@@ -126,8 +126,8 @@ function PlantFormView({ onSubmit, errors, register, isPending, plantDataObject,
             error={Boolean(errors.expectedHarvestGramsPerPlate)}
             helperText={errors.expectedHarvestGramsPerPlate?.message ?? ''}
             disabled={isPending}
-            placeholder={plantLsi.expectedHarvestGramsPerPlate}
-            label={plantLsi.expectedHarvestGramsPerPlate}
+            placeholder={plantLsi.expectedHarvestGramsPerPlateG}
+            label={plantLsi.expectedHarvestGramsPerPlateG}
             type="number"
             inputProps={{ min: 1 }}
             required
@@ -150,8 +150,8 @@ function PlantFormView({ onSubmit, errors, register, isPending, plantDataObject,
               error={Boolean(errors.expectedHoursToHarvest)}
               helperText={errors.expectedHoursToHarvest?.message ?? ''}
               disabled={isPending}
-              placeholder={plantLsi.expectedHoursToHarvest}
-              label={plantLsi.expectedHoursToHarvest}
+              placeholder={plantLsi.expectedHoursToHarvestH}
+              label={plantLsi.expectedHoursToHarvestH}
               type="number"
               inputProps={{ min: 1 }}
               required
@@ -174,8 +174,8 @@ function PlantFormView({ onSubmit, errors, register, isPending, plantDataObject,
               error={Boolean(errors.hoursToSoak)}
               helperText={errors.hoursToSoak?.message ?? ''}
               disabled={isPending}
-              placeholder={plantLsi.hoursToSoak}
-              label={plantLsi.hoursToSoak}
+              placeholder={plantLsi.hoursToSoakH}
+              label={plantLsi.hoursToSoakH}
               type="number"
               inputProps={{ min: 1 }}
             />
@@ -184,8 +184,8 @@ function PlantFormView({ onSubmit, errors, register, isPending, plantDataObject,
               error={Boolean(errors.hoursToMoveToLight)}
               helperText={errors.hoursToMoveToLight?.message ?? ''}
               disabled={isPending}
-              placeholder={plantLsi.hoursToMoveToLight}
-              label={plantLsi.hoursToMoveToLight}
+              placeholder={plantLsi.hoursToMoveToLightH}
+              label={plantLsi.hoursToMoveToLightH}
               type="number"
               inputProps={{ min: 1 }}
             />

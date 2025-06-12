@@ -10,6 +10,7 @@ import { usePlants } from '../../../hooks/plants/use-plants';
 import { PlantDto } from '../../../types/plants-types';
 import { Constants } from '../../../utils/constants';
 import { Lsi } from '../lsi';
+import PlantDetailView from '../plant-detail/plant-detail-view';
 import PlantForm from '../plant-form/plant-form';
 import PlantCardContent from './plant-card-content';
 import PlantCardImage from './plant-card-image';
@@ -24,10 +25,7 @@ function PlantCard({ plantDataObject }: PlantCardProps) {
   const plantsLsi = useLsi(Lsi);
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   const [deleteFormOpen, setDeleteFormOpen] = useState(false);
-
-  function handleOnPlantCartClick() {
-    console.log('----->1<-----', 1);
-  }
+  const [plantDetailOpen, setPlantDetailOpen] = useState(false);
 
   async function handleOnPlantDelete() {
     await deletePlant({ id: plantDataObject.id })
@@ -44,9 +42,11 @@ function PlantCard({ plantDataObject }: PlantCardProps) {
 
   return (
     <Box sx={{ maxWidth: '320px', position: 'relative' }}>
-      <Elements.Card onClick={handleOnPlantCartClick} menuOptions={getMenuOptions()}>
+      <Elements.Card onClick={() => setPlantDetailOpen(true)} menuOptions={getMenuOptions()}>
         <Stack direction="row" sx={{ py: 1, pl: 1, pr: 2 }}>
-          <PlantCardImage imageUrl={plantDataObject.imageUrl} />
+          <Box sx={{ mr: 2 }}>
+            <PlantCardImage imageUrl={plantDataObject.imageUrl} />
+          </Box>
           <PlantCardContent plantDataObject={plantDataObject} />
         </Stack>
       </Elements.Card>
@@ -71,6 +71,21 @@ function PlantCard({ plantDataObject }: PlantCardProps) {
           {plantsLsi.aboutToDelete}
           {Constants.space}
           <b>{plantDataObject.name}</b>
+        </Elements.Dialog>
+      )}
+      {plantDetailOpen && (
+        <Elements.Dialog
+          open
+          onClose={() => setPlantDetailOpen(false)}
+          title=" "
+          maxWidth="sm"
+          actionButton={
+            <Elements.Button fullWidth={false} onClick={() => setUpdateFormOpen(true)}>
+              {lsi.edit}
+            </Elements.Button>
+          }
+        >
+          <PlantDetailView plantDataObject={plantDataObject} />
         </Elements.Dialog>
       )}
     </Box>

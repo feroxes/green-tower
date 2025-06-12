@@ -17,3 +17,9 @@ export type MetaType = {
   size: number;
   total: number;
 };
+
+export enum ColorScheme {
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  ERROR = 'error',
+}
