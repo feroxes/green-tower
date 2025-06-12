@@ -90,7 +90,7 @@ function PlantDetailView({ plantDataObject }: PlantDetailViewProps) {
           />
         </div>
       </Stack>
-      {plantDataObject.notes && <FormElements.Text readonly value={plantDataObject.notes} multiline rows={3} />}
+      {plantDataObject.notes && <FormElements.Text readOnly value={plantDataObject.notes} multiline rows={3} />}
     </Stack>
   );
 }
