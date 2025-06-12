@@ -11,7 +11,7 @@ export const getPlantSchema = () => {
   const optionalNumber = (min?: number) =>
     yup
       .number()
-      .transform((value, originalValue) => (originalValue === '' || originalValue == null ? undefined : value))
+      .transform((value, originalValue) => (originalValue === '' || originalValue == null ? null : value))
       .nullable()
       .optional()
       .when([], {
