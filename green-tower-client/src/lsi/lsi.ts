@@ -47,8 +47,8 @@ export const Lsi = {
     en: 'Orders',
     uk: 'Замовлення',
   },
-  clients: {
-    en: 'Clients',
+  customers: {
+    en: 'Customers',
     uk: 'Клієнти',
   },
   settings: {

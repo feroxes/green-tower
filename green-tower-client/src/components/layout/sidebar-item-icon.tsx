@@ -19,7 +19,7 @@ const routeIconMap = {
   '/plants': SpaIcon,
   '/plantings': GrassIcon,
   '/orders': ShoppingCartIcon,
-  '/clients': PeopleIcon,
+  '/customers': PeopleIcon,
   '/settings': SettingsIcon,
 };
 function SidebarItemIcon({ color, bgcolor, path }: SidebarItemProps) {

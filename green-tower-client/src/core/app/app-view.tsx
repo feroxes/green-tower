@@ -9,7 +9,7 @@ const Authentication = lazy(() => import('../../routes/authentication'));
 const Plants = lazy(() => import('../../routes/plants'));
 const Plantings = lazy(() => import('../../routes/plantings'));
 const Orders = lazy(() => import('../../routes/orders'));
-const Clients = lazy(() => import('../../routes/clients'));
+const Customers = lazy(() => import('../../routes/customers'));
 const Settings = lazy(() => import('../../routes/settings'));
 const Dashboard = lazy(() => import('../../routes/dashboard'));
 const RegistrationConfirmation = lazy(() => import('../../routes/registration-confirmation'));
@@ -37,7 +37,7 @@ function AppView() {
     '/plants': <Plants />,
     '/plantings': <Plantings />,
     '/orders': <Orders />,
-    '/clients': <Clients />,
+    '/customers': <Customers />,
     '/settings': <Settings />,
     ...commonRoutes,
   };

@@ -10,7 +10,7 @@ export interface ErrorResponse {
 
 export type UserRoles = 'owner' | 'admin' | 'user';
 
-export type Path = '/' | '/plants' | '/plantings' | '/orders' | '/clients' | '/settings';
+export type Path = '/' | '/plants' | '/plantings' | '/orders' | '/customers' | '/settings';
 
 export type MetaType = {
   page: number;

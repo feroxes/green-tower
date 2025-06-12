@@ -16,7 +16,7 @@ const routes = [
   { path: '/plants', label: 'plants' },
   { path: '/plantings', label: 'planting' },
   { path: '/orders', label: 'orders' },
-  { path: '/clients', label: 'clients' },
+  { path: '/customers', label: 'customers' },
   { path: '/settings', label: 'settings' },
 ];
 
