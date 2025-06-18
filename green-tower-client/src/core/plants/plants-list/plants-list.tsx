@@ -16,13 +16,7 @@ function PlantsList({ plantsDataList }: PlantsListProps) {
   const plantsLsi = useLsi(Lsi);
 
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: 2,
-      }}
-    >
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 2 }}>
       {plantsDataList.itemList.length ? (
         plantsDataList.itemList.map((plantDataObject: PlantDto, key) => (
           <Box key={key} sx={{ maxWidth: 320, mx: 'auto', width: '100%' }}>
