@@ -4,6 +4,10 @@ node_modules/
 build/
 **/test/coverage
 
+# Certbot
+nginx/data/
+nginx/www/
+
 # Logs
 logs
 *.log
@@ -22,6 +26,7 @@ lerna-debug.log*
 # IDEs and editors
 /.idea
 .cursor
+.vscode
 .project
 .classpath
 .c9/

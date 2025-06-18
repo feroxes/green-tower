@@ -45,6 +45,7 @@ const excludedAuthRoutes: RouteInfo[] = [
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
+        const isLocal = process.env.NODE_ENV === 'local';
         return {
           type: 'postgres',
           host: config.get<string>('HOST'),
@@ -54,7 +55,10 @@ const excludedAuthRoutes: RouteInfo[] = [
           database: config.get<string>('DB_NAME'),
           autoLoadEntities: config.get<boolean>('AUTO_LOAD_ENTITIES'),
           synchronize: config.get<boolean>('SYNCHRONIZE'),
-          entities: [Farm, User, Plant],
+          ssl: isLocal ? false :{
+            rejectUnauthorized: false,
+          },
+          entities: [],
         };
       },
     }),

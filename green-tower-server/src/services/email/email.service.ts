@@ -6,7 +6,7 @@ import * as nodemailer from 'nodemailer';
 
 import { SupportedLanguages } from '@app-types/common.types';
 
-import { defaultParameters } from './templates/default-parameters';
+import { getDefaultEmailParameters } from './templates/default-parameters';
 import { defaultTemplate } from './templates/default-template';
 import { registrationConfirmationTemplate } from './templates/registration-confirmation-template';
 
@@ -28,7 +28,7 @@ export class EmailService {
 
   async sendEmailConfirmation(email: string, language: SupportedLanguages, token: string): Promise<void> {
     const confirmationLink = `${this.configService.get('APP_URL')}/registrationConfirmation?token=${token}`;
-
+    const defaultParameters = getDefaultEmailParameters()
     const options = {
       title: registrationConfirmationTemplate.title[language],
       body: ejs.render(registrationConfirmationTemplate.body[language], {
@@ -36,14 +36,16 @@ export class EmailService {
         confirmationLink,
         confirmationLinkTtl: AuthConstants.EMAIL_CONFIRMATION_EXPIRES_HOURS,
       }),
-      footer: defaultTemplate.footer[language],
-      greenTowerLogoUrl: 'https://i.postimg.cc/zDL0D3Hc/logo.png', //TODO move to AWS bucket
+      footer: ejs.render(defaultTemplate.footer[language], {
+        smtpFrom: process.env.SMTP_FROM
+      }),
+      greenTowerLogoUrl: 'https://green-tower-assets.s3.eu-north-1.amazonaws.com/logo.webp',
     };
 
     const html = ejs.render(defaultTemplate.layout, options);
 
     const mailOptions = {
-      from: defaultParameters.from,
+      from: defaultParameters.from[language],
       to: email,
       subject: registrationConfirmationTemplate.subject[language],
       html,

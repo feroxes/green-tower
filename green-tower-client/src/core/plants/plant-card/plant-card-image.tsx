@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import React from 'react';
 
-import generalImage from '../../../assets/plants/general.webp';
+import { plantImageMap } from '../../../hooks/plants/use-auto-plant-image';
 
 interface PlantCardImageProps {
   imageUrl?: string | null;
@@ -11,7 +11,7 @@ interface PlantCardImageProps {
 function PlantCardImage({ imageUrl, size = 80 }: PlantCardImageProps) {
   return (
     <Box sx={{ minWidth: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <img src={imageUrl ? `/${imageUrl}` : generalImage} alt="Plant image" style={{ height: '100%' }} />
+      <img src={imageUrl || plantImageMap.general} alt="Plant image" style={{ height: '100%' }} />
     </Box>
   );
 }

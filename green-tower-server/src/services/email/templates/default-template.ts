@@ -28,13 +28,13 @@ export const defaultTemplate = {
   footer: {
     en: `
       <div style="max-width: 560px;">
-        <p style="margin: 8px 0 0 0; text-align: center; font-family: Roboto, sans-serif; font-size: 13px; font-weight: 400; line-height: 18px; letter-spacing: 0px;">Do you think this is spam? Then please email us at <a style="color: #39383d;" href="support@greentower.farm">support@greentower.farm</a></p>
+        <p style="margin: 8px 0 0 0; text-align: center; font-family: Roboto, sans-serif; font-size: 13px; font-weight: 400; line-height: 18px; letter-spacing: 0px;">Do you think this is spam? Then please email us at <a style="color: #39383d;" href="mailto:<%= smtpFrom %>"><%= smtpFrom %></a></p>
       </div>
       `,
 
     uk: `
         <div style="max-width: 560px;">
-          <p style="margin: 8px 0 0 0; text-align: center; font-family: Roboto, sans-serif; font-size: 13px; font-weight: 400; line-height: 18px; letter-spacing: 0px;">Ви вважаєте що це спам? Тоді, будь ласка, напишіть нам на <a style="color: #39383d;" href="support@greentower.farm">support@greentower.farm</a></p>
+          <p style="margin: 8px 0 0 0; text-align: center; font-family: Roboto, sans-serif; font-size: 13px; font-weight: 400; line-height: 18px; letter-spacing: 0px;">Ви вважаєте що це спам? Тоді, будь ласка, напишіть нам на <a style="color: #39383d;" href="mailto:<%= smtpFrom %>"><%= smtpFrom %></a></p>
         </div>
       `,
   },

@@ -4,10 +4,6 @@
   "description": "",
   "author": "",
   "private": true,
-  "workspaces": [
-    "green-tower-client",
-    "green-tower-server"
-  ],
   "scripts": {
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
     "start:server": "cd ./green-tower-server && npm run start:dev",

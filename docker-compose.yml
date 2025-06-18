@@ -1,0 +1,32 @@
+services:
+  green-tower-server:
+    image: feroxes/green-tower-server:latest
+    platform: linux/amd64
+    ports:
+      - "3000:3000"
+    env_file:
+      - green-tower-server/.env/.env.development
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+
+  green-tower-client:
+    image: feroxes/green-tower-client:latest
+    platform: linux/amd64
+    ports:
+      - "3001:80"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - /home/ubuntu/green-tower/nginx/certs:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - green-tower-server
+      - green-tower-client
+    restart: unless-stopped
