@@ -1,5 +1,5 @@
-import { Alert as MuiAlert, AlertColor,Box } from '@mui/material';
-import React, { ReactNode,useState } from 'react';
+import { Alert as MuiAlert, AlertColor, Box } from '@mui/material';
+import React, { ReactNode, useState } from 'react';
 
 import { AlertContext } from './alert-context';
 
@@ -41,6 +41,9 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             severity={a.severity}
             variant="filled"
             onClose={() => setAlerts((prev) => prev.filter((item) => item.key !== a.key))}
+            sx={{
+              borderRadius: '16px',
+            }}
           >
             {a.message}
           </MuiAlert>

@@ -1,9 +1,10 @@
 import { Dispatch, JSX, SetStateAction } from 'react';
 
-import { FormContainer,PageWrapper } from './authentication-page-wrapper.styles';
+import { FormContainer, PageWrapper } from './authentication-page-wrapper.styles';
 
 import Logo from '../../components/logo/logo';
 
+import { Config } from '../../config/config';
 import { ActionType } from '../../core/authentication/authentication';
 import Footer from '../../core/authentication/footer';
 
@@ -20,7 +21,7 @@ function AuthenticationPageWrapper({ children, action, setAction }: Authenticati
       <FormContainer
         sx={{
           p: 3,
-          bgcolor: 'background.default',
+          bgcolor: Config.colors.light,
           minHeight: action === 'login' ? '420px' : '480px',
         }}
       >

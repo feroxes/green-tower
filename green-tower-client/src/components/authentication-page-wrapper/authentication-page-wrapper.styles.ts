@@ -1,3 +1,4 @@
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 
@@ -7,11 +8,16 @@ export const PageWrapper = styled(Stack)`
   padding-top: 42px;
 `;
 
-export const FormContainer = styled(Stack)`
-  width: 340px;
+export const FormContainer = styled(Paper)`
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
   margin: 16px;
-  box-shadow: 0 2px 4px 0 #00000080;
-  border-radius: 12px;
+  box-shadow:
+    -16px 0px 32px rgba(0, 0, 0, 0.1),
+    0px 12px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 32px;
   overflow: hidden;
   justify-content: space-between;
 `;

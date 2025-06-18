@@ -41,7 +41,7 @@ export class PlantComponent {
 
   @List({
     entity: Plant,
-    relations: ['farm', 'createdBy'],
+    relations: ['farm', 'createdBy', 'plantings'],
     defaultSort: { field: 'createdAt', order: SortDirectionType.DESC },
   })
   async list(

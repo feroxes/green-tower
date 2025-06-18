@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import { FC, ReactNode } from 'react';
 
 const BackgroundWrapper = styled(Box)`
-  background-image: linear-gradient(to right bottom, #94eeb1, #75cb8f, #56aa6e, #37894f, #156a31);
+  background-image: linear-gradient(to right bottom, #fefbe2, #fdf2d1);
 `;
 
 const BackgroundProvider: FC<{ children: ReactNode }> = ({ children }) => {

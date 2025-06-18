@@ -41,10 +41,10 @@ function PlaceholderBox({ code, color, borderRadius, bgColor, header, subHeader 
         </svg>
       ),
       smile: () => (
-        <svg width="300" height="301" viewBox="0 0 300 301" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="300" height="301" viewBox="0 0 300 301" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M275 151C275 220.036 219.036 276 150 276C80.9644 276 25 220.036 25 151C25 81.9644 80.9644 26 150 26C219.036 26 275 81.9644 275 151Z"
-            fill="white"
+            fill={bgColor || 'white'}
           ></path>
           <path
             d="M95.836 178.853C131.058 190.175 168.942 190.175 204.164 178.853C207.319 177.839 210.698 179.575 211.712 182.73C212.726 185.884 210.991 189.264 207.836 190.278C170.226 202.367 129.774 202.367 92.1638 190.278C89.0091 189.264 87.2737 185.884 88.2877 182.73C89.3018 179.575 92.6812 177.839 95.836 178.853Z"
@@ -68,7 +68,7 @@ function PlaceholderBox({ code, color, borderRadius, bgColor, header, subHeader 
       ),
       sadSmile: () => (
         <svg width="300" height="301" viewBox="0 0 300 301" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="150" cy="151" r="125" fill="white"></circle>
+          <circle cx="150" cy="151" r="125" fill={bgColor || 'white'}></circle>
           <path
             fill-rule="evenodd"
             clip-rule="evenodd"

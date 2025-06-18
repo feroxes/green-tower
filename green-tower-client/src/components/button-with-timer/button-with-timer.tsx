@@ -1,23 +1,16 @@
-import Button from '@mui/material/Button';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Constants } from '../../utils/constants';
+import FormElements from '../form-elements/form-elements';
 
 interface ButtonWithTimerProps {
   content: string;
   onClick: (event: React.MouseEvent) => void;
-  color?: 'success' | 'inherit' | 'primary' | 'secondary' | 'error' | 'info' | 'warning';
   delay?: number;
   skipFirstDelay?: boolean;
 }
 
-function ButtonWithTimer({
-  content,
-  onClick,
-  color = 'success',
-  delay = 30,
-  skipFirstDelay = false,
-}: ButtonWithTimerProps) {
+function ButtonWithTimer({ content, onClick, delay = 30, skipFirstDelay = false }: ButtonWithTimerProps) {
   const isFirstRun = useRef(true);
   const [secondsLeft, setSecondsLeft] = useState(skipFirstDelay ? null : delay);
 
@@ -61,18 +54,11 @@ function ButtonWithTimer({
   }
 
   return (
-    <Button
-      variant="contained"
-      color={color}
-      size="large"
-      fullWidth
-      onClick={handleOnBtnClick}
-      disabled={resendDisabled}
-    >
+    <FormElements.Button onClick={handleOnBtnClick} disabled={resendDisabled}>
       {content}
       {Constants.space}
       {secondsLeft}
-    </Button>
+    </FormElements.Button>
   );
 }
 

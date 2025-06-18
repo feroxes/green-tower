@@ -4,10 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import FormElements from '../../components/form-elements/form-elements';
 import PlaceholderBox from '../../components/placeholder-box/placeholder-box';
 
 import { useLsi } from '../../hooks/hooks';
 
+import { Config } from '../../config/config';
 import { ErrorHelper } from '../../utils/error-helper';
 import { Lsi } from './lsi';
 
@@ -38,14 +40,14 @@ function RegistrationConfirmation({ query }: RegistrationConfirmationProps) {
     <Box sx={{ mt: 6 }}>
       <PlaceholderBox
         code={isError ? 'sadSmile' : 'smile'}
-        color={isError ? '#bd2635' : '#2e7d32'}
-        bgColor="#fff"
+        color={isError ? '#bd2635' : Config.colors.lightGreen}
+        bgColor={Config.colors.light}
         header={isError ? lsi.oops : lsi.thanks}
         subHeader={isError ? getErrorLsi() : lsi.accountCreated}
       />
-      <Button variant="contained" size="large" fullWidth color="success" sx={{ mt: 4 }} onClick={handleOnLoginClick}>
+      <FormElements.Button onClick={handleOnLoginClick} style={{ marginTop: '16px' }}>
         {commonLsi.login}
-      </Button>
+      </FormElements.Button>
     </Box>
   );
 }

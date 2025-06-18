@@ -27,5 +27,17 @@ export const ValidationLsi = {
       uk: `Це поле має містити не більше ${length} символів`,
     };
   },
+  min: (length: number) => {
+    return {
+      en: `This field must be at least ${length}`,
+      uk: `Це поле має містити не менше ${length}`,
+    };
+  },
+  max: (length: number) => {
+    return {
+      en: `This field must contain no more then ${length}`,
+      uk: `Це поле має містити не більше ${length}`,
+    };
+  },
   passwordsMatch: { en: 'Passwords must match', uk: 'Паролі повинні співпадати' },
 };

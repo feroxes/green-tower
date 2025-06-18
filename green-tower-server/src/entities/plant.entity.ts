@@ -1,5 +1,5 @@
 import { numeric } from '@entities/config';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -16,7 +16,7 @@ import {
 import { Farm } from './farm.entity';
 import { HarvestEntry } from './harvest-entry.entity';
 import { OrderItem } from './order-item.entity';
-import { Planting } from './planting.entity';
+import { Planting, PlantingState } from './planting.entity';
 import { User } from './user.entity';
 
 export enum PlantType {
@@ -84,12 +84,19 @@ export class Plant {
   @JoinColumn({ name: 'farmId' })
   farm: Farm;
 
+  @Exclude()
   @ManyToOne(() => User, (user) => user.plants)
   @JoinColumn({ name: 'createdById' })
   createdBy: User;
 
+  @Exclude()
   @OneToMany(() => Planting, (planting) => planting.plant)
   plantings: Planting[];
+
+  @Expose()
+  get activePlantings(): number {
+    return this.plantings?.filter((p) => p.state === PlantingState.GROWING).length ?? 0;
+  }
 
   @OneToMany(() => HarvestEntry, (harvestEntry) => harvestEntry.plant)
   harvestEntries: HarvestEntry[];

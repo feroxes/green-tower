@@ -1,7 +1,5 @@
 import { JSX } from 'react';
 
-import TopBar from '../../components/top-bar/tob-bar';
-
 import { UserDto } from '../../types/user-types';
 
 interface DashboardProps {
@@ -9,11 +7,7 @@ interface DashboardProps {
 }
 
 function Dashboard({ userDataObject }: DashboardProps): JSX.Element {
-  return (
-    <div>
-      <TopBar />
-    </div>
-  );
+  return <div>Dashboard</div>;
 }
 
 export default Dashboard;

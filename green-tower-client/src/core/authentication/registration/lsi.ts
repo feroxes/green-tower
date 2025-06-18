@@ -49,6 +49,6 @@ export const Lsi = {
   },
   resendSuccessfully: {
     en: 'E-mail successfully resent',
-    uk: 'Імейл успішно відправлено',
+    uk: 'Лист успішно відправлено',
   },
 };

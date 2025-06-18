@@ -1,14 +1,15 @@
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import React from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
+import { FormHeader } from '../authentication.styles';
 import { RegistrationSubHeader } from './registration.styles';
 
 import FormElements from '../../../components/form-elements/form-elements';
 
 import { useLsi } from '../../../hooks/common/use-lsi';
+import { useDevice } from '../../../hooks/hooks';
 
 import { Lsi } from './lsi';
 
@@ -31,11 +32,12 @@ interface RegistrationFormViewProps {
 
 function RegistrationFormView({ onSubmit, errors, register, isPending }: RegistrationFormViewProps) {
   const lsi = useLsi(Lsi);
+  const { isMobile } = useDevice();
 
   return (
-    <ComponentWrapper>
-      <FormHeader variant="h5">{lsi.registration}</FormHeader>
-      <FormWrapper>
+    <Stack sx={{ height: '100%' }}>
+      <FormHeader variant="h4">{lsi.registration}</FormHeader>
+      <Box sx={{ height: '100%' }}>
         <form onSubmit={onSubmit}>
           <RegistrationSubHeader>{lsi.farmInfo}</RegistrationSubHeader>
           <FormElements.Text
@@ -46,7 +48,7 @@ function RegistrationFormView({ onSubmit, errors, register, isPending }: Registr
             {...register('farmName')}
           />
           <RegistrationSubHeader sx={{ mt: 1 }}>{lsi.userInfo}</RegistrationSubHeader>
-          <Stack direction="row" spacing={2} sx={{ m: '8px 0 4px' }}>
+          <Stack direction={isMobile ? 'column' : 'row'} spacing={2} sx={{ m: '8px 0 4px' }}>
             <FormElements.Text
               error={Boolean(errors.firstName)}
               helperText={errors.firstName?.message ?? ''}
@@ -84,20 +86,12 @@ function RegistrationFormView({ onSubmit, errors, register, isPending }: Registr
             confirm
             {...register('confirmPassword')}
           />
-          <Button
-            loading={isPending}
-            type="submit"
-            variant="contained"
-            color="success"
-            size="large"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
+          <FormElements.Button loading={isPending} type="submit" style={{ marginTop: 8 }}>
             {lsi.registration}
-          </Button>
+          </FormElements.Button>
         </form>
-      </FormWrapper>
-    </ComponentWrapper>
+      </Box>
+    </Stack>
   );
 }
 

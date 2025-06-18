@@ -1,9 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import BackgroundProvider from '../../components/background-provider/background-provider';
 import ThemeProvider from '../../components/theme-provider/theme-provider';
 
 import { AlertProvider } from '../../store/alert-context/alert-provider';
-import { AuthProvider,LanguageProvider } from '../../store/context-providers';
+import { AuthProvider, LanguageProvider } from '../../store/context-providers';
 import AppView from './app-view';
 
 const queryClient = new QueryClient({
@@ -16,14 +18,17 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AuthProvider>
-          <LanguageProvider>
-            <AlertProvider>
-              <AppView />
-            </AlertProvider>
-          </LanguageProvider>
-        </AuthProvider>
+        <BackgroundProvider>
+          <AuthProvider>
+            <LanguageProvider>
+              <AlertProvider>
+                <AppView />
+              </AlertProvider>
+            </LanguageProvider>
+          </AuthProvider>
+        </BackgroundProvider>
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

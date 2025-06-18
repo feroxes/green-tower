@@ -1,14 +1,18 @@
 import React, { lazy, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
-import { useAuthentication,useLsi } from '../../hooks/hooks';
+import { useAuthentication, useLsi } from '../../hooks/hooks';
 
 import AppRouter from '../../routes/app-router';
 
 const Authentication = lazy(() => import('../../routes/authentication'));
+const Plants = lazy(() => import('../../routes/plants'));
+const Plantings = lazy(() => import('../../routes/plantings'));
+const Orders = lazy(() => import('../../routes/orders'));
+const Customers = lazy(() => import('../../routes/customers'));
+const Settings = lazy(() => import('../../routes/settings'));
 const Dashboard = lazy(() => import('../../routes/dashboard'));
-const RegistrationConfirmation = lazy(
-  () => import('../../routes/registration-confirmation'),
-);
+const RegistrationConfirmation = lazy(() => import('../../routes/registration-confirmation'));
 
 function AppView() {
   const lsi = useLsi();
@@ -19,6 +23,7 @@ function AppView() {
   }, [lsi]);
 
   const commonRoutes = {
+    '*': <Navigate to="/" replace />,
     '/registrationConfirmation': <RegistrationConfirmation />,
   };
 
@@ -29,14 +34,18 @@ function AppView() {
 
   const authenticatedRouteMap = {
     '/': <Dashboard />,
+    '/plants': <Plants />,
+    '/plantings': <Plantings />,
+    '/orders': <Orders />,
+    '/customers': <Customers />,
+    '/settings': <Settings />,
     ...commonRoutes,
   };
 
   return (
     <AppRouter
-      routerMap={
-        isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap
-      }
+      isAuthenticated={isAuthenticated}
+      routerMap={isAuthenticated ? authenticatedRouteMap : notAuthenticatedRouteMap}
     />
   );
 }

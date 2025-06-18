@@ -1,10 +1,11 @@
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { FormEventHandler } from 'react';
-import type { FieldErrors,UseFormRegister } from 'react-hook-form';
+import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-import { ComponentWrapper, FormHeader, FormWrapper } from '../authentication.styles';
+import { FormHeader } from '../authentication.styles';
 import { RegisterWrapper } from './login.styles';
 
 import FormElements from '../../../components/form-elements/form-elements';
@@ -32,9 +33,9 @@ function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: Logi
   const commonLsi = useLsi();
 
   return (
-    <ComponentWrapper>
-      <FormHeader variant="h5">{commonLsi.login}</FormHeader>
-      <FormWrapper>
+    <Stack sx={{ height: '100%' }}>
+      <FormHeader variant="h4">{commonLsi.login}</FormHeader>
+      <Box sx={{ height: '100%' }}>
         <form onSubmit={onSubmit}>
           <FormElements.Email
             error={Boolean(errors.email)}
@@ -50,28 +51,22 @@ function LoginFormView({ errors, onSubmit, register, isPending, onSwitch }: Logi
             {...register('password')}
           />
 
-          <Button
-            loading={isPending}
-            type="submit"
-            variant="contained"
-            color="success"
-            size="large"
-            fullWidth
-            sx={{ mt: 1 }}
-          >
+          <FormElements.Button loading={isPending} type="submit" style={{ marginTop: 8 }}>
             {commonLsi.login}
-          </Button>
+          </FormElements.Button>
         </form>
 
         <RegisterWrapper direction="row">
-          <Typography>{lsi.dontHaveAccount}</Typography>
+          <Typography variant="body2">{lsi.dontHaveAccount}</Typography>
           {Constants.space}
-          <Link onClick={onSwitch} sx={{ cursor: 'pointer' }}>
-            {lsi.register}
-          </Link>
+          <Typography variant="body2">
+            <Link onClick={onSwitch} sx={{ cursor: 'pointer' }}>
+              {lsi.register}
+            </Link>
+          </Typography>
         </RegisterWrapper>
-      </FormWrapper>
-    </ComponentWrapper>
+      </Box>
+    </Stack>
   );
 }
 

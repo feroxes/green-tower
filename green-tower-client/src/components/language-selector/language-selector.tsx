@@ -36,7 +36,7 @@ function LanguageSelector({ displayLanguageName = true }: LanguageSelectorProps)
         {displayLanguageName && (
           <>
             {Constants.space}
-            <Typography variant="subtitle2">{sel.value}</Typography>
+            <Typography variant="body2">{sel.value}</Typography>
           </>
         )}
       </div>
@@ -67,7 +67,7 @@ function LanguageSelector({ displayLanguageName = true }: LanguageSelectorProps)
         <MenuItem dense key={code} value={code}>
           <Box component="img" src={icon} alt={code} sx={{ width: 24, height: 24 }} />
           {Constants.space}
-          <Typography variant="subtitle2">{value}</Typography>
+          <Typography variant="body2">{value}</Typography>
         </MenuItem>
       ))}
     </Select>
