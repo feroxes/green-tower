@@ -1,99 +1,254 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Green Tower - Smart Indoor Farming System
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive smart indoor farming management system built with modern web technologies. This application helps farmers and agricultural businesses manage their indoor farming operations, including plant management, planting cycles, harvest tracking, and customer relationships.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚧 Development Status
 
-## Description
+**⚠️ Important Notice:** This application is currently in active development. Not all planned functionality has been implemented yet. This is a demonstration project for educational and portfolio purposes.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**🌐 Live Demo:** The application is deployed and available at [https://green-tower-dev.net.ua/](https://green-tower-dev.net.ua/)
 
-## Project setup
+**⚠️ Legal Notice:** This software is proprietary and confidential. Unauthorized copying, distribution, modification, public display, or public performance of this software is strictly prohibited. All rights reserved.
+
+## 📊 Development Progress
+
+### ✅ Backend (Complete)
+
+- **🟢 Authentication System** - Login, registration, email confirmation
+- **🟢 Plant Management** - CRUD operations for plant types
+- **🟢 Planting Management** - Planting cycles with automated state transitions
+- **🟢 Harvest Management** - Harvest tracking and weight management
+- **🟢 Customer Management** - Customer database and relationships
+- **🟢 Order Management** - Order processing and tracking
+- **🟢 User Management** - User profiles and permissions
+- **🟢 Email Notifications** - Automated email system
+- **🟢 Database Design** - Complete PostgreSQL schema with TypeORM
+- **🟢 API Endpoints** - Full REST API with validation
+- **🟢 Testing** - Comprehensive unit and integration tests
+
+### 🔄 Frontend (In Progress)
+
+- **🟢 Authentication Pages** - Login and registration forms
+- **🟢 Plants Route** - ✅ **Ready for testing** - Complete plant management interface
+- **🟡 Plantings Route** - Not yet implemented
+- **🟡 Customers Route** - Partially implemented
+- **🟡 Dashboard** - Not yet implemented
+- **🟡 Orders Route** - Not yet implemented
+- **🟡 Settings Route** - Not yet implemented
+- **🟢 UI Components** - Reusable Material-UI components
+- **🟢 State Management** - React Query integration
+- **🟢 Multi-language Support** - Ukrainian and English interface
+
+## 🌱 Features
+
+### Core Functionality
+
+- **Plant Management**: Create and manage different plant types with growth parameters
+- **Planting Cycles**: Track planting batches with automated state transitions
+- **Harvest Management**: Record and manage harvest entries with weight tracking
+- **Customer Management**: Maintain customer database and relationships
+- **User Authentication**: Secure login/registration system with email confirmation
+- **Dashboard**: Overview of farming operations and key metrics
+
+### Technical Features
+
+- **Real-time Updates**: Automated state transitions for planting cycles
+- **Multi-language Support**: Ukrainian and English interface
+- **Responsive Design**: Works on desktop and mobile devices
+- **Role-based Access**: Different permission levels for users
+- **Email Notifications**: Automated email confirmations and notifications
+
+## 🛠️ Tech Stack
+
+### Backend
+
+- **Framework**: NestJS (Node.js)
+- **Database**: PostgreSQL with TypeORM
+- **Authentication**: JWT with refresh tokens
+- **Email**: Nodemailer for email notifications
+- **Validation**: Class-validator with DTOs
+
+### Frontend
+
+- **Framework**: React 19 with TypeScript
+- **UI Library**: Material-UI (MUI)
+- **State Management**: React Query for server state
+- **Forms**: React Hook Form with Yup validation
+- **Routing**: React Router DOM
+
+### Infrastructure
+
+- **Containerization**: Docker
+- **Web Server**: AWS, Nginx
+- **Environment**: Support for development, testing, and production
+
+## 📋 Prerequisites
+
+Before running this application, ensure you have the following installed:
+
+- **Node.js** (v22 or higher)
+- **npm** (v10 or higher)
+- **PostgreSQL** (v17 or higher)
+
+## 🚀 Installation
+
+### 1. Clone the Repository
 
 ```bash
-$ npm install
+git clone <repository-url>
+cd green-tower
+git checkout dev
 ```
 
-## Compile and run the project
+### 2. Install Dependencies
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+### 3. Database Setup
+
+1. Create a PostgreSQL database (green_tower_db, green_tower_test)
+2. Note down the database credentials (host, port, username, password, database name)
+
+### 4. Environment Configuration
+
+#### Backend Environment (.env/.env.local)
+
+Create the `.env` folder in the `green-tower-server` directory and add a file named `.env.local`:
+
+```env
+# Database Configuration
+HOST=localhost
+PORT=5432
+USERNAME=your_username
+PASSWORD=your_password
+DB_NAME=green_tower_db
+
+# Application Settings
+AUTO_LOAD_ENTITIES=true
+SYNCHRONIZE=true
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_key_here (could be generated here: https://jwtsecrets.com/)
+
+# Email Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_email_password // for gmail account it could be generated here: https://myaccount.google.com/apppasswords
+SMTP_FROM=your_email@gmail.com
+
+# Application URL
+APP_URL=http://localhost:3000
+```
+
+#### Test Environment (.env/.env.test)
+
+You can use the same file from the previous step, just update DB_NAME and db credentials.
+
+#### Frontend Environment (.env)
+
+Create a `.env` file in the `green-tower-client` directory:
+
+```env
+PORT=3001
+REACT_APP_API_URL=http://localhost:3000/
+```
+
+### 5. Start the Application
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start
 ```
 
-## Deployment
+## 🧪 Testing
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Backend Tests
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+cd green-tower-server
+npm run test          # Test
+npm run test:cov      # Test coverage
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 📁 Project Structure
 
-## Resources
+```
+green-tower/
+├── green-tower-client/          # React frontend
+│   ├── src/
+│   │   ├── components/          # Reusable UI components
+│   │   ├── core/                # Main application features
+│   │   ├── hooks/               # Custom React hooks
+│   │   ├── services/            # API services
+│   │   ├── store/               # State management
+│   │   └── types/               # TypeScript type definitions
+│   └── public/                  # Static assets
+├── green-tower-server/          # NestJS backend
+│   ├── src/
+│   │   ├── api/                 # API modules and controllers
+│   │   ├── entities/            # Database entities
+│   │   ├── services/            # Business logic services
+│   │   └── utils/               # Utility functions
+│   └── test/                    # Test files
+└── nginx/                       # Nginx configuration
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🔧 Development
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Code Quality
 
-## Support
+- **ESLint**: Code linting and formatting
+- **Prettier**: Code formatting
+- **TypeScript**: Type safety and better development experience
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Available Scripts
 
-## Stay in touch
+#### Backend
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- `npm run start:dev` - Start in development mode with hot reload
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
 
-## License
+#### Frontend
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+
+## 📄 License & Legal
+
+### Copyright Notice
+
+© 2025 Green Tower. All rights reserved.
+
+### Proprietary Software
+
+This software is proprietary and confidential. The source code, design, and functionality are the exclusive property of the developer. Unauthorized use, reproduction, distribution, or modification of this software is strictly prohibited.
+
+### Permitted Use
+
+- **Portfolio Display**: You may view the live demo for portfolio evaluation purposes
+- **Educational Review**: Code review for learning purposes is permitted
+- **Interview Demonstration**: Use during technical interviews is allowed
+
+### Prohibited Use
+
+- Commercial use or monetization without explicit permission
+- Copying, forking, or redistributing the source code
+- Creating derivative works based on this software
+- Reverse engineering or attempting to replicate functionality
+- Using this software as a template for other projects
+
+### Contact
+
+For licensing inquiries or commercial use requests, please contact the developer directly.
+
+---
+
+## 📞 Support
+
+For questions or issues related to this project, please refer to the project documentation or create an issue in the repository.

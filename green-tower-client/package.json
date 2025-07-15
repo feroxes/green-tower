@@ -1,7 +1,12 @@
 {
   "name": "green-tower-client",
   "version": "0.1.0",
+  "description": "Smart Indoor Farming Management System - Frontend Application",
+  "author": "feroxes",
   "private": true,
+  "license": "UNLICENSED",
+  "copyright": "© 2025 Green Tower. All rights reserved.",
+  "homepage": "https://green-tower-dev.net.ua",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
