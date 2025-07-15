@@ -45,7 +45,7 @@ const excludedAuthRoutes: RouteInfo[] = [
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const isLocal = process.env.NODE_ENV === 'local';
+        const isLocal = process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test';
         return {
           type: 'postgres',
           host: config.get<string>('HOST'),
